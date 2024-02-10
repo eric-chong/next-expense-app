@@ -9,6 +9,30 @@ export type User = {
   password: string;
 };
 
+export type Budget = {
+  id: string;
+  start_date: string;
+  end_date: string;
+  user_id: string;
+};
+
+export type BudgetItem = {
+  id: string;
+  name: string;
+  description: string;
+  amount: number;
+  budgetId: string;
+};
+
+export type ExpenseItem = {
+  id: string;
+  date: string;
+  amount: number;
+  description: string;
+  budgetItemId: string;
+};
+
+// TODO; remove these types when clean up
 export type Customer = {
   id: string;
   name: string;
