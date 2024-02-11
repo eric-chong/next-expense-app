@@ -1,5 +1,8 @@
 const { db } = require('@vercel/postgres');
 const {
+  budgets,
+  budgetItems,
+  expenseItems,
   invoices,
   customers,
   revenue,
@@ -10,6 +13,9 @@ const bcrypt = require('bcrypt');
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    await client.sql`DROP TABLE IF EXISTS users`;
+
     // Create the "users" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS users (
@@ -42,6 +48,134 @@ async function seedUsers(client) {
     };
   } catch (error) {
     console.error('Error seeding users:', error);
+    throw error;
+  }
+}
+
+async function seedBudgets(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    await client.sql`DROP TABLE IF EXISTS budgets`;
+
+    // Create the "budgets" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS budgets (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        start_date DATE NOT NULL,
+        end_date DATE,
+        user_id UUID NOT NULL
+      );
+    `;
+
+    console.log(`Created "budgets" table`);
+
+    // Insert data into the "budgets" table
+    const insertedBudgets = await Promise.all(
+      budgets.map(
+        (budget) => client.sql`
+        INSERT INTO budgets (id, start_date, end_date, user_id)
+        VALUES (${budget.id}, ${budget.start_date}, ${budget.end_date}, ${budget.user_id})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+      ),
+    );
+
+    console.log(`Seeded ${insertedBudgets.length} budgets`);
+
+    return {
+      createTable,
+      budgets: insertedBudgets,
+    };
+  } catch (error) {
+    console.error('Error seeding budgets:', error);
+    throw error;
+  }
+}
+
+async function seedBudgetItems(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    await client.sql`DROP TABLE IF EXISTS budget_items`;
+
+    // Create the "budgetItems" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS budget_items (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        description VARCHAR(255),
+        amount decimal NOT NULL,
+        budget_id UUID NOT NULL,
+        user_id UUID NOT NULL
+      );
+    `;
+
+    console.log(`Created "budget_items" table`);
+
+    // Insert data into the "budget_items" table
+    const insertedBudgetItems = await Promise.all(
+      budgetItems.map(
+        (budgetItem) => client.sql`
+        INSERT INTO budget_items (id, name, description, amount, budget_id, user_id)
+        VALUES (${budgetItem.id}, ${budgetItem.name}, ${budgetItem.description}, ${budgetItem.amount}, ${budgetItem.budgetId}, ${budgetItem.userId})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+      ),
+    );
+
+    console.log(`Seeded ${insertedBudgetItems.length} budget_items`);
+
+    return {
+      createTable,
+      budgetItems: insertedBudgetItems,
+    };
+  } catch (error) {
+    console.error('Error seeding budget_items:', error);
+    throw error;
+  }
+}
+
+async function seedExpenseItems(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    await client.sql`DROP TABLE IF EXISTS expense_items`;
+
+    // Create the "expense_items" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS expense_items (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        date DATE NOT NULL,
+        amount decimal NOT NULL,
+        description VARCHAR(255),
+        budget_item_id UUID NOT NULL,
+        user_id UUID NOT NULL
+      );
+    `;
+
+    console.log(`Created "expense_items" table`);
+
+    // Insert data into the "expense_items" table
+    const insertedExpenseItems = await Promise.all(
+      expenseItems.map(
+        (expenseItem) =>
+          client.sql`
+            INSERT INTO expense_items (id, date, amount, description, budget_item_id, user_id)
+            VALUES (${expenseItem.id}, ${expenseItem.date}, ${expenseItem.amount}, ${expenseItem.description}, ${expenseItem.budgetItemId}, ${expenseItem.userId})
+            ON CONFLICT (id) DO NOTHING;
+          `,
+      ),
+    );
+
+    console.log(`Seeded ${insertedExpenseItems.length} expense_items`);
+
+    return {
+      createTable,
+      expenseItems: insertedExpenseItems,
+    };
+  } catch (error) {
+    console.error('Error seeding budget_items:', error);
     throw error;
   }
 }
@@ -164,9 +298,14 @@ async function main() {
   const client = await db.connect();
 
   await seedUsers(client);
-  await seedCustomers(client);
-  await seedInvoices(client);
-  await seedRevenue(client);
+  await seedBudgets(client);
+  await seedBudgetItems(client);
+  await seedExpenseItems(client);
+
+  // TODO: remove these seed function when cleanup
+  // await seedCustomers(client);
+  // await seedInvoices(client);
+  // await seedRevenue(client);
 
   await client.end();
 }

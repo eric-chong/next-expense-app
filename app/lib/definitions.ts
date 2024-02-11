@@ -11,9 +11,9 @@ export type User = {
 
 export type Budget = {
   id: string;
-  start_date: string;
-  end_date: string;
-  user_id: string;
+  startDate: string;
+  endDate: string;
+  userId: string;
 };
 
 export type BudgetItem = {
@@ -22,6 +22,7 @@ export type BudgetItem = {
   description: string;
   amount: number;
   budgetId: string;
+  userId: string;
 };
 
 export type ExpenseItem = {
@@ -30,6 +31,7 @@ export type ExpenseItem = {
   amount: number;
   description: string;
   budgetItemId: string;
+  userId: string;
 };
 
 // TODO; remove these types when clean up
