@@ -11,6 +11,12 @@ const users = [
 
 const budgets = [
   {
+    id: 'f1927dc7-8453-4948-846a-ab07cad5aa02',
+    start_date: '2023-01-01',
+    end_date: '2023-12-31',
+    user_id: users[0].id,
+  },
+  {
     id: 'f2e4d51b-ec94-4a72-bdc0-7d37c0dd3ea5',
     start_date: '2024-01-01',
     end_date: '2024-12-31',
@@ -23,7 +29,7 @@ const mortgageBudgetItem = {
   name: 'Mortgage',
   description: 'Mortgage payment',
   amount: 3774.43,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const carInsuranceBudgetItem = {
@@ -31,7 +37,7 @@ const carInsuranceBudgetItem = {
   name: 'Car Insurance',
   description: 'Car insurance monthly set aside',
   amount: 160,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const gasBudgetItem = {
@@ -39,7 +45,7 @@ const gasBudgetItem = {
   name: 'Gas',
   description: 'Gas fill up',
   amount: 440,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const mealOutBudgetItem = {
@@ -47,7 +53,7 @@ const mealOutBudgetItem = {
   name: 'Meal Out',
   description: 'Meal out at restaurants',
   amount: 850,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const propertyTaxBudgetItem = {
@@ -55,7 +61,7 @@ const propertyTaxBudgetItem = {
   name: 'Property Tax',
   description: 'Property tax monthly set aside',
   amount: 360,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const bcHydroBudgetItem = {
@@ -63,7 +69,7 @@ const bcHydroBudgetItem = {
   name: 'BC Hydro',
   description: 'BC Hydro payment',
   amount: 65,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const fortisBudgetItem = {
@@ -71,7 +77,7 @@ const fortisBudgetItem = {
   name: 'Fortis',
   description: 'Fortis BC payment',
   amount: 100,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const shawBudgetItem = {
@@ -79,7 +85,7 @@ const shawBudgetItem = {
   name: 'Shaw',
   description: 'Shaw internet payment',
   amount: 84,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const groceryBudgetItem = {
@@ -87,7 +93,7 @@ const groceryBudgetItem = {
   name: 'Grocery',
   description: 'Grocery shopping',
   amount: 300,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 const violinBudgetItem = {
@@ -95,7 +101,7 @@ const violinBudgetItem = {
   name: 'Violin',
   description: 'Violin lessons',
   amount: 500,
-  budgetId: budgets[0].id,
+  budgetId: budgets[1].id,
   userId: users[0].id,
 };
 
