@@ -7,8 +7,8 @@ import { lusitana } from '@/app/ui/fonts';
 export default async function Page() {
   const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
   const budgets = await fetchBudgets(userId);
-  const { getCurrentBudget } = useGetBudget();
-  const currentBudget = getCurrentBudget(budgets, new Date());
+  const { getBudget } = useGetBudget();
+  const currentBudget = getBudget(budgets, new Date());
   // const currentBudget = useGetBudget(budgets, '2023-10-22');
 
   const budgetItems = currentBudget
@@ -22,16 +22,16 @@ export default async function Page() {
       </h1>
       {currentBudget ? (
         <>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
-            {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
-            {/* <Card title="Total Invoices" value={numberOfInvoices} type="invoices" /> */}
-            {/* <Card
+          {/* <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"> */}
+          {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> */}
+          {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
+          {/* <Card title="Total Invoices" value={numberOfInvoices} type="invoices" /> */}
+          {/* <Card
       title="Total Customers"
       value={numberOfCustomers}
       type="customers"
     /> */}
-          </div>
+          {/* </div> */}
           <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
             <BudgetNavigator budgets={budgets} />
             <BudgetItemList budgetItems={budgetItems} />
