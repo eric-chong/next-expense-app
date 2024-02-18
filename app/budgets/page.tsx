@@ -7,7 +7,8 @@ import { lusitana } from '@/app/ui/fonts';
 export default async function Page() {
   const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
   const budgets = await fetchBudgets(userId);
-  const currentBudget = useGetBudget(budgets, new Date());
+  const { getCurrentBudget } = useGetBudget();
+  const currentBudget = getCurrentBudget(budgets, new Date());
   // const currentBudget = useGetBudget(budgets, '2023-10-22');
 
   const budgetItems = currentBudget
