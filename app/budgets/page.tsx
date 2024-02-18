@@ -32,7 +32,7 @@ export default async function Page() {
       type="customers"
     /> */}
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-8">
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
             <BudgetNavigator budgets={budgets} />
             <BudgetItemList budgetItems={budgetItems} />
 
