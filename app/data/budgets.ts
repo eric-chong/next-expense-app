@@ -1,11 +1,10 @@
 import { sql } from '@vercel/postgres';
 import camelcaseKeys from 'camelcase-keys';
-// import { Budget } from '@/app/lib/definitions';
 import { Budget, BudgetItem } from '@/app/types';
 import { unstable_noStore as noStore } from 'next/cache';
 
 export async function fetchBudgets(userId: string) {
-  noStore();
+  noStore(); // TODO: remove later
   try {
     const data =
       await sql<Budget>`SELECT * FROM budgets WHERE user_id = ${userId}`;
