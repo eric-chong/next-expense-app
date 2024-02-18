@@ -1,5 +1,7 @@
 'use client';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
 import useGetBudget from '@/app/hooks/useGetBudget';
 import { Budget } from '@/app/types';
 
@@ -15,17 +17,23 @@ export default function BudgetNavigator({ budgets }: IBudgetNavigator) {
   return (
     <div className="flex gap-6">
       <div className="flex grow justify-end">
-        {/* Use MUI button */}
-        <button className="w-6 hover:text-blue-500">
-          <ChevronLeftIcon />
-        </button>
+        <IconButton
+          aria-label="Previous"
+          size="small"
+          disabled={currentBudgetIndex === 0}
+        >
+          <ChevronLeft />
+        </IconButton>
       </div>
-      <div className="leading-loose">{`${currentBudget?.startDate} - ${currentBudget?.endDate}`}</div>
+      <div className="leading-9">{`${currentBudget?.startDate} - ${currentBudget?.endDate}`}</div>
       <div className="flex grow justify-start">
-        {/* Use MUI button */}
-        <button className="w-6 hover:text-blue-500">
-          <ChevronRightIcon />
-        </button>
+        <IconButton
+          aria-label="Previous"
+          size="small"
+          disabled={currentBudgetIndex === budgets.length - 1}
+        >
+          <ChevronRight />
+        </IconButton>
       </div>
     </div>
   );

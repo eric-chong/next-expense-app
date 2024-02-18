@@ -1,5 +1,9 @@
-import { inter } from '@/app/ui/fonts';
+import { inter, roboto } from '@/app/ui/fonts';
 import '@/app/ui/global.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 export default function RootLayout({
   children,
@@ -8,7 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${roboto.className} antialiased`}>{children}</body>
     </html>
   );
 }
