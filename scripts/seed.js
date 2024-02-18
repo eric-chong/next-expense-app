@@ -62,8 +62,8 @@ async function seedBudgets(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS budgets (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        start_date DATE NOT NULL,
-        end_date DATE,
+        start_date VARCHAR(10) NOT NULL,
+        end_date VARCHAR(10),
         user_id UUID NOT NULL
       );
     `;
@@ -146,7 +146,7 @@ async function seedExpenseItems(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS expense_items (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        date DATE NOT NULL,
+        date VARCHAR(10) NOT NULL,
         amount decimal NOT NULL,
         description VARCHAR(255),
         budget_item_id UUID NOT NULL,
