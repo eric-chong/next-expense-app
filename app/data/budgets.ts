@@ -4,7 +4,7 @@ import { Budget, BudgetItem } from '@/app/types';
 import { unstable_noStore as noStore } from 'next/cache';
 
 export async function fetchBudgets(userId: string) {
-  noStore(); // TODO: remove later
+  noStore();
   try {
     const data =
       await sql<Budget>`SELECT * FROM budgets WHERE user_id = ${userId}`;
@@ -17,6 +17,7 @@ export async function fetchBudgets(userId: string) {
 }
 
 export async function fetchBudgetItems(userId: string, budgetId: string) {
+  noStore();
   try {
     const data = await sql<BudgetItem>`
         SELECT * 

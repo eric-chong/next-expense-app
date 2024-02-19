@@ -15,7 +15,7 @@ interface IBudgetItemList {
 }
 
 export default function BudgetItemList({ budgetItems }: IBudgetItemList) {
-  const { formatCurrency } = useCurrency();
+  const { formatCurrency, sumAndFormatCurrent } = useCurrency();
 
   return (
     <TableContainer component={Paper}>
@@ -43,7 +43,9 @@ export default function BudgetItemList({ budgetItems }: IBudgetItemList) {
         <TableFooter>
           <TableRow>
             <TableCell align="right">Total:</TableCell>
-            <TableCell align="right">total amount</TableCell>
+            <TableCell align="right">
+              {sumAndFormatCurrent(budgetItems.map((item) => item.amount))}
+            </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
