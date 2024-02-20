@@ -3,7 +3,9 @@ import camelcaseKeys from 'camelcase-keys';
 import { Budget, BudgetItem } from '@/app/types';
 import { unstable_noStore as noStore } from 'next/cache';
 
-export async function fetchBudgets(userId: string) {
+const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
+
+export async function fetchBudgets() {
   noStore();
   try {
     const data =
@@ -16,7 +18,7 @@ export async function fetchBudgets(userId: string) {
   }
 }
 
-export async function fetchBudgetItems(userId: string, budgetId: string) {
+export async function fetchBudgetItems(budgetId: string) {
   noStore();
   try {
     const data = await sql<BudgetItem>`
