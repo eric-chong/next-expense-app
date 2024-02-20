@@ -1,4 +1,4 @@
-import { fetchBudgetItems, fetchBudgets } from '@/app/actions/budgets';
+import { fetchBudgetItems, fetchBudgets } from '@/app/data/budgets';
 import useGetBudget from '@/app/hooks/useGetBudget';
 import Budgets from '@/app/ui/budgets/Budgets';
 import { lusitana } from '@/app/ui/fonts';
