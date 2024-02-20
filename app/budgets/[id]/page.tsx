@@ -1,5 +1,4 @@
-import { fetchBudgetItems, fetchBudgets } from '@/app/data/budgets';
-import useGetBudget from '@/app/hooks/useGetBudget';
+import { fetchBudgetsDataById } from '@/app/data/budgets';
 import Budgets from '@/app/ui/budgets/Budgets';
 import { lusitana } from '@/app/ui/fonts';
 
@@ -8,13 +7,9 @@ interface IParams {
 }
 
 export default async function Page({ params }: { params: IParams }) {
-  const budgets = await fetchBudgets();
-  const { getBudgetById } = useGetBudget();
-  const currentBudget = getBudgetById(budgets, params.id);
-
-  const budgetItems = currentBudget
-    ? await fetchBudgetItems(currentBudget.id)
-    : [];
+  const { budgetItems, budgets, currentBudget } = await fetchBudgetsDataById(
+    params.id,
+  );
 
   return (
     <main>

@@ -1,16 +1,11 @@
-import { fetchBudgetItems, fetchBudgets } from '@/app/data/budgets';
-import useGetBudget from '@/app/hooks/useGetBudget';
+import { fetchBudgetsDataByDate } from '@/app/data/budgets';
 import Budgets from '@/app/ui/budgets/Budgets';
 import { lusitana } from '@/app/ui/fonts';
 
 export default async function Page() {
-  const budgets = await fetchBudgets();
-  const { getBudgetByDate } = useGetBudget();
-  const currentBudget = getBudgetByDate(budgets, new Date());
-
-  const budgetItems = currentBudget
-    ? await fetchBudgetItems(currentBudget.id)
-    : [];
+  const { budgetItems, budgets, currentBudget } = await fetchBudgetsDataByDate(
+    new Date(),
+  );
 
   return (
     <main>

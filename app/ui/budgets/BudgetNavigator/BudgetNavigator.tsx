@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import { useRouter } from 'next/navigation';
-import useGetBudget from '@/app/hooks/useGetBudget';
+import { getBudgetIndexById } from '@/app/utils/budgetHelpers';
 import { Budget } from '@/app/types';
 
 interface IBudgetNavigator {
@@ -16,7 +16,6 @@ export default function BudgetNavigator({
   budgetId,
 }: IBudgetNavigator) {
   const router = useRouter();
-  const { getBudgetIndexById } = useGetBudget();
   const currentBudgetIndex = getBudgetIndexById(budgets, budgetId);
   const currentBudget =
     currentBudgetIndex > -1 ? budgets[currentBudgetIndex] : undefined;
