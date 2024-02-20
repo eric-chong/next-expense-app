@@ -7,7 +7,6 @@ export default async function Page() {
   const budgets = await fetchBudgets();
   const { getBudgetByDate } = useGetBudget();
   const currentBudget = getBudgetByDate(budgets, new Date());
-  console.log('currentBudget that', currentBudget);
 
   const budgetItems = currentBudget
     ? await fetchBudgetItems(currentBudget.id)

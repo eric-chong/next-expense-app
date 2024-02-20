@@ -11,7 +11,6 @@ export default async function Page({ params }: { params: IParams }) {
   const budgets = await fetchBudgets();
   const { getBudgetById } = useGetBudget();
   const currentBudget = getBudgetById(budgets, params.id);
-  console.log('currentBudget this?', currentBudget);
 
   const budgetItems = currentBudget
     ? await fetchBudgetItems(currentBudget.id)
