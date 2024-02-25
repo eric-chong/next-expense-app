@@ -1,4 +1,8 @@
 'use client';
+import EditIcon from '@mui/icons-material/Edit';
+// import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,16 +19,22 @@ interface IBudgetItemList {
 }
 
 export default function BudgetItemList({ budgetItems }: IBudgetItemList) {
+  const navigate = useNavigate();
   const { formatCurrency, sumAndFormatCurrent } = useCurrency();
+  const newItemMatcher = useMatch('/budgets/:budgetId/items/new');
+  console.log('newItemMatcher', newItemMatcher);
+  const { budgetId, itemId } = useParams();
+  console.log('params', budgetId, itemId);
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Amount</TableCell>
+            <TableCell sx={{ width: '220px' }}>Name</TableCell>
+            <TableCell sx={{ width: '150px' }}>Amount</TableCell>
             <TableCell>Description</TableCell>
+            <TableCell sx={{ width: '100px' }} />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -37,6 +47,28 @@ export default function BudgetItemList({ budgetItems }: IBudgetItemList) {
                 {formatCurrency(budgetItem.amount)}
               </TableCell>
               <TableCell>{budgetItem.description}</TableCell>
+              <TableCell align="right">
+                <IconButton
+                  aria-label="Edit"
+                  size="small"
+                  onClick={() => {
+                    navigate(
+                      `/budgets/${budgetId}/items/${budgetItem.id}/edit`,
+                    );
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+                {/* <IconButton
+                  aria-label="Delete"
+                  size="small"
+                  onClick={() => {
+                    console.log('delete', budgetItem.id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton> */}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -20,7 +20,15 @@ export default function Page(props: IPage) {
         <Routes>
           <Route path={`${rootRoute}/`} element={<Budgets {...props} />} />
           <Route
+            path={`${rootRoute}/items/new`}
+            element={<Budgets {...props} />}
+          />
+          <Route
             path={`${rootRoute}/items/:itemId`}
+            element={<Budgets {...props} />}
+          />
+          <Route
+            path={`${rootRoute}/items/:itemId/edit`}
             element={<Budgets {...props} />}
           />
         </Routes>
