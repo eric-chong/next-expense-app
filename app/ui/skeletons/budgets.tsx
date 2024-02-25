@@ -4,7 +4,7 @@ import { lusitana } from '@/app/ui/fonts';
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
 
-export function BudgetNavigatorSkeleton() {
+function BudgetNavigatorSkeleton() {
   return (
     <div className="flex gap-6">
       <div className="flex grow justify-end">
@@ -24,7 +24,7 @@ export function BudgetNavigatorSkeleton() {
   );
 }
 
-export function TableRowSkeleton() {
+function TableRowSkeleton() {
   return (
     <tr className="w-full border-b border-gray-100 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
       {/* Name */}
@@ -43,7 +43,7 @@ export function TableRowSkeleton() {
   );
 }
 
-export function BudgetItemListSkeleton() {
+function BudgetItemListSkeleton() {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
