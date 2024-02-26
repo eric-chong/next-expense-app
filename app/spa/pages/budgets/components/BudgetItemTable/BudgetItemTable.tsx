@@ -1,7 +1,4 @@
 'use client';
-import EditIcon from '@mui/icons-material/Edit';
-// import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,14 +10,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { BudgetItem } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
+import { updateBudgetItem } from '@/app/actions/budgets';
+import BudgetItemRow from '../BudgetItemRow';
 
-interface IBudgetItemList {
+interface IBudgetItemTable {
   budgetItems: Array<BudgetItem>;
 }
 
-export default function BudgetItemList({ budgetItems }: IBudgetItemList) {
+export default function BudgetItemTable({ budgetItems }: IBudgetItemTable) {
   const navigate = useNavigate();
-  const { formatCurrency, sumAndFormatCurrent } = useCurrency();
+  const { sumAndFormatCurrent } = useCurrency();
+
   const newItemMatcher = useMatch('/budgets/:budgetId/items/new');
   console.log('newItemMatcher', newItemMatcher);
   const { budgetId, itemId } = useParams();
@@ -38,39 +38,27 @@ export default function BudgetItemList({ budgetItems }: IBudgetItemList) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {budgetItems.map((budgetItem) => (
-            <TableRow key={budgetItem.id}>
-              <TableCell component="th" scope="row">
-                {budgetItem.name}
-              </TableCell>
-              <TableCell align="right">
-                {formatCurrency(budgetItem.amount)}
-              </TableCell>
-              <TableCell>{budgetItem.description}</TableCell>
-              <TableCell align="right">
-                <IconButton
-                  aria-label="Edit"
-                  size="small"
-                  onClick={() => {
-                    navigate(
-                      `/budgets/${budgetId}/items/${budgetItem.id}/edit`,
-                    );
-                  }}
-                >
-                  <EditIcon />
-                </IconButton>
-                {/* <IconButton
-                  aria-label="Delete"
-                  size="small"
-                  onClick={() => {
-                    console.log('delete', budgetItem.id);
-                  }}
-                >
-                  <DeleteIcon />
-                </IconButton> */}
-              </TableCell>
-            </TableRow>
-          ))}
+          {budgetItems.map((budgetItem) => {
+            const isEditing: boolean = budgetItem.id === itemId;
+            return (
+              <BudgetItemRow
+                key={budgetItem.id}
+                budgetItem={budgetItem}
+                isEditing={isEditing}
+                onCancel={() => navigate(`/budgets/${budgetId}`)}
+                onEdit={() => {
+                  navigate(`/budgets/${budgetId}/items/${budgetItem.id}/edit`);
+                }}
+                onSave={async (updatedBudgetItem) => {
+                  if (updatedBudgetItem) {
+                    const result = await updateBudgetItem(updatedBudgetItem);
+                    console.log('result', result);
+                    navigate(`/budgets/${budgetId}`);
+                  }
+                }}
+              />
+            );
+          })}
         </TableBody>
         <TableFooter>
           <TableRow>

@@ -1,7 +1,7 @@
 import { lusitana } from '@/app/ui/fonts';
 import { Budget, BudgetItem } from '@/app/types';
 import BudgetNavigator from '../BudgetNavigator';
-import BudgetItemList from '../BudgetItemList';
+import BudgetItemList from '../BudgetItemTable';
 
 interface IBudgets {
   budgetItems: Array<BudgetItem>;

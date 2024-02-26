@@ -30,7 +30,7 @@ export async function fetchBudgets() {
   noStore();
   try {
     const data =
-      await sql<Budget>`SELECT * FROM budgets WHERE user_id = ${userId}`;
+      await sql<Budget>`SELECT * FROM budgets WHERE user_id = ${userId} ORDER BY start_date`;
 
     return camelcaseKeys(data.rows);
   } catch (error) {
@@ -47,9 +47,12 @@ export async function fetchBudgetItems(budgetId: string) {
         FROM budget_items 
         WHERE 
           user_id = ${userId} AND 
-          budget_id = ${budgetId}`;
+          budget_id = ${budgetId}
+        ORDER BY name`;
 
-    return camelcaseKeys(data.rows);
+    return camelcaseKeys(
+      data.rows.map((row) => ({ ...row, amount: row.amount / 100 })),
+    );
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch budget items data.');
