@@ -1,4 +1,4 @@
-type BudgetItem = {
+export type BudgetItem = {
   id: string;
   name: string;
   description: string;
@@ -6,4 +6,8 @@ type BudgetItem = {
   budgetId: string;
   userId: string;
 };
-export default BudgetItem;
+
+export type NewBudgetItem = Pick<
+  BudgetItem,
+  'name' | 'amount' | 'description' | 'budgetId'
+>;

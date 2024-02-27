@@ -7,30 +7,34 @@ import IconButton from '@mui/material/IconButton';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
-import { BudgetItem } from '@/app/types';
+import { BudgetItem, NewBudgetItem } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
 
+type NewOrEditBudgetItem = BudgetItem | NewBudgetItem;
+
 interface IBudgetItemRow {
-  budgetItem: BudgetItem;
+  budgetItem: NewOrEditBudgetItem;
   isEditing?: boolean;
   onCancel: () => void;
-  onEdit: () => void;
-  onSave: (budgetItem: BudgetItem) => void;
+  onEdit?: () => void;
+  onSave: (budgetItem: NewOrEditBudgetItem) => void;
 }
+
 export default function BudgetItemRow({
   budgetItem,
   isEditing = false,
   onCancel,
-  onEdit,
+  onEdit = () => {},
   onSave,
 }: IBudgetItemRow) {
   const { formatCurrency } = useCurrency();
-  const [editingData, setEditingData] = useState<BudgetItem>(budgetItem);
+  const [editingData, setEditingData] =
+    useState<NewOrEditBudgetItem>(budgetItem);
 
   const handleSave = () => onSave(editingData);
 
   return (
-    <TableRow key={budgetItem.id}>
+    <TableRow key={'id' in budgetItem ? budgetItem.id : 'new-budget-item'}>
       <TableCell>
         {isEditing ? (
           <TextField
@@ -123,7 +127,7 @@ export default function BudgetItemRow({
               aria-label="Delete"
               size="small"
               onClick={() => {
-                console.log('delete', budgetItem.id);
+                console.log('delete', budgetItem);
               }}
             >
               <DeleteIcon />

@@ -99,7 +99,6 @@ const groceryBudgetItem = {
 const violinBudgetItem = {
   id: '34d6b7ea-fbd7-45e6-ba50-23735dd6580b',
   name: 'Violin',
-  description: 'Violin lessons',
   amount: 50000,
   budgetId: budgets[1].id,
   userId: users[0].id,

@@ -1,5 +1,7 @@
 'use client';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,16 +10,20 @@ import TableFooter from '@mui/material/TableFooter';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { BudgetItem } from '@/app/types';
+import { BudgetItem, NewBudgetItem } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
-import { updateBudgetItem } from '@/app/actions/budgets';
+import { insertBudgetItem, updateBudgetItem } from '@/app/actions/budgets';
 import BudgetItemRow from '../BudgetItemRow';
 
 interface IBudgetItemTable {
   budgetItems: Array<BudgetItem>;
+  currentBudgetId: string;
 }
 
-export default function BudgetItemTable({ budgetItems }: IBudgetItemTable) {
+export default function BudgetItemTable({
+  budgetItems,
+  currentBudgetId,
+}: IBudgetItemTable) {
   const navigate = useNavigate();
   const { sumAndFormatCurrent } = useCurrency();
 
@@ -34,10 +40,41 @@ export default function BudgetItemTable({ budgetItems }: IBudgetItemTable) {
             <TableCell sx={{ width: '220px' }}>Name</TableCell>
             <TableCell sx={{ width: '150px' }}>Amount</TableCell>
             <TableCell>Description</TableCell>
-            <TableCell sx={{ width: '100px' }} />
+            <TableCell sx={{ width: '100px' }}>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<AddIcon />}
+                onClick={() => navigate(`/budgets/${budgetId}/items/new`)}
+              >
+                New
+              </Button>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
+          {newItemMatcher && (
+            <BudgetItemRow
+              isEditing
+              budgetItem={{
+                name: '',
+                amount: 0,
+                description: '',
+                budgetId: currentBudgetId,
+              }}
+              onCancel={() => navigate(`/budgets/${budgetId}`)}
+              onSave={async (newBudgetItem) => {
+                if (newBudgetItem) {
+                  console.log('onAdd', newBudgetItem);
+                  const result = await insertBudgetItem(
+                    newBudgetItem as NewBudgetItem,
+                  );
+                  console.log('result', result);
+                  navigate(`/budgets/${budgetId}`);
+                }
+              }}
+            />
+          )}
           {budgetItems.map((budgetItem) => {
             const isEditing: boolean = budgetItem.id === itemId;
             return (
@@ -51,7 +88,9 @@ export default function BudgetItemTable({ budgetItems }: IBudgetItemTable) {
                 }}
                 onSave={async (updatedBudgetItem) => {
                   if (updatedBudgetItem) {
-                    const result = await updateBudgetItem(updatedBudgetItem);
+                    const result = await updateBudgetItem(
+                      updatedBudgetItem as BudgetItem,
+                    );
                     console.log('result', result);
                     navigate(`/budgets/${budgetId}`);
                   }

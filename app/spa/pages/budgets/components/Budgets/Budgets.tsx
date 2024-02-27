@@ -1,7 +1,7 @@
 import { lusitana } from '@/app/ui/fonts';
 import { Budget, BudgetItem } from '@/app/types';
 import BudgetNavigator from '../BudgetNavigator';
-import BudgetItemList from '../BudgetItemTable';
+import BudgetItemTable from '../BudgetItemTable';
 
 interface IBudgets {
   budgetItems: Array<BudgetItem>;
@@ -22,7 +22,10 @@ export default function Budgets({
       {currentBudgetId ? (
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
           <BudgetNavigator budgets={budgets} budgetId={currentBudgetId} />
-          <BudgetItemList budgetItems={budgetItems} />
+          <BudgetItemTable
+            budgetItems={budgetItems}
+            currentBudgetId={currentBudgetId}
+          />
         </div>
       ) : (
         <div>There is no budget setup for this date</div>
