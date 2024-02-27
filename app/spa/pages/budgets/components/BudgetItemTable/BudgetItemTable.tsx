@@ -28,9 +28,7 @@ export default function BudgetItemTable({
   const { sumAndFormatCurrent } = useCurrency();
 
   const newItemMatcher = useMatch('/budgets/:budgetId/items/new');
-  console.log('newItemMatcher', newItemMatcher);
   const { budgetId, itemId } = useParams();
-  console.log('params', budgetId, itemId);
 
   return (
     <TableContainer component={Paper}>
