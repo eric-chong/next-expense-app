@@ -63,11 +63,9 @@ export default function BudgetItemTable({
               onCancel={() => navigate(`/budgets/${budgetId}`)}
               onSave={async (newBudgetItem) => {
                 if (newBudgetItem) {
-                  console.log('onAdd', newBudgetItem);
                   const result = await insertBudgetItem(
                     newBudgetItem as NewBudgetItem,
                   );
-                  console.log('result', result);
                   navigate(`/budgets/${budgetId}`);
                 }
               }}
@@ -89,7 +87,6 @@ export default function BudgetItemTable({
                     const result = await updateBudgetItem(
                       updatedBudgetItem as BudgetItem,
                     );
-                    console.log('result', result);
                     navigate(`/budgets/${budgetId}`);
                   }
                 }}
