@@ -39,6 +39,7 @@ export default function BudgetItemRow({
         {isEditing ? (
           <TextField
             id="name"
+            autoFocus
             required
             variant="outlined"
             defaultValue={budgetItem.name}
