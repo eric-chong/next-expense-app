@@ -12,7 +12,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { BudgetItem, NewBudgetItem } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
-import { insertBudgetItem, updateBudgetItem } from '@/app/actions/budgets';
+import {
+  deleteBudgetItem,
+  insertBudgetItem,
+  updateBudgetItem,
+} from '@/app/actions/budgets';
 import BudgetItemRow from '../BudgetItemRow';
 
 interface IBudgetItemTable {
@@ -82,12 +86,17 @@ export default function BudgetItemTable({
                 onEdit={() => {
                   navigate(`/budgets/${budgetId}/items/${budgetItem.id}/edit`);
                 }}
-                onSave={async (updatedBudgetItem) => {
-                  if (updatedBudgetItem) {
+                onSave={async (budgetItemToUpdate) => {
+                  if (budgetItemToUpdate) {
                     const result = await updateBudgetItem(
-                      updatedBudgetItem as BudgetItem,
+                      budgetItemToUpdate as BudgetItem,
                     );
                     navigate(`/budgets/${budgetId}`);
+                  }
+                }}
+                onDelete={async (budgetItemToDelete) => {
+                  if (budgetItemToDelete) {
+                    await deleteBudgetItem(budgetItemToDelete);
                   }
                 }}
               />

@@ -16,6 +16,7 @@ interface IBudgetItemRow {
   budgetItem: NewOrEditBudgetItem;
   isEditing?: boolean;
   onCancel: () => void;
+  onDelete?: (budgetItem: BudgetItem) => void;
   onEdit?: () => void;
   onSave: (budgetItem: NewOrEditBudgetItem) => void;
 }
@@ -24,6 +25,7 @@ export default function BudgetItemRow({
   budgetItem,
   isEditing = false,
   onCancel,
+  onDelete = () => {},
   onEdit = () => {},
   onSave,
 }: IBudgetItemRow) {
@@ -127,9 +129,7 @@ export default function BudgetItemRow({
             <IconButton
               aria-label="Delete"
               size="small"
-              onClick={() => {
-                console.log('delete', budgetItem);
-              }}
+              onClick={() => onDelete(budgetItem as BudgetItem)}
             >
               <DeleteIcon />
             </IconButton>

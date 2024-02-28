@@ -71,3 +71,24 @@ export async function updateBudgetItem(budgetItem: BudgetItem) {
   revalidatePath('/budgets/current');
   revalidatePath(`/budgets/${budgetId}`);
 }
+
+export async function deleteBudgetItem(budgetItem: BudgetItem) {
+  const parsedBudgetItem = budgetItemSchema.safeParse(budgetItem);
+  if (!parsedBudgetItem.success) {
+    return {
+      errors: parsedBudgetItem.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to delete budget item.',
+    };
+  }
+
+  const { id, budgetId } = parsedBudgetItem.data;
+
+  try {
+    await sql`DELETE FROM budget_items WHERE id = ${id}`;
+  } catch (e) {
+    return { message: 'Database Error: Failed to delete budget_items.' };
+  }
+
+  revalidatePath('/budgets/current');
+  revalidatePath(`/budgets/${budgetId}`);
+}
