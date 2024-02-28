@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import SaveIcon from '@mui/icons-material/Check';
 import CancelIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
+import { newBudgetItemSchema } from '@/app/schemas/budgets';
 import { BudgetItem, NewBudgetItem } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
 
@@ -30,10 +31,25 @@ export default function BudgetItemRow({
   onSave,
 }: IBudgetItemRow) {
   const { formatCurrency } = useCurrency();
+  const [errorFields, setErrorFields] = useState<Array<string | number>>([]);
   const [editingData, setEditingData] =
     useState<NewOrEditBudgetItem>(budgetItem);
 
-  const handleSave = () => onSave(editingData);
+  const handleSave = () => {
+    if (validateData(editingData)) {
+      onSave(editingData);
+    }
+  };
+
+  const validateData = (data: NewOrEditBudgetItem) => {
+    const result = newBudgetItemSchema.safeParse(data);
+    if (!result.success) {
+      setErrorFields(result.error.issues.map((issue) => issue.path).flat());
+    }
+    return result.success;
+  };
+
+  const handleDelete = () => onDelete(budgetItem as BudgetItem);
 
   return (
     <TableRow key={'id' in budgetItem ? budgetItem.id : 'new-budget-item'}>
@@ -42,7 +58,7 @@ export default function BudgetItemRow({
           <TextField
             id="name"
             autoFocus
-            required
+            error={errorFields.includes('name')}
             variant="outlined"
             defaultValue={budgetItem.name}
             onChange={(e) =>
@@ -61,7 +77,7 @@ export default function BudgetItemRow({
         {isEditing ? (
           <TextField
             id="amount"
-            required
+            error={errorFields.includes('amount')}
             type="number"
             variant="outlined"
             defaultValue={budgetItem.amount}
@@ -69,7 +85,7 @@ export default function BudgetItemRow({
               setEditingData((currentData: any) => {
                 return {
                   ...currentData,
-                  amount: e.target.value,
+                  amount: Number(e.target.value),
                 };
               })
             }
@@ -84,6 +100,7 @@ export default function BudgetItemRow({
         {isEditing ? (
           <TextField
             id="description"
+            error={errorFields.includes('description')}
             variant="outlined"
             defaultValue={budgetItem.description}
             onChange={(e) =>
@@ -126,11 +143,7 @@ export default function BudgetItemRow({
             <IconButton aria-label="Edit" size="small" onClick={onEdit}>
               <EditIcon />
             </IconButton>
-            <IconButton
-              aria-label="Delete"
-              size="small"
-              onClick={() => onDelete(budgetItem as BudgetItem)}
-            >
+            <IconButton aria-label="Delete" size="small" onClick={handleDelete}>
               <DeleteIcon />
             </IconButton>
           </>

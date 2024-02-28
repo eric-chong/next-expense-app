@@ -2,24 +2,15 @@
 
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
 import { BudgetItem, NewBudgetItem } from '@/app/types';
+import { budgetItemSchema, newBudgetItemSchema } from '@/app/schemas/budgets';
 
 const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
 
-const budgetItemSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  description: z.string().optional(),
-  amount: z.coerce.number(),
-  budgetId: z.string().uuid(),
-  userId: z.string().uuid(),
-});
-
 export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
-  const parseNewBudgetItem = budgetItemSchema
-    .omit({ id: true, userId: true })
-    .safeParse({ ...newBudgetItem });
+  const parseNewBudgetItem = newBudgetItemSchema.safeParse({
+    ...newBudgetItem,
+  });
 
   if (!parseNewBudgetItem.success) {
     return {
