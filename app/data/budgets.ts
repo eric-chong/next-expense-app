@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
 
 export async function fetchBudgetsDataByDate(date: Date | string) {
-  const budgets: Array<Budget> = await fetchBudgets();
+  const budgets = await fetchBudgets();
   const currentBudget = getBudgetByDate(budgets, date);
 
   const budgetItems = currentBudget
@@ -19,8 +19,10 @@ export async function fetchBudgetsDataByDate(date: Date | string) {
 }
 
 export async function fetchBudgetsDataById(budgetId: string) {
-  const [budgets, budgetItems]: [Array<Budget>, Array<BudgetItem>] =
-    await Promise.all([fetchBudgets(), fetchBudgetItems(budgetId)]);
+  const [budgets, budgetItems] = await Promise.all([
+    fetchBudgets(),
+    fetchBudgetItems(budgetId),
+  ]);
   const currentBudget = getBudgetById(budgets, budgetId);
   return { budgetItems, budgets, currentBudget };
 }
@@ -28,7 +30,12 @@ export async function fetchBudgetsDataById(budgetId: string) {
 export async function fetchBudgets() {
   noStore();
   try {
-    return prisma.budget.findMany({ where: { userId } });
+    const budgets = await prisma.budget.findMany({
+      where: { userId },
+    });
+    return budgets.map((budget: any) => {
+      return budget as Budget;
+    });
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch budget data.');
@@ -41,10 +48,12 @@ export async function fetchBudgetItems(budgetId: string) {
     const budgetItems = await prisma.budgetItem.findMany({
       where: { budgetId },
     });
-    return budgetItems.map((budgetItem: BudgetItem) => ({
-      ...budgetItem,
-      amount: budgetItem.amount / 100,
-    }));
+    return budgetItems.map((budgetItem: any) => {
+      return {
+        ...budgetItem,
+        amount: budgetItem.amount / 100,
+      } as BudgetItem;
+    });
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch budget items data.');
