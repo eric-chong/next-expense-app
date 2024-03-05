@@ -1,13 +1,14 @@
-import { sql } from '@vercel/postgres';
-import camelcaseKeys from 'camelcase-keys';
 import { Budget, BudgetItem } from '@/app/types';
 import { unstable_noStore as noStore } from 'next/cache';
 import { getBudgetByDate, getBudgetById } from '@/app/utils/budgetHelpers';
 
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
 const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
 
 export async function fetchBudgetsDataByDate(date: Date | string) {
-  const budgets = await fetchBudgets();
+  const budgets: Array<Budget> = await fetchBudgets();
   const currentBudget = getBudgetByDate(budgets, date);
 
   const budgetItems = currentBudget
@@ -18,10 +19,8 @@ export async function fetchBudgetsDataByDate(date: Date | string) {
 }
 
 export async function fetchBudgetsDataById(budgetId: string) {
-  const [budgets, budgetItems] = await Promise.all([
-    fetchBudgets(),
-    fetchBudgetItems(budgetId),
-  ]);
+  const [budgets, budgetItems]: [Array<Budget>, Array<BudgetItem>] =
+    await Promise.all([fetchBudgets(), fetchBudgetItems(budgetId)]);
   const currentBudget = getBudgetById(budgets, budgetId);
   return { budgetItems, budgets, currentBudget };
 }
@@ -29,10 +28,7 @@ export async function fetchBudgetsDataById(budgetId: string) {
 export async function fetchBudgets() {
   noStore();
   try {
-    const data =
-      await sql<Budget>`SELECT * FROM budgets WHERE user_id = ${userId} ORDER BY start_date`;
-
-    return camelcaseKeys(data.rows);
+    return prisma.budget.findMany({ where: { userId } });
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch budget data.');
@@ -42,17 +38,13 @@ export async function fetchBudgets() {
 export async function fetchBudgetItems(budgetId: string) {
   noStore();
   try {
-    const data = await sql<BudgetItem>`
-        SELECT * 
-        FROM budget_items 
-        WHERE 
-          user_id = ${userId} AND 
-          budget_id = ${budgetId}
-        ORDER BY name`;
-
-    return camelcaseKeys(
-      data.rows.map((row) => ({ ...row, amount: row.amount / 100 })),
-    );
+    const budgetItems = await prisma.budgetItem.findMany({
+      where: { budgetId },
+    });
+    return budgetItems.map((budgetItem: BudgetItem) => ({
+      ...budgetItem,
+      amount: budgetItem.amount / 100,
+    }));
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch budget items data.');

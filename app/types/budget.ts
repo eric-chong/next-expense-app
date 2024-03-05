@@ -1,7 +1,7 @@
 type Budget = {
   id: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   userId: string;
 };
 export default Budget;

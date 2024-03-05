@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import { useRouter } from 'next/navigation';
+import useFormatDate from '@/app/hooks/useFormatDate';
 import { getBudgetIndexById } from '@/app/utils/budgetHelpers';
 import { Budget } from '@/app/types';
 
@@ -20,6 +21,11 @@ export default function BudgetNavigator({
   const currentBudget =
     currentBudgetIndex > -1 ? budgets[currentBudgetIndex] : undefined;
 
+  const { formatDate } = useFormatDate();
+
+  if (!currentBudget) return null;
+
+  const { startDate, endDate } = currentBudget;
   return (
     <div className="flex gap-6">
       <div className="flex grow justify-end">
@@ -34,7 +40,7 @@ export default function BudgetNavigator({
           <ChevronLeft />
         </IconButton>
       </div>
-      <div className="leading-9">{`${currentBudget?.startDate} - ${currentBudget?.endDate}`}</div>
+      <div className="leading-9">{`${formatDate(startDate)} - ${formatDate(endDate)}`}</div>
       <div className="flex grow justify-start">
         <IconButton
           aria-label="Previous"
