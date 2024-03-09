@@ -47,6 +47,7 @@ export async function fetchBudgetItems(budgetId: string) {
   try {
     const budgetItems = await prisma.budgetItem.findMany({
       where: { budgetId },
+      orderBy: [{ name: 'asc' }],
     });
     return budgetItems.map((budgetItem: any) => {
       return {
