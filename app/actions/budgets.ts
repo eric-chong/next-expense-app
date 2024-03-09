@@ -4,8 +4,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { BudgetItem, NewBudgetItem } from '@/app/types';
 import { budgetItemSchema, newBudgetItemSchema } from '@/app/schemas/budgets';
-
-const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
+import { user } from '@/auth';
 
 export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
   const parseNewBudgetItem = newBudgetItemSchema.safeParse({
@@ -19,6 +18,7 @@ export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
     };
   }
 
+  const userId = await user();
   const { name, amount, description, budgetId } = parseNewBudgetItem.data;
   const amountInCents = amount * 100;
 

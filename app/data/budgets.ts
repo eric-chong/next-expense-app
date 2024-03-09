@@ -1,11 +1,11 @@
-import { Budget, BudgetItem } from '@/app/types';
-import { unstable_noStore as noStore } from 'next/cache';
-import { getBudgetByDate, getBudgetById } from '@/app/utils/budgetHelpers';
-
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { unstable_noStore as noStore } from 'next/cache';
+import { User } from 'next-auth';
+import { Budget, BudgetItem } from '@/app/types';
+import { getBudgetByDate, getBudgetById } from '@/app/utils/budgetHelpers';
+import { user } from '@/auth';
 
-const userId = '410544b2-4001-4271-9855-fec4b6a6442a';
+const prisma = new PrismaClient();
 
 export async function fetchBudgetsDataByDate(date: Date | string) {
   const budgets = await fetchBudgets();
@@ -29,6 +29,7 @@ export async function fetchBudgetsDataById(budgetId: string) {
 
 export async function fetchBudgets() {
   noStore();
+  const userId = await user();
   try {
     const budgets = await prisma.budget.findMany({
       where: { userId },
