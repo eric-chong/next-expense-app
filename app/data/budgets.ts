@@ -32,6 +32,7 @@ export async function fetchBudgets() {
   try {
     const budgets = await prisma.budget.findMany({
       where: { userId },
+      orderBy: [{ startDate: 'asc' }],
     });
     return budgets.map((budget: any) => {
       return budget as Budget;
