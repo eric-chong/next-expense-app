@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { unstable_noStore as noStore } from 'next/cache';
-import { User } from 'next-auth';
 import { Budget, BudgetItem } from '@/app/types';
 import { getBudgetByDate, getBudgetById } from '@/app/utils/budgetHelpers';
 import { user } from '@/auth';

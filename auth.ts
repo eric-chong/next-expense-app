@@ -2,13 +2,13 @@ import bcrypt from 'bcryptjs';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
-import type { User } from '@/app/lib/definitions';
+import type { User } from '@/app/types';
 import { authConfig } from './auth.config';
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-async function getUser(email: string): Promise<User | undefined> {
+async function getUser(email: string): Promise<User | null> {
   try {
     return prisma.user.findFirst({ where: { email } });
   } catch (error) {
