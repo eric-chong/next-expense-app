@@ -1,10 +1,12 @@
 'use server';
 
-import { sql } from '@vercel/postgres';
+import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { BudgetItem, NewBudgetItem } from '@/app/types';
 import { budgetItemSchema, newBudgetItemSchema } from '@/app/schemas/budgets';
 import { user } from '@/auth';
+
+const prisma = new PrismaClient();
 
 export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
   const parseNewBudgetItem = newBudgetItemSchema.safeParse({
@@ -23,10 +25,9 @@ export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
   const amountInCents = amount * 100;
 
   try {
-    await sql`
-      INSERT INTO budget_items (name, amount, description, budget_id, user_id)
-      VALUES (${name}, ${amountInCents}, ${description}, ${budgetId}, ${userId})
-    `;
+    await prisma.budgetItem.create({
+      data: { name, amount: amountInCents, description, budgetId, userId },
+    });
   } catch (e) {
     return { message: 'Database Error: Failed to Update budget_items.' };
   }
@@ -50,11 +51,14 @@ export async function updateBudgetItem(budgetItem: BudgetItem) {
   const amountInCents = amount * 100;
 
   try {
-    await sql`
-      UPDATE budget_items
-      SET name = ${name}, amount = ${amountInCents}, description = ${description}
-      WHERE id = ${id} AND budget_id = ${budgetId} AND user_id = ${userId}
-    `;
+    await prisma.budgetItem.update({
+      where: { id, userId },
+      data: {
+        name,
+        amount: amountInCents,
+        description,
+      },
+    });
   } catch (e) {
     return { message: 'Database Error: Failed to Update budget_items.' };
   }
@@ -75,7 +79,7 @@ export async function deleteBudgetItem(budgetItem: BudgetItem) {
   const { id, budgetId } = parsedBudgetItem.data;
 
   try {
-    await sql`DELETE FROM budget_items WHERE id = ${id}`;
+    await prisma.budgetItem.delete({ where: { id } });
   } catch (e) {
     return { message: 'Database Error: Failed to delete budget_items.' };
   }
