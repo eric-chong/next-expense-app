@@ -8,7 +8,7 @@ export default function LoginPage() {
       <Box
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        <Card sx={{ marginTop: '1rem' }} variant="outlined">
+        <Card sx={{ marginTop: '1rem', flexBasis: '400px' }} variant="outlined">
           <CardContent
             sx={{
               padding: 0,

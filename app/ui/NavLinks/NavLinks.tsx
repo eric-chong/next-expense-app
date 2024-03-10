@@ -28,7 +28,6 @@ export default function NavLinks() {
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-  console.log('theme.breakpoints.down("md")', theme.breakpoints.down('md'));
 
   const activeIndex =
     links.findIndex(
@@ -41,7 +40,7 @@ export default function NavLinks() {
     <Box
       sx={{
         borderRight: { md: 1 },
-        borderBottom: { xs: 1, sm: 1 },
+        borderBottom: { xs: 1, sm: 1, md: 0 },
         borderColor: 'divider',
         height: '100%',
         width: '100%',
