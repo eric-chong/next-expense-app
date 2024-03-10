@@ -1,9 +1,15 @@
 'use client';
 
-import { CurrencyDollarIcon, BanknotesIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
-import Link from 'next/link';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import PaymentIcon from '@mui/icons-material/Payment';
+import WalletIcon from '@mui/icons-material/Wallet';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import { usePathname } from 'next/navigation';
+import { signOut } from '@/app/actions/auth';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -11,36 +17,63 @@ const links = [
   {
     name: 'Budgets',
     href: '/budgets/current',
-    icon: BanknotesIcon,
+    icon: WalletIcon,
     activeMatcher: /^\/budgets\/.*$/,
   },
-  { name: 'Expenses', href: '/expenses', icon: CurrencyDollarIcon },
+  { name: 'Expenses', href: '/expenses', icon: PaymentIcon },
 ];
 
 export default function NavLinks() {
   const pathname = usePathname();
+
+  const theme = useTheme();
+  const isMdScreen = useMediaQuery(theme.breakpoints.up('md'));
+
+  const activeIndex = links.findIndex(
+    (link) =>
+      pathname === link.href ||
+      (link.activeMatcher && pathname.match(link.activeMatcher)),
+  );
+
   return (
-    <>
-      {links.map((link) => {
-        const LinkIcon = link.icon;
-        return (
-          <Link
-            key={link.name}
-            href={link.href}
-            className={clsx(
-              'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
-              {
-                'bg-sky-100 text-blue-600':
-                  pathname === link.href ||
-                  (link.activeMatcher && pathname.match(link.activeMatcher)),
-              },
-            )}
-          >
-            <LinkIcon className="w-6" />
-            <p className="hidden md:block">{link.name}</p>
-          </Link>
-        );
-      })}
-    </>
+    <Box
+      sx={{
+        borderRight: 1,
+        borderColor: 'divider',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: { xs: 'row', sm: 'row', md: 'column' },
+      }}
+    >
+      <Tabs
+        orientation={isMdScreen ? 'vertical' : 'horizontal'}
+        value={activeIndex}
+        sx={{ padding: '0.5rem 0', flexGrow: 1 }}
+      >
+        {links.map((link) => {
+          const LinkIcon = link.icon;
+          return (
+            <Tab
+              key={link.name}
+              href={link.href}
+              icon={<LinkIcon />}
+              iconPosition="start"
+              label={link.name}
+              sx={{ minHeight: '60px', justifyContent: 'flex-start' }}
+            />
+          );
+        })}
+      </Tabs>
+      <Tabs orientation="vertical">
+        <Tab
+          label="Sign Out"
+          icon={<ExitToAppIcon />}
+          iconPosition="start"
+          onClick={async () => await signOut()}
+          sx={{ minHeight: '60px', justifyContent: 'flex-start' }}
+        />
+      </Tabs>
+    </Box>
   );
 }

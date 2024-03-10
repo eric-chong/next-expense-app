@@ -8,7 +8,8 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isBudgetPage = nextUrl.pathname.startsWith('/budgets');
-      if (isBudgetPage) {
+      const isExpensePage = nextUrl.pathname.startsWith('/expense');
+      if (isBudgetPage || isExpensePage) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {

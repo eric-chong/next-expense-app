@@ -1,12 +1,29 @@
+import Box from '@mui/material/Box';
 import SideNav from '@/app/ui/dashboard/sidenav';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-      <div className="w-full flex-none md:w-64">
+    <Box
+      sx={{
+        height: '100vh',
+        width: '100%',
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+        justifyContent: 'space-between',
+      }}
+    >
+      <Box sx={{ flexBasis: { md: '16rem' } }}>
         <SideNav />
-      </div>
-      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
-    </div>
+      </Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          padding: { sm: '1.5rem', md: '3rem' },
+          overflowY: { md: 'auto' },
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
   );
 }

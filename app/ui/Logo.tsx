@@ -6,7 +6,7 @@ export default function Logo() {
     <div
       className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
     >
-      <PaidIcon sx={{ fontSize: 40 }} />
+      <PaidIcon sx={{ fontSize: 40, marginRight: '0.5rem' }} />
       <p className="text-[34px]">Planner</p>
     </div>
   );
