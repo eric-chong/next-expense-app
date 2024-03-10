@@ -28,6 +28,7 @@ export default function NavLinks() {
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  console.log('theme.breakpoints.down("md")', theme.breakpoints.down('md'));
 
   const activeIndex =
     links.findIndex(
@@ -39,7 +40,8 @@ export default function NavLinks() {
   return (
     <Box
       sx={{
-        borderRight: 1,
+        borderRight: { md: 1 },
+        borderBottom: { xs: 1, sm: 1 },
         borderColor: 'divider',
         height: '100%',
         width: '100%',
@@ -50,7 +52,7 @@ export default function NavLinks() {
       <Tabs
         orientation={isSmallScreen ? 'horizontal' : 'vertical'}
         value={activeIndex}
-        sx={{ padding: '0.5rem 0', flexGrow: 1 }}
+        sx={{ padding: { md: '0.5rem 0' }, flexGrow: 1 }}
       >
         {links.map((link) => {
           const LinkIcon = link.icon;
@@ -66,7 +68,10 @@ export default function NavLinks() {
           );
         })}
       </Tabs>
-      <Tabs orientation="vertical" value={false}>
+      <Tabs
+        orientation={isSmallScreen ? 'horizontal' : 'vertical'}
+        value={false}
+      >
         <Tab
           label="Sign Out"
           icon={<ExitToAppIcon />}
