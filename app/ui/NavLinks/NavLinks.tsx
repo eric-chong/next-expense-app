@@ -29,11 +29,12 @@ export default function NavLinks() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const activeIndex = links.findIndex(
-    (link) =>
-      pathname === link.href ||
-      (link.activeMatcher && pathname.match(link.activeMatcher)),
-  );
+  const activeIndex =
+    links.findIndex(
+      (link) =>
+        pathname === link.href ||
+        (link.activeMatcher && pathname.match(link.activeMatcher)),
+    ) || 0;
 
   return (
     <Box
@@ -65,7 +66,7 @@ export default function NavLinks() {
           );
         })}
       </Tabs>
-      <Tabs orientation="vertical">
+      <Tabs orientation="vertical" value={false}>
         <Tab
           label="Sign Out"
           icon={<ExitToAppIcon />}
