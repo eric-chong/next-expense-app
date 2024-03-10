@@ -1,7 +1,7 @@
 'use client';
 
 import { Box } from '@mui/material';
-import NavLinks from '@/app/ui/dashboard/nav-links';
+import NavLinks from '@/app/ui/NavLinks';
 import Logo from '@/app/ui/Logo';
 import * as sc from './SideNav.styled';
 

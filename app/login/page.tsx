@@ -1,17 +1,27 @@
-import Logo from '@/app/ui/Logo';
+import { Box, Card, CardContent } from '@mui/material';
+import LogoHeader from '@/app/ui/LogoHeader';
 import LoginForm from '@/app/ui/login-form';
 
 export default function LoginPage() {
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36">
-          <div className="w-32 text-white md:w-36">
-            <Logo />
-          </div>
-        </div>
-        <LoginForm />
-      </div>
+    <main>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Card sx={{ marginTop: '1rem' }} variant="outlined">
+          <CardContent
+            sx={{
+              padding: 0,
+              '&:last-child': {
+                paddingBottom: 0,
+              },
+            }}
+          >
+            <LogoHeader />
+            <LoginForm />
+          </CardContent>
+        </Card>
+      </Box>
     </main>
   );
 }

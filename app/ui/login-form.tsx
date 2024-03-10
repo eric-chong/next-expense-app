@@ -18,7 +18,6 @@ import { lusitana } from '@/app/ui/fonts';
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
-  const status = useFormStatus();
 
   return (
     <form action={dispatch} className="space-y-3">
