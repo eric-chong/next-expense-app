@@ -81,7 +81,6 @@ function LoginButton() {
   const { pending } = useFormStatus();
   return (
     <LoadingButton
-      className="bg-blue-500" // temporary using tailwind color
       disabled={pending}
       loading={pending}
       endIcon={<LoginIcon />}
