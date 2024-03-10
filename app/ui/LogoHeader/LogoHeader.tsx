@@ -10,7 +10,6 @@ export default function LogoHeader() {
   return (
     <Box
       sx={{
-        width: '100%',
         height: '4.5rem',
         padding: '1rem',
         backgroundColor: theme.palette.primary.dark,

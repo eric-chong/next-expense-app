@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { lusitana } from '@/app/ui/fonts';
 import { Budget, BudgetItem } from '@/app/types';
 import BudgetNavigator from '../BudgetNavigator';
@@ -16,9 +17,9 @@ export default function Budgets({
 }: IBudgets) {
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+      <Typography className={`${lusitana.className}`} variant="h5">
         Budgets
-      </h1>
+      </Typography>
       {currentBudgetId ? (
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
           <BudgetNavigator budgets={budgets} budgetId={currentBudgetId} />
