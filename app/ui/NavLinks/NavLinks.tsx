@@ -27,7 +27,7 @@ export default function NavLinks() {
   const pathname = usePathname();
 
   const theme = useTheme();
-  const isMdScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const activeIndex = links.findIndex(
     (link) =>
@@ -47,7 +47,7 @@ export default function NavLinks() {
       }}
     >
       <Tabs
-        orientation={isMdScreen ? 'vertical' : 'horizontal'}
+        orientation={isSmallScreen ? 'horizontal' : 'vertical'}
         value={activeIndex}
         sx={{ padding: '0.5rem 0', flexGrow: 1 }}
       >
