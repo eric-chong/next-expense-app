@@ -1,6 +1,6 @@
 import { Box, Card, CardContent } from '@mui/material';
 import LogoHeader from '@/app/ui/LogoHeader';
-import LoginForm from '@/app/ui/login-form';
+import LoginForm from '@/app/ui/LoginForm';
 
 export default function LoginPage() {
   return (
