@@ -1,6 +1,7 @@
+'use client';
 import PaidIcon from '@mui/icons-material/Paid';
 import { lusitana } from '@/app/ui/fonts';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import * as sc from './Logo.styles';
 
 export default function Logo() {
