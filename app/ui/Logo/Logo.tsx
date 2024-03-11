@@ -1,11 +1,11 @@
 import PaidIcon from '@mui/icons-material/Paid';
 import { lusitana } from '@/app/ui/fonts';
 import { Box, Typography } from '@mui/material';
+import * as sc from './Logo.styles';
 
 export default function Logo() {
   return (
     <Box
-      className={`${lusitana.className}`}
       display="flex"
       flexDirection="row"
       lineHeight="1"
@@ -13,9 +13,7 @@ export default function Logo() {
       color="white"
     >
       <PaidIcon sx={{ fontSize: 40, marginRight: '0.5rem' }} />
-      <Typography className={`${lusitana.className}`} variant="h4">
-        Planner
-      </Typography>
+      <sc.LogoText className={`${lusitana.className}`}>Planner</sc.LogoText>
     </Box>
   );
 }

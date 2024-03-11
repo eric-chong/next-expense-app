@@ -1,4 +1,4 @@
-import { lusitana } from '@/app/ui/fonts';
+import { Typography } from '@mui/material';
 
 // Loading animation
 const shimmer =
@@ -82,9 +82,7 @@ function BudgetItemListSkeleton() {
 export default function BudgetPageSkeleton() {
   return (
     <div className="flex flex-col">
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Budgets
-      </h1>
+      <Typography variant="h5">Budgets</Typography>
       <BudgetNavigatorSkeleton />
       <div className="grow">
         <BudgetItemListSkeleton />

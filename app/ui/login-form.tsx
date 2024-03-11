@@ -15,7 +15,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import KeyIcon from '@mui/icons-material/Key';
 import LoginIcon from '@mui/icons-material/Login';
 import { authenticate } from '@/app/actions/auth';
-import { lusitana } from '@/app/ui/fonts';
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -23,11 +22,7 @@ export default function LoginForm() {
   return (
     <form action={dispatch}>
       <Box padding="2rem">
-        <Typography
-          className={`${lusitana.className}`}
-          variant="h5"
-          gutterBottom
-        >
+        <Typography variant="subtitle1" gutterBottom>
           Please log in to continue.
         </Typography>
         <Box display="flex" flexDirection="column" gap="16px" width="100%">
