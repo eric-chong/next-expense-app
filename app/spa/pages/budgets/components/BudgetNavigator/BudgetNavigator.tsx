@@ -1,9 +1,7 @@
 'use client';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import ChevronRight from '@mui/icons-material/ChevronRight';
 import { useRouter } from 'next/navigation';
 import useFormatDate from '@/app/hooks/useFormatDate';
+import Navigator from '@/app/ui/Navigator';
 import { getBudgetIndexById } from '@/app/utils/budgetHelpers';
 import { Budget } from '@/app/types';
 
@@ -27,32 +25,15 @@ export default function BudgetNavigator({
 
   const { startDate, endDate } = currentBudget;
   return (
-    <div className="flex gap-6">
-      <div className="flex grow justify-end">
-        <IconButton
-          aria-label="Previous"
-          size="small"
-          disabled={currentBudgetIndex === 0}
-          onClick={() =>
-            router.push(`/budgets/${budgets[currentBudgetIndex - 1].id}`)
-          }
-        >
-          <ChevronLeft />
-        </IconButton>
-      </div>
-      <div className="leading-9">{`${formatDate(startDate)} - ${formatDate(endDate)}`}</div>
-      <div className="flex grow justify-start">
-        <IconButton
-          aria-label="Previous"
-          size="small"
-          disabled={currentBudgetIndex === budgets.length - 1}
-          onClick={() =>
-            router.push(`/budgets/${budgets[currentBudgetIndex + 1].id}`)
-          }
-        >
-          <ChevronRight />
-        </IconButton>
-      </div>
-    </div>
+    <Navigator
+      hasPrev={currentBudgetIndex > 0}
+      onPrev={() =>
+        router.push(`/budgets/${budgets[currentBudgetIndex - 1].id}`)
+      }
+      hasNext={currentBudgetIndex < budgets.length - 1}
+      onNext={() =>
+        router.push(`/budgets/${budgets[currentBudgetIndex + 1].id}`)
+      }
+    >{`${formatDate(startDate)} - ${formatDate(endDate)}`}</Navigator>
   );
 }

@@ -7,9 +7,8 @@ export default async function Page({
 }: {
   searchParams: { date: string };
 }) {
-  const expenseItems = await fetchExpenseItemsByDate(
-    date ? new UTCDate(date) : new UTCDate(),
-  );
+  const utcDate = date ? new UTCDate(date) : new UTCDate();
+  const expenseItems = await fetchExpenseItemsByDate(utcDate);
 
-  return <ExpensesPage expenseItems={expenseItems} />;
+  return <ExpensesPage currentDate={utcDate} expenseItems={expenseItems} />;
 }
