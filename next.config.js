@@ -9,7 +9,7 @@ const nextConfig = {
       { source: '/budgets/current/:path*', destination: '/budgets/current/' },
       {
         source: '/expenses/:path*',
-        destination: '/expense',
+        destination: '/expenses/',
       },
     ];
   },

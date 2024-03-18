@@ -136,7 +136,7 @@ export default function ExpenseItemsTable({
         //   await deleteBudgetItem(budgetItemToDelete);
         // }
       }}
-      onCancel={() => navigate(`/expense`)}
+      onCancel={() => navigate(`/expenses${location.search}`)}
     />
   );
 }
