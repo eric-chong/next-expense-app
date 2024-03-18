@@ -11,7 +11,7 @@ import {
 import useCurrency from '@/app/hooks/useCurrency';
 import { newBudgetItemSchema } from '@/app/schemas/budgets';
 import { BudgetItem, NewBudgetItem } from '@/app/types';
-import { Table as MyTable } from '@/app/ui/Table';
+import { Table } from '@/app/ui/Table';
 import { Column, Footer } from '@/app/ui/Table/types';
 
 interface IBudgetItemTable {
@@ -83,7 +83,7 @@ export default function BudgetItemTable({
   }, []);
 
   return (
-    <MyTable
+    <Table
       columns={columns}
       editingItemId={itemId}
       footer={footer}

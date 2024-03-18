@@ -4,11 +4,12 @@ import { UTCDate } from '@date-fns/utc';
 import { Box, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '@/app/spa/App';
-import { ExpenseItem } from '@/app/types';
-import { MonthNavigator } from './components';
+import { BudgetItem, ExpenseItem } from '@/app/types';
+import { ExpenseItemsTable, MonthNavigator } from './components';
 // import BudgetPageSkeleton from '@/app/ui/skeletons/budgets';
 
 interface IPage {
+  budgetItems: Array<BudgetItem>;
   currentDate: UTCDate;
   expenseItems: Array<ExpenseItem>;
 }
@@ -29,7 +30,7 @@ export default function Page(props: IPage) {
   );
 }
 
-function ExpensesPage({ currentDate, expenseItems }: IPage) {
+function ExpensesPage({ budgetItems, currentDate, expenseItems }: IPage) {
   return (
     <main>
       <Box display="flex" flexDirection="column" gap="1rem">
@@ -41,7 +42,10 @@ function ExpensesPage({ currentDate, expenseItems }: IPage) {
           sx={{ flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}
         >
           <Box flexGrow="1">
-            <div>Expense item list</div>
+            <ExpenseItemsTable
+              budgetItems={budgetItems}
+              expenseItems={expenseItems}
+            />
           </Box>
           <Box flexBasis="300px">
             <div>Expense item summary</div>
