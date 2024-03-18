@@ -21,11 +21,9 @@ export default function ExpenseItemsTable({
   const navigate = useNavigate();
   const { sumAndFormatCurrent, formatCurrency } = useCurrency();
 
-  const newItemMatcher = useMatch('/budgets/new');
+  const newItemMatcher = useMatch('/expenses/items/new');
   const { itemId } = useParams();
   const { formatDate } = useFormatDate();
-
-  console.log('expenseItems', expenseItems);
 
   const columns: Array<Column> = [
     {
@@ -63,7 +61,7 @@ export default function ExpenseItemsTable({
           variant="outlined"
           size="small"
           startIcon={<AddIcon />}
-          onClick={() => navigate(`/expenses/items/new`)}
+          onClick={() => navigate(`/expenses/items/new${location.search}`)}
         >
           New
         </Button>
@@ -116,7 +114,7 @@ export default function ExpenseItemsTable({
           : undefined
       }
       onEdit={(id) => {
-        navigate(`/expenses/items/${id}/edit`);
+        navigate(`/expenses/items/${id}/edit${location.search}`);
       }}
       onSaveNew={async (newExpenseItem) => {
         console.log('save new', newExpenseItem);

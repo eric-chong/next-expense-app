@@ -7,6 +7,10 @@ const nextConfig = {
         destination: '/budgets/:budgetId/',
       },
       { source: '/budgets/current/:path*', destination: '/budgets/current/' },
+      {
+        source: '/expenses/:path*',
+        destination: '/expense',
+      },
     ];
   },
 };

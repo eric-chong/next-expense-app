@@ -20,7 +20,12 @@ const links = [
     icon: WalletIcon,
     activeMatcher: /^\/budgets\/.*$/,
   },
-  { name: 'Expenses', href: '/expenses', icon: PaymentIcon },
+  {
+    name: 'Expenses',
+    href: '/expenses',
+    icon: PaymentIcon,
+    activeMatcher: /^\/expenses\/.*$/,
+  },
 ];
 
 export default function NavLinks() {
