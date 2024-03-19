@@ -3,6 +3,7 @@ import useCurrency from '@/app/hooks/useCurrency';
 import { BudgetItem, ExpenseItem } from '@/app/types';
 import { Table } from '@/app/ui/Table';
 import { Column, Footer } from '@/app/ui/Table/types';
+import BudgetItemBalance from '../BudgetItemBalance';
 
 interface IExpenseSummaryTable {
   expenseItems: Array<ExpenseItem>;
@@ -30,7 +31,9 @@ export default function ExpenseSummaryTable({
       headerContent: 'Balance',
       name: 'balance',
       dataAlign: 'right',
-      valueFormatter: (value: number) => formatCurrency(value),
+      valueFormatter: (value: number) => {
+        return <BudgetItemBalance value={value} />;
+      },
     },
   ];
 
@@ -55,7 +58,9 @@ export default function ExpenseSummaryTable({
       align: 'right',
     },
     {
-      footerContent: sumAndFormatCurrency(rows.map((row) => row.balance)),
+      footerContent: (
+        <BudgetItemBalance value={sum(rows.map((row) => row.balance))} />
+      ),
       align: 'right',
     },
   ];

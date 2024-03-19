@@ -11,7 +11,7 @@ export type Column = {
   headerContent: string | ReactNode;
   name?: string;
   formControl?: FormControl;
-  valueFormatter?: (value: any) => string;
+  valueFormatter?: (value: any) => string | ReactNode;
   align?: Align;
   sx?: SxProps;
 };
