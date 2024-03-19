@@ -19,7 +19,7 @@ export default function ExpenseItemsTable({
   expenseItems,
 }: IExpenseItemsTable) {
   const navigate = useNavigate();
-  const { sumAndFormatCurrent, formatCurrency } = useCurrency();
+  const { sumAndFormatCurrency, formatCurrency } = useCurrency();
 
   const newItemMatcher = useMatch('/expenses/items/new');
   const { itemId } = useParams();
@@ -29,23 +29,22 @@ export default function ExpenseItemsTable({
     {
       headerContent: 'Date',
       name: 'date',
-      maxWidth: 200,
       formControl: 'date',
       valueFormatter: (value: Date) => formatDate(value) || '',
+      sx: { maxWidth: 200, minWidth: 105 },
     },
     {
       autoFocus: true,
       headerContent: 'Amount',
       name: 'amount',
-      maxWidth: 200,
       dataAlign: 'right',
       formControl: 'number',
       valueFormatter: (value: number) => formatCurrency(value),
+      sx: { maxWidth: 200 },
     },
     {
       headerContent: 'Budget Item',
       name: 'budgetItemId',
-      maxWidth: 250,
       formControl: 'select',
       valueFormatter: (value: string) => {
         const budgetItem = budgetItems.find(
@@ -53,6 +52,7 @@ export default function ExpenseItemsTable({
         );
         return budgetItem ? budgetItem.name : 'unknown';
       },
+      sx: { maxWidth: 250 },
     },
     { headerContent: 'Description', name: 'description' },
     {
@@ -66,13 +66,13 @@ export default function ExpenseItemsTable({
           New
         </Button>
       ),
-      width: 100,
+      sx: { paddingTop: '8px', paddingBottom: '8px', width: 100 },
     },
   ];
   const footer: Array<Footer> = [
     { footerContent: 'Totals:', align: 'right' },
     {
-      footerContent: sumAndFormatCurrent(
+      footerContent: sumAndFormatCurrency(
         expenseItems.map((item) => item.amount),
       ),
       align: 'right',
@@ -100,7 +100,7 @@ export default function ExpenseItemsTable({
       columns={columns}
       editingItemId={itemId}
       footer={footer}
-      minWidth={650}
+      minWidth={600}
       rows={expenseItems}
       rowDataValidator={rowDataValidator}
       newItemRow={

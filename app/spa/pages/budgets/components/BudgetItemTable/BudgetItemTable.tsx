@@ -24,7 +24,7 @@ export default function BudgetItemTable({
   currentBudgetId,
 }: IBudgetItemTable) {
   const navigate = useNavigate();
-  const { sumAndFormatCurrent, formatCurrency } = useCurrency();
+  const { sumAndFormatCurrency, formatCurrency } = useCurrency();
 
   const newItemMatcher = useMatch('/budgets/:budgetId/items/new');
   const { budgetId, itemId } = useParams();
@@ -34,16 +34,16 @@ export default function BudgetItemTable({
       autoFocus: true,
       headerContent: 'Name',
       name: 'name',
-      width: 220,
       formControl: 'text',
+      sx: { width: 220 },
     },
     {
       headerContent: 'Amount',
       name: 'amount',
-      width: 150,
       dataAlign: 'right',
       formControl: 'number',
       valueFormatter: (value: number) => formatCurrency(value),
+      sx: { width: 150 },
     },
     { headerContent: 'Description', name: 'description' },
     {
@@ -57,13 +57,13 @@ export default function BudgetItemTable({
           New
         </Button>
       ),
-      width: 100,
+      sx: { width: 100 },
     },
   ];
   const footer: Array<Footer> = [
     { footerContent: 'Totals:', align: 'right' },
     {
-      footerContent: sumAndFormatCurrent(
+      footerContent: sumAndFormatCurrency(
         budgetItems.map((item) => item.amount),
       ),
       align: 'right',

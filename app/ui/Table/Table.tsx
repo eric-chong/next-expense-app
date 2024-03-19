@@ -13,15 +13,15 @@ import { Column, Footer } from './types';
 
 interface ITable {
   columns: Array<Column>;
-  editingItemId: string | undefined;
-  footer: Array<Footer>;
-  minWidth: number;
-  newItemRow: any;
-  onCancel: () => void;
-  onDelete: (row: any) => void;
-  onEdit: (id: string) => void;
-  onSave: (row: any) => void;
-  onSaveNew: (row: any) => void;
+  editingItemId?: string | undefined;
+  footer?: Array<Footer>;
+  minWidth?: number;
+  newItemRow?: any;
+  onCancel?: () => void;
+  onDelete?: (row: any) => void;
+  onEdit?: (id: string) => void;
+  onSave?: (row: any) => void;
+  onSaveNew?: (row: any) => void;
   rowDataValidator?: (row: any) => {
     success: boolean;
     errors: Array<string | number>;
@@ -63,7 +63,9 @@ export default function Table({
             />
           )}
           {rows.map((row) => {
-            const isEditing: boolean = row.id === editingItemId;
+            const isEditing: boolean = editingItemId
+              ? row.id === editingItemId
+              : false;
             return (
               <EditableTableRow
                 key={row.id}
@@ -79,7 +81,7 @@ export default function Table({
             );
           })}
         </MuiTableBody>
-        <TableFooter footer={footer} />
+        {footer ? <TableFooter footer={footer} /> : null}
       </MuiTable>
     </MuiTableContainer>
   );

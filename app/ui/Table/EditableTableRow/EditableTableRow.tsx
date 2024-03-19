@@ -7,10 +7,10 @@ import { Column } from '../types';
 interface IEditableTableRow {
   columns: Array<Column>;
   isEditing: boolean;
-  onSave: (row: any) => void;
-  onCancel: () => void;
-  onDelete: (row: any) => void;
-  onEdit: (id: string) => void;
+  onSave?: (row: any) => void;
+  onCancel?: () => void;
+  onDelete?: (row: any) => void;
+  onEdit?: (id: string) => void;
   row: any;
   rowDataValidator?: (row: any) => {
     success: boolean;
@@ -32,7 +32,7 @@ export default function EditableTableRow({
   const [errorFields, setErrorFields] = useState<Array<string | number>>([]);
 
   const handleSave = useCallback(() => {
-    if (rowDataValidator) {
+    if (rowDataValidator && onSave) {
       const { success, errors } = rowDataValidator(editingData.current);
       if (!success) {
         setErrorFields(errors);
@@ -45,11 +45,11 @@ export default function EditableTableRow({
 
   const handleEdit = useCallback(() => {
     const { id } = row;
-    onEdit(id);
+    if (onEdit) onEdit(id);
   }, [row, onEdit]);
 
   const handleDelete = useCallback(() => {
-    onDelete(row);
+    if (onDelete) onDelete(row);
   }, [row, onDelete]);
 
   const handleValueChange = useCallback((name: any, value: any) => {
@@ -77,13 +77,15 @@ export default function EditableTableRow({
           />
         ) : null;
       })}
-      <TableRowActionButtons
-        isEditing={isEditing}
-        onSave={handleSave}
-        onCancel={onCancel}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      {onEdit && onCancel ? (
+        <TableRowActionButtons
+          isEditing={isEditing}
+          onSave={handleSave}
+          onCancel={onCancel}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      ) : null}
     </MuiTableRow>
   );
 }

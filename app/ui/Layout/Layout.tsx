@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         justifyContent: 'space-between',
       }}
     >
-      <Box sx={{ flexBasis: { md: '16rem' } }}>
+      <Box sx={{ flexBasis: { md: '13rem' } }}>
         <SideNav />
       </Box>
       <Box

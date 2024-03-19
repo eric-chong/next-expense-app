@@ -1,3 +1,4 @@
+import { SxProps } from '@mui/material';
 import { ReactNode } from 'react';
 
 type Align = 'center' | 'right' | 'left' | 'inherit' | 'justify' | undefined;
@@ -8,12 +9,11 @@ export type Column = {
   autoFocus?: boolean;
   dataAlign?: Align;
   headerContent: string | ReactNode;
-  maxWidth?: number;
   name?: string;
   formControl?: FormControl;
   valueFormatter?: (value: any) => string;
-  width?: number;
   align?: Align;
+  sx?: SxProps;
 };
 
 export type Footer = {

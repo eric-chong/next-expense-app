@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '@/app/spa/App';
 import { BudgetItem, ExpenseItem } from '@/app/types';
 import { ExpenseItemsTable, MonthNavigator } from './components';
+import ExpenseSummaryTable from './components/ExpenseSummaryTable';
 // import BudgetPageSkeleton from '@/app/ui/skeletons/budgets';
 
 interface IPage {
@@ -56,7 +57,10 @@ function ExpensesPage({ budgetItems, currentDate, expenseItems }: IPage) {
             />
           </Box>
           <Box flexBasis="40%">
-            <div>Expense item summary</div>
+            <ExpenseSummaryTable
+              budgetItems={budgetItems}
+              expenseItems={expenseItems}
+            />
           </Box>
         </Box>
       </Box>
