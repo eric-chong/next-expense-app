@@ -55,7 +55,7 @@ function ExpensesPage({ budgetItems, currentDate, expenseItems }: IPage) {
               expenseItems={expenseItems}
             />
           </Box>
-          <Box flexBasis="300px">
+          <Box flexBasis="40%">
             <div>Expense item summary</div>
           </Box>
         </Box>

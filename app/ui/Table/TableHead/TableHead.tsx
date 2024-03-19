@@ -13,9 +13,9 @@ export default function TableHead({ columns }: ITableHead) {
   return (
     <MuiTableHead>
       <MuiTableRow>
-        {columns.map(({ headerContent, width }, index) => {
+        {columns.map(({ headerContent, maxWidth, width }, index) => {
           return (
-            <MuiTableCell key={index} sx={{ width }}>
+            <MuiTableCell key={index} sx={{ maxWidth, width }}>
               {headerContent}
             </MuiTableCell>
           );

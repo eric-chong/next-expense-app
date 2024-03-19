@@ -29,7 +29,7 @@ export default function ExpenseItemsTable({
     {
       headerContent: 'Date',
       name: 'date',
-      width: 120,
+      maxWidth: 200,
       formControl: 'date',
       valueFormatter: (value: Date) => formatDate(value) || '',
     },
@@ -37,7 +37,7 @@ export default function ExpenseItemsTable({
       autoFocus: true,
       headerContent: 'Amount',
       name: 'amount',
-      width: 120,
+      maxWidth: 200,
       dataAlign: 'right',
       formControl: 'number',
       valueFormatter: (value: number) => formatCurrency(value),
@@ -45,7 +45,7 @@ export default function ExpenseItemsTable({
     {
       headerContent: 'Budget Item',
       name: 'budgetItemId',
-      width: 150,
+      maxWidth: 250,
       formControl: 'select',
       valueFormatter: (value: string) => {
         const budgetItem = budgetItems.find(

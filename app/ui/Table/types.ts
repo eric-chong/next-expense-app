@@ -8,6 +8,7 @@ export type Column = {
   autoFocus?: boolean;
   dataAlign?: Align;
   headerContent: string | ReactNode;
+  maxWidth?: number;
   name?: string;
   formControl?: FormControl;
   valueFormatter?: (value: any) => string;
