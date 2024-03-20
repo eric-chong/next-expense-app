@@ -35,6 +35,7 @@ export default function EditableTableCell({
       {isEditing ? (
         <TableCellField
           autoFocus={autoFocus}
+          column={column}
           name={name}
           hasError={hasError}
           fieldType={formControl}

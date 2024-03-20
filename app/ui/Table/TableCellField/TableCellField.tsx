@@ -2,7 +2,8 @@ import React from 'react';
 import { UTCDate } from '@date-fns/utc';
 import { TextField as MuiTextField } from '@mui/material';
 import DateField from './DateField';
-import { FormControl } from '../types';
+import SelectField from './SelectField';
+import { Column, FormControl } from '../types';
 
 interface ITableCellField {
   fieldType: FormControl;
@@ -10,6 +11,7 @@ interface ITableCellField {
 
 export interface IBaseCellField {
   autoFocus: boolean;
+  column: Column;
   name?: string;
   hasError: boolean;
   value: any;
@@ -70,6 +72,8 @@ export default function TableCellField({
       return <NumberField {...otherProps} />;
     case 'date':
       return <DateField {...otherProps} />;
+    case 'select':
+      return <SelectField {...otherProps} />;
     default:
       return <TextField {...otherProps} />;
   }

@@ -13,6 +13,7 @@ export type Column = {
   formControl?: FormControl;
   valueFormatter?: (value: any) => string | ReactNode;
   align?: Align;
+  selectOptions?: Array<any>;
   sx?: SxProps;
 };
 

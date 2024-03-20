@@ -47,6 +47,7 @@ export default function ExpenseItemsTable({
       headerContent: 'Budget Item',
       name: 'budgetItemId',
       formControl: 'select',
+      selectOptions: budgetItems,
       valueFormatter: (value: string) => {
         const budgetItem = budgetItems.find(
           (budgetItem: BudgetItem) => budgetItem.id === value,
