@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { UTCDate } from '@date-fns/utc';
 import { TableCell as MuiTableCell } from '@mui/material';
 import TableCellField from '../TableCellField';
 
@@ -9,7 +10,7 @@ interface IEditableTableCell {
   column: Column;
   hasError: boolean;
   isEditing: boolean;
-  onChange: (value: string | number) => void;
+  onChange: (value: string | number | UTCDate | undefined) => void;
   value: any;
 }
 

@@ -25,13 +25,14 @@ export default function ExpenseItemsTable({
   const { itemId } = useParams();
   const { formatDate } = useFormatDate();
 
+  const isNewOrEditing = !!newItemMatcher || !!itemId;
   const columns: Array<Column> = [
     {
       headerContent: 'Date',
       name: 'date',
       formControl: 'date',
       valueFormatter: (value: Date) => formatDate(value) || '',
-      sx: { maxWidth: 200, minWidth: 105 },
+      sx: { maxWidth: 200, minWidth: isNewOrEditing ? 155 : 105 },
     },
     {
       autoFocus: true,
