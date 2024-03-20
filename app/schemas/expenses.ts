@@ -4,7 +4,7 @@ export const expenseItemSchema = z.object({
   id: z.string().uuid(),
   date: z.date(),
   amount: z.coerce.number().nonnegative(),
-  description: z.string().max(100).optional(),
+  description: z.nullable(z.string().max(100).optional()),
   budgetItemId: z.string().uuid(),
   userId: z.string().uuid(),
 });
