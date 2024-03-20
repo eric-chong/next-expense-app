@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
+import { UTCDate } from '@date-fns/utc';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
-import { format } from 'date-fns';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import useCurrency from '@/app/hooks/useCurrency';
 import useFormatDate from '@/app/hooks/useFormatDate';
+import { newExpenseItemSchema } from '@/app/schemas/expenses';
 import { BudgetItem, ExpenseItem } from '@/app/types';
 import { Table } from '@/app/ui/Table';
 import { Column, Footer } from '@/app/ui/Table/types';
@@ -82,18 +83,14 @@ export default function ExpenseItemsTable({
   ];
 
   const rowDataValidator = useCallback((data: any) => {
-    // const result = newBudgetItemSchema.safeParse(data);
-    // let errors: Array<string | number> = [];
-    // if (!result.success) {
-    //   errors = result.error.issues.map((issue) => issue.path).flat();
-    // }
-    // return {
-    //   success: result.success,
-    //   errors,
-    // };
+    const result = newExpenseItemSchema.safeParse(data);
+    let errors: Array<string | number> = [];
+    if (!result.success) {
+      errors = result.error.issues.map((issue) => issue.path).flat();
+    }
     return {
-      success: true,
-      errors: [],
+      success: result.success,
+      errors,
     };
   }, []);
 
@@ -108,10 +105,10 @@ export default function ExpenseItemsTable({
       newItemRow={
         newItemMatcher
           ? {
-              date: format(new Date(), 'yyyy-MM-dd'),
+              date: new UTCDate(),
               amount: 0,
               description: '',
-              budgetItemId: undefined,
+              budgetItemId: '',
             }
           : undefined
       }
