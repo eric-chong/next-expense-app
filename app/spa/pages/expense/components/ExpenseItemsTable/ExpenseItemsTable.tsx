@@ -3,10 +3,11 @@ import { UTCDate } from '@date-fns/utc';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
+import { insertExpenseItem } from '@/app/actions/expenses';
 import useCurrency from '@/app/hooks/useCurrency';
 import useFormatDate from '@/app/hooks/useFormatDate';
 import { newExpenseItemSchema } from '@/app/schemas/expenses';
-import { BudgetItem, ExpenseItem } from '@/app/types';
+import { BudgetItem, ExpenseItem, NewExpenseItem } from '@/app/types';
 import { Table } from '@/app/ui/Table';
 import { Column, Footer } from '@/app/ui/Table/types';
 
@@ -117,10 +118,10 @@ export default function ExpenseItemsTable({
       }}
       onSaveNew={async (newExpenseItem) => {
         console.log('save new', newExpenseItem);
-        // if (newBudgetItem) {
-        //   await insertBudgetItem(newBudgetItem as NewBudgetItem);
-        //   navigate(`/budgets/${budgetId}`);
-        // }
+        if (newExpenseItem) {
+          await insertExpenseItem(newExpenseItem as NewExpenseItem);
+          navigate(`/expenses${location.search}`);
+        }
       }}
       onSave={async (expenseItemToUpdate) => {
         console.log('save', expenseItemToUpdate);
