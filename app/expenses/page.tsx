@@ -1,4 +1,3 @@
-import { UTCDate } from '@date-fns/utc';
 import { fetchExpenseItemsByDate } from '@/app/data/expenses';
 import ExpensesPage from '@/app/spa/pages/expense';
 import { fetchBudgetsDataByDate } from '../data/budgets';
@@ -8,7 +7,7 @@ export default async function Page({
 }: {
   searchParams: { date: string };
 }) {
-  const utcDate = date ? new UTCDate(date) : new UTCDate();
+  const utcDate = date ? new Date(date) : new Date();
   const [expenseItems, { budgetItems }] = await Promise.all([
     fetchExpenseItemsByDate(utcDate),
     fetchBudgetsDataByDate(utcDate),

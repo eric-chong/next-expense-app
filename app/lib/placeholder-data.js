@@ -1,4 +1,5 @@
-import { UTCDate as Date } from '@date-fns/utc';
+// import { UTCDate } from '@date-fns/utc';
+const { UTCDate } = require('@date-fns/utc');
 
 // This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
 // https://nextjs.org/learn/dashboard-app/fetching-data
@@ -14,14 +15,14 @@ const users = [
 const budgets = [
   {
     id: 'f1927dc7-8453-4948-846a-ab07cad5aa02',
-    startDate: new Date('2023-01-01'),
-    endDate: new Date('2023-12-31'),
+    startDate: new UTCDate(new Date('2023-01-01')),
+    endDate: new UTCDate(new Date('2023-12-31')),
     userId: users[0].id,
   },
   {
     id: 'f2e4d51b-ec94-4a72-bdc0-7d37c0dd3ea5',
-    startDate: new Date('2024-01-01'),
-    endDate: new Date('2024-12-31'),
+    startDate: new UTCDate(new Date('2024-01-01')),
+    endDate: new UTCDate(new Date('2024-12-31')),
     userId: users[0].id,
   },
 ];
@@ -122,7 +123,7 @@ const budgetItems = [
 const expenseItems = [
   {
     id: 'b28b040b-4d87-4d3b-9015-bf1778421315',
-    date: new Date('2024-02-01'),
+    date: new UTCDate(new Date('2024-02-01')),
     amount: 16000,
     description: null,
     budgetItemId: carInsuranceBudgetItem.id,
@@ -130,7 +131,7 @@ const expenseItems = [
   },
   {
     id: 'a9d9de4b-0811-4f11-83fd-6d1a59e6a595',
-    date: new Date('2024-02-01'),
+    date: new UTCDate(new Date('2024-02-01')),
     amount: 36000,
     description: null,
     budgetItemId: propertyTaxBudgetItem.id,
@@ -138,7 +139,7 @@ const expenseItems = [
   },
   {
     id: '2532852b-a074-43a2-8538-f9da738b437a',
-    date: new Date('2024-02-01'),
+    date: new UTCDate(new Date('2024-02-01')),
     amount: 22467,
     description: null,
     budgetItemId: fortisBudgetItem.id,
@@ -146,7 +147,7 @@ const expenseItems = [
   },
   {
     id: 'b1c55332-949e-4d77-94c5-27a1bdf9866b',
-    date: new Date('2024-02-01'),
+    date: new UTCDate(new Date('2024-02-01')),
     amount: 5795,
     description: 'YY birthday cake',
     budgetItemId: mealOutBudgetItem.id,
@@ -154,7 +155,7 @@ const expenseItems = [
   },
   {
     id: '493a685b-2b1d-42a6-bed5-6555109fcc3f',
-    date: new Date('2024-02-01'),
+    date: new UTCDate(new Date('2024-02-01')),
     amount: 4242,
     description: 'Walmart',
     budgetItemId: groceryBudgetItem.id,
@@ -162,7 +163,7 @@ const expenseItems = [
   },
   {
     id: '01389294-7018-4f2a-95fb-eb1b5d5350b8',
-    date: new Date('2024-02-02'),
+    date: new UTCDate(new Date('2024-02-02')),
     amount: 1776,
     description: 'Lost in 50s',
     budgetItemId: mealOutBudgetItem.id,
@@ -170,7 +171,7 @@ const expenseItems = [
   },
   {
     id: '1d710aeb-bcd2-423b-87d3-d303503a315c',
-    date: new Date('2024-02-03'),
+    date: new UTCDate(new Date('2024-02-03')),
     amount: 8400,
     description: 'Shaw',
     budgetItemId: shawBudgetItem.id,
@@ -178,7 +179,7 @@ const expenseItems = [
   },
   {
     id: 'd994401d-c8cb-421a-a4a5-77aac3b13f07',
-    date: new Date('2024-02-02'),
+    date: new UTCDate(new Date('2024-02-02')),
     amount: 4300,
     description: 'Congee noodles house',
     budgetItemId: mealOutBudgetItem.id,
@@ -186,7 +187,7 @@ const expenseItems = [
   },
   {
     id: '9f0043b6-3c49-4591-8a20-60ca201dabaa',
-    date: new Date('2024-02-03'),
+    date: new UTCDate(new Date('2024-02-03')),
     amount: 1900,
     description: 'Maxim',
     budgetItemId: mealOutBudgetItem.id,
@@ -194,7 +195,7 @@ const expenseItems = [
   },
   {
     id: '92735887-afec-495b-946c-6feeaca0e689',
-    date: new Date('2024-02-03'),
+    date: new UTCDate(new Date('2024-02-03')),
     amount: 1500,
     description: "McDonald's",
     budgetItemId: mealOutBudgetItem.id,

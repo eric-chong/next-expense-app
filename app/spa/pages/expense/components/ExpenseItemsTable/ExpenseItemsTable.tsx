@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { UTCDate } from '@date-fns/utc';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
@@ -13,11 +12,13 @@ import { Column, Footer } from '@/app/ui/Table/types';
 
 interface IExpenseItemsTable {
   budgetItems: Array<BudgetItem>;
+  currentDate: Date;
   expenseItems: Array<ExpenseItem>;
 }
 
 export default function ExpenseItemsTable({
   budgetItems,
+  currentDate,
   expenseItems,
 }: IExpenseItemsTable) {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ export default function ExpenseItemsTable({
       newItemRow={
         newItemMatcher
           ? {
-              date: new UTCDate(),
+              date: currentDate,
               amount: 0,
               description: '',
               budgetItemId: '',

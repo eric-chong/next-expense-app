@@ -1,6 +1,5 @@
 'use client';
 
-import { UTCDate } from '@date-fns/utc';
 import { Box, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '@/app/spa/App';
@@ -11,7 +10,7 @@ import ExpenseSummaryTable from './components/ExpenseSummaryTable';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
-  currentDate: UTCDate;
+  currentDate: Date;
   expenseItems: Array<ExpenseItem>;
 }
 
@@ -52,6 +51,7 @@ function ExpensesPage({ budgetItems, currentDate, expenseItems }: IPage) {
         >
           <Box flexGrow="1">
             <ExpenseItemsTable
+              currentDate={currentDate}
               budgetItems={budgetItems}
               expenseItems={expenseItems}
             />

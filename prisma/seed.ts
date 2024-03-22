@@ -9,6 +9,27 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
+async function deleteAllData() {
+  try {
+    const deleteExpenseItems = prisma.expenseItem.deleteMany();
+    const deleteBudgetItems = prisma.budgetItem.deleteMany();
+    const deleteBudgets = prisma.budget.deleteMany();
+    const deleteUsers = prisma.user.deleteMany();
+
+    // The transaction runs synchronously so deleteUsers must run last.
+    await prisma.$transaction([
+      deleteExpenseItems,
+      deleteBudgetItems,
+      deleteBudgets,
+      deleteUsers,
+    ]);
+
+    console.log('Deleted data successfully');
+  } catch (e) {
+    console.log(`Error deleting data": ${e}`);
+  }
+}
+
 async function seedUsers() {
   try {
     const usersToCreate = await Promise.all(
@@ -67,6 +88,7 @@ async function seedExpenseItems() {
 }
 
 async function main() {
+  await deleteAllData();
   await seedUsers();
   await seedBudgets();
   await seedBudgetItems();
