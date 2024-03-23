@@ -1,5 +1,5 @@
 'use client';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -26,6 +26,8 @@ export default function BudgetItemTable({
   const navigate = useNavigate();
   const { sumAndFormatCurrency, formatCurrency } = useCurrency();
 
+  const [isMutating, setIsMutating] = useState(false);
+
   const newItemMatcher = useMatch('/budgets/:budgetId/items/new');
   const { budgetId, itemId } = useParams();
 
@@ -49,6 +51,7 @@ export default function BudgetItemTable({
     {
       headerContent: (
         <Button
+          disabled={isMutating}
           variant="outlined"
           size="small"
           startIcon={<AddIcon />}
@@ -87,6 +90,7 @@ export default function BudgetItemTable({
       columns={columns}
       editingItemId={itemId}
       footer={footer}
+      isActionsDisabled={isMutating}
       minWidth={650}
       rows={budgetItems}
       rowDataValidator={rowDataValidator}
@@ -105,19 +109,25 @@ export default function BudgetItemTable({
       }}
       onSaveNew={async (newBudgetItem) => {
         if (newBudgetItem) {
+          setIsMutating(true);
           await insertBudgetItem(newBudgetItem as NewBudgetItem);
+          setIsMutating(false);
           navigate(`/budgets/${budgetId}`);
         }
       }}
       onSave={async (budgetItemToUpdate) => {
         if (budgetItemToUpdate) {
+          setIsMutating(true);
           await updateBudgetItem(budgetItemToUpdate as BudgetItem);
+          setIsMutating(false);
           navigate(`/budgets/${budgetId}`);
         }
       }}
       onDelete={async (budgetItemToDelete) => {
         if (budgetItemToDelete) {
+          setIsMutating(true);
           await deleteBudgetItem(budgetItemToDelete);
+          setIsMutating(false);
         }
       }}
       onCancel={() => navigate(`/budgets/${budgetId}`)}

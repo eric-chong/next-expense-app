@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
@@ -27,6 +27,8 @@ export default function ExpenseItemsTable({
 }: IExpenseItemsTable) {
   const navigate = useNavigate();
   const { sumAndFormatCurrency, formatCurrency } = useCurrency();
+
+  const [isMutating, setIsMutating] = useState(false);
 
   const newItemMatcher = useMatch('/expenses/items/new');
   const { itemId } = useParams();
@@ -67,6 +69,7 @@ export default function ExpenseItemsTable({
     {
       headerContent: (
         <Button
+          disabled={isMutating}
           variant="outlined"
           size="small"
           startIcon={<AddIcon />}
@@ -105,6 +108,7 @@ export default function ExpenseItemsTable({
       columns={columns}
       editingItemId={itemId}
       footer={footer}
+      isActionsDisabled={isMutating}
       minWidth={600}
       rows={expenseItems}
       rowDataValidator={rowDataValidator}
@@ -123,19 +127,25 @@ export default function ExpenseItemsTable({
       }}
       onSaveNew={async (newExpenseItem) => {
         if (newExpenseItem) {
+          setIsMutating(true);
           await insertExpenseItem(newExpenseItem as NewExpenseItem);
+          setIsMutating(false);
           navigate(`/expenses${location.search}`);
         }
       }}
       onSave={async (expenseItemToUpdate) => {
         if (expenseItemToUpdate) {
+          setIsMutating(true);
           await updateExpenseItem(expenseItemToUpdate as ExpenseItem);
+          setIsMutating(false);
           navigate(`/expenses${location.search}`);
         }
       }}
       onDelete={async (expenseItemToDelete) => {
         if (expenseItemToDelete) {
+          setIsMutating(true);
           await deleteExpenseItem(expenseItemToDelete);
+          setIsMutating(false);
         }
       }}
       onCancel={() => navigate(`/expenses${location.search}`)}

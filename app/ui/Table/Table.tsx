@@ -15,6 +15,7 @@ interface ITable {
   columns: Array<Column>;
   editingItemId?: string | undefined;
   footer?: Array<Footer>;
+  isActionsDisabled?: boolean;
   minWidth?: number;
   newItemRow?: any;
   onCancel?: () => void;
@@ -33,6 +34,7 @@ export default function Table({
   columns,
   editingItemId,
   footer,
+  isActionsDisabled,
   minWidth,
   newItemRow,
   onCancel,
@@ -72,6 +74,7 @@ export default function Table({
                 columns={columns}
                 row={row}
                 rowDataValidator={rowDataValidator}
+                isActionsDisabled={isActionsDisabled}
                 isEditing={isEditing}
                 onEdit={onEdit}
                 onSave={onSave}

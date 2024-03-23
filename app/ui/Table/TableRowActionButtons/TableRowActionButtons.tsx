@@ -8,6 +8,7 @@ import {
 import { IconButton, TableCell as MuiTableCell } from '@mui/material';
 
 interface ITableRowActionButtons {
+  isActionsDisabled?: boolean;
   isEditing: boolean;
   onCancel: () => void;
   onDelete: () => void;
@@ -15,6 +16,7 @@ interface ITableRowActionButtons {
   onSave: () => void;
 }
 export default function TableRowActionButtons({
+  isActionsDisabled,
   isEditing,
   onCancel,
   onDelete,
@@ -28,6 +30,7 @@ export default function TableRowActionButtons({
           <IconButton
             aria-label="Save"
             color="success"
+            disabled={isActionsDisabled}
             size="small"
             onClick={onSave}
           >
@@ -36,6 +39,7 @@ export default function TableRowActionButtons({
           <IconButton
             aria-label="Cancel"
             color="error"
+            disabled={isActionsDisabled}
             size="small"
             onClick={onCancel}
           >
@@ -44,10 +48,20 @@ export default function TableRowActionButtons({
         </>
       ) : (
         <>
-          <IconButton aria-label="Edit" size="small" onClick={onEdit}>
+          <IconButton
+            aria-label="Edit"
+            disabled={isActionsDisabled}
+            size="small"
+            onClick={onEdit}
+          >
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="Delete" size="small" onClick={onDelete}>
+          <IconButton
+            aria-label="Delete"
+            disabled={isActionsDisabled}
+            size="small"
+            onClick={onDelete}
+          >
             <DeleteIcon />
           </IconButton>
         </>

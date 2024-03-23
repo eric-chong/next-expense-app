@@ -6,6 +6,7 @@ import { Column } from '../types';
 
 interface IEditableTableRow {
   columns: Array<Column>;
+  isActionsDisabled?: boolean;
   isEditing: boolean;
   onSave?: (row: any) => void;
   onCancel?: () => void;
@@ -20,6 +21,7 @@ interface IEditableTableRow {
 
 export default function EditableTableRow({
   columns,
+  isActionsDisabled,
   isEditing,
   onCancel,
   onDelete,
@@ -79,6 +81,7 @@ export default function EditableTableRow({
       })}
       {onEdit && onCancel ? (
         <TableRowActionButtons
+          isActionsDisabled={isActionsDisabled}
           isEditing={isEditing}
           onSave={handleSave}
           onCancel={onCancel}
