@@ -62,13 +62,13 @@ export default function Table({
               onCancel={onCancel}
             />
           )}
-          {rows.map((row) => {
+          {rows.map((row, index) => {
             const isEditing: boolean = editingItemId
               ? row.id === editingItemId
               : false;
             return (
               <EditableTableRow
-                key={row.id}
+                key={row.id || index}
                 columns={columns}
                 row={row}
                 rowDataValidator={rowDataValidator}
