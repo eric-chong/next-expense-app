@@ -1,6 +1,5 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { ExpenseItem, NewExpenseItem } from '@/app/types';
 import {
@@ -8,8 +7,7 @@ import {
   newExpenseItemSchema,
 } from '@/app/schemas/expenses';
 import { user } from '@/auth';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/prismaClient';
 
 export async function insertExpenseItem(newExpenseItem: NewExpenseItem) {
   const parseNewExpenseItem = newExpenseItemSchema.safeParse({

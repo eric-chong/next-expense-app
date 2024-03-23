@@ -1,12 +1,10 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { BudgetItem, NewBudgetItem } from '@/app/types';
 import { budgetItemSchema, newBudgetItemSchema } from '@/app/schemas/budgets';
 import { user } from '@/auth';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/prismaClient';
 
 export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
   const parseNewBudgetItem = newBudgetItemSchema.safeParse({
