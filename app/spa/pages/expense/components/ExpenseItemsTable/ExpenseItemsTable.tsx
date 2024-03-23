@@ -2,7 +2,11 @@ import React, { useCallback } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
-import { insertExpenseItem, updateExpenseItem } from '@/app/actions/expenses';
+import {
+  deleteExpenseItem,
+  insertExpenseItem,
+  updateExpenseItem,
+} from '@/app/actions/expenses';
 import useCurrency from '@/app/hooks/useCurrency';
 import useFormatDate from '@/app/hooks/useFormatDate';
 import { newExpenseItemSchema } from '@/app/schemas/expenses';
@@ -126,15 +130,13 @@ export default function ExpenseItemsTable({
       onSave={async (expenseItemToUpdate) => {
         if (expenseItemToUpdate) {
           await updateExpenseItem(expenseItemToUpdate as ExpenseItem);
-          //   await updateBudgetItem(budgetItemToUpdate as BudgetItem);
           navigate(`/expenses${location.search}`);
         }
       }}
       onDelete={async (expenseItemToDelete) => {
-        console.log('delete', expenseItemToDelete);
-        // if (budgetItemToDelete) {
-        //   await deleteBudgetItem(budgetItemToDelete);
-        // }
+        if (expenseItemToDelete) {
+          await deleteExpenseItem(expenseItemToDelete);
+        }
       }}
       onCancel={() => navigate(`/expenses${location.search}`)}
     />

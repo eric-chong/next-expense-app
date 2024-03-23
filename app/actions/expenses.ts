@@ -68,3 +68,23 @@ export async function updateExpenseItem(expenseItem: ExpenseItem) {
 
   revalidatePath('/expenses');
 }
+
+export async function deleteExpenseItem(expenseItem: ExpenseItem) {
+  const parsedExpenseItem = expenseItemSchema.safeParse(expenseItem);
+  if (!parsedExpenseItem.success) {
+    return {
+      errors: parsedExpenseItem.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to delete budget item.',
+    };
+  }
+
+  const { id } = parsedExpenseItem.data;
+
+  try {
+    await prisma.expenseItem.delete({ where: { id } });
+  } catch (e) {
+    return { message: 'Database Error: Failed to delete budget_items.' };
+  }
+
+  revalidatePath('/expenses');
+}
