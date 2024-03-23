@@ -37,3 +37,34 @@ export async function insertExpenseItem(newExpenseItem: NewExpenseItem) {
 
   revalidatePath('/expenses');
 }
+
+export async function updateExpenseItem(expenseItem: ExpenseItem) {
+  const parsedExpenseItem = expenseItemSchema.safeParse(expenseItem);
+
+  if (!parsedExpenseItem.success) {
+    return {
+      errors: parsedExpenseItem.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to update expense item.',
+    };
+  }
+
+  const { id, date, amount, description, budgetItemId, userId } =
+    parsedExpenseItem.data;
+  const amountInCents = amount * 100;
+
+  try {
+    await prisma.expenseItem.update({
+      where: { id, userId },
+      data: {
+        date,
+        amount: amountInCents,
+        description,
+        budgetItemId,
+      },
+    });
+  } catch (e) {
+    return { message: 'Database Error: Failed to Update expense_items.' };
+  }
+
+  revalidatePath('/expenses');
+}
