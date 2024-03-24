@@ -5,7 +5,7 @@ const { UTCDate } = require('@date-fns/utc');
 // https://nextjs.org/learn/dashboard-app/fetching-data
 const users = [
   {
-    id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    id: 'clu62znt2000008l429qz1cwu',
     name: 'Demo User',
     email: 'user@nextmail.com',
     password: '123456',
@@ -14,13 +14,13 @@ const users = [
 
 const budgets = [
   {
-    id: 'f1927dc7-8453-4948-846a-ab07cad5aa02',
+    id: 'clu6301bl000108l49gkx2lfv',
     startDate: new UTCDate(new Date('2023-01-01')),
     endDate: new UTCDate(new Date('2023-12-31')),
     userId: users[0].id,
   },
   {
-    id: 'f2e4d51b-ec94-4a72-bdc0-7d37c0dd3ea5',
+    id: 'clu6307ed000208l44nbx198p',
     startDate: new UTCDate(new Date('2024-01-01')),
     endDate: new UTCDate(new Date('2024-12-31')),
     userId: users[0].id,
@@ -28,7 +28,7 @@ const budgets = [
 ];
 
 const mortgageBudgetItem = {
-  id: 'd3d4c1c9-c58b-4f0c-a653-894c80d8312f',
+  id: 'clu630j7a000308l4gw7pdazq',
   name: 'Mortgage',
   description: 'Mortgage payment',
   amount: 377443,
@@ -36,7 +36,7 @@ const mortgageBudgetItem = {
   userId: users[0].id,
 };
 const carInsuranceBudgetItem = {
-  id: 'a298600f-8f57-4742-b59f-967b2a0b0ecd',
+  id: 'clu630sic000008l7013jfn6m',
   name: 'Car Insurance',
   description: 'Car insurance monthly set aside',
   amount: 16000,
@@ -44,7 +44,7 @@ const carInsuranceBudgetItem = {
   userId: users[0].id,
 };
 const gasBudgetItem = {
-  id: 'c8901b26-bd00-4ac5-aa3c-421ac178a80a',
+  id: 'clu6312w7000208l774ur8gl0',
   name: 'Gas',
   description: 'Gas fill up',
   amount: 44000,
@@ -52,7 +52,7 @@ const gasBudgetItem = {
   userId: users[0].id,
 };
 const mealOutBudgetItem = {
-  id: 'f0d1daac-f598-40c2-82a6-9da2d233e71a',
+  id: 'clu6318ss000308l70nbdfdx6',
   name: 'Meal Out',
   description: 'Meal out at restaurants',
   amount: 85000,
@@ -60,7 +60,7 @@ const mealOutBudgetItem = {
   userId: users[0].id,
 };
 const propertyTaxBudgetItem = {
-  id: '8aa91e25-41d6-4ec2-a4d0-a3e9a431f059',
+  id: 'clu631g2i000408l79elgb1dz',
   name: 'Property Tax',
   description: 'Property tax monthly set aside',
   amount: 36000,
@@ -68,7 +68,7 @@ const propertyTaxBudgetItem = {
   userId: users[0].id,
 };
 const bcHydroBudgetItem = {
-  id: '6eed184e-ef3d-4d12-b8b6-6c74a0a471ac',
+  id: 'clu631l75000508l72wey3un0',
   name: 'BC Hydro',
   description: 'BC Hydro payment',
   amount: 6500,
@@ -76,7 +76,7 @@ const bcHydroBudgetItem = {
   userId: users[0].id,
 };
 const fortisBudgetItem = {
-  id: 'b59124ce-1468-4416-a80d-92a56d89afbd',
+  id: 'clu631q44000608l7dqx4ax81',
   name: 'Fortis',
   description: 'Fortis BC payment',
   amount: 10000,
@@ -84,7 +84,7 @@ const fortisBudgetItem = {
   userId: users[0].id,
 };
 const shawBudgetItem = {
-  id: 'baa40fb1-f597-43de-ac8c-d4a3a16ede83',
+  id: 'clu631vvk000708l74ixu5nfr',
   name: 'Shaw',
   description: 'Shaw internet payment',
   amount: 8400,
@@ -92,7 +92,7 @@ const shawBudgetItem = {
   userId: users[0].id,
 };
 const groceryBudgetItem = {
-  id: 'dd5b348f-8c3c-4a7a-b823-e0f94028c82d',
+  id: 'clu632324000808l730r86mbs',
   name: 'Grocery',
   description: 'Grocery shopping',
   amount: 30000,
@@ -100,7 +100,7 @@ const groceryBudgetItem = {
   userId: users[0].id,
 };
 const violinBudgetItem = {
-  id: '34d6b7ea-fbd7-45e6-ba50-23735dd6580b',
+  id: 'clu63293x000908l73mla4gvj',
   name: 'Violin',
   amount: 50000,
   budgetId: budgets[1].id,
@@ -122,7 +122,7 @@ const budgetItems = [
 
 const expenseItems = [
   {
-    id: 'b28b040b-4d87-4d3b-9015-bf1778421315',
+    id: 'clu632l9d000a08l7cocj86zl',
     date: new UTCDate(new Date('2024-02-01')),
     amount: 16000,
     description: null,
@@ -130,7 +130,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: 'a9d9de4b-0811-4f11-83fd-6d1a59e6a595',
+    id: 'clu632qdk000b08l77jsw87o0',
     date: new UTCDate(new Date('2024-02-01')),
     amount: 36000,
     description: null,
@@ -138,7 +138,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: '2532852b-a074-43a2-8538-f9da738b437a',
+    id: 'clu632wck000c08l7431fhzr6',
     date: new UTCDate(new Date('2024-02-01')),
     amount: 22467,
     description: null,
@@ -146,7 +146,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: 'b1c55332-949e-4d77-94c5-27a1bdf9866b',
+    id: 'clu6333a4000d08l771rd9vby',
     date: new UTCDate(new Date('2024-02-01')),
     amount: 5795,
     description: 'YY birthday cake',
@@ -154,7 +154,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: '493a685b-2b1d-42a6-bed5-6555109fcc3f',
+    id: 'clu63385x000e08l7a5hsdm2u',
     date: new UTCDate(new Date('2024-02-01')),
     amount: 4242,
     description: 'Walmart',
@@ -162,7 +162,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: '01389294-7018-4f2a-95fb-eb1b5d5350b8',
+    id: 'clu633f5t000f08l78jihgkhy',
     date: new UTCDate(new Date('2024-02-02')),
     amount: 1776,
     description: 'Lost in 50s',
@@ -170,7 +170,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: '1d710aeb-bcd2-423b-87d3-d303503a315c',
+    id: 'clu633r61000h08l75i8dgyjf',
     date: new UTCDate(new Date('2024-02-03')),
     amount: 8400,
     description: 'Shaw',
@@ -178,7 +178,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: 'd994401d-c8cb-421a-a4a5-77aac3b13f07',
+    id: 'clu633zfi000i08l7fyk1chf3',
     date: new UTCDate(new Date('2024-02-02')),
     amount: 4300,
     description: 'Congee noodles house',
@@ -186,7 +186,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: '9f0043b6-3c49-4591-8a20-60ca201dabaa',
+    id: 'clu6347jh000j08l7gp5qazt2',
     date: new UTCDate(new Date('2024-02-03')),
     amount: 1900,
     description: 'Maxim',
@@ -194,7 +194,7 @@ const expenseItems = [
     userId: users[0].id,
   },
   {
-    id: '92735887-afec-495b-946c-6feeaca0e689',
+    id: 'clu634epw000k08l7eh8i3dol',
     date: new UTCDate(new Date('2024-02-03')),
     amount: 1500,
     description: "McDonald's",

@@ -71,7 +71,7 @@ async function seedBudgetItems() {
     });
     console.log(`Seeded "BudgetItem": ${createdBudgetItems.count} records`);
   } catch (e) {
-    console.log(`Error Seeding "Budget": ${e}`);
+    console.log(`Error Seeding "BudgetItem": ${e}`);
   }
 }
 
@@ -81,9 +81,9 @@ async function seedExpenseItems() {
       data: expenseItems,
       skipDuplicates: true,
     });
-    console.log(`Seeded "BudgetItem": ${createdExpenseItems.count} records`);
+    console.log(`Seeded "ExpenseItem": ${createdExpenseItems.count} records`);
   } catch (e) {
-    console.log(`Error Seeding "Budget": ${e}`);
+    console.log(`Error Seeding "ExpenseItem": ${e}`);
   }
 }
 
