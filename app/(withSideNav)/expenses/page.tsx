@@ -1,6 +1,6 @@
 import { fetchExpenseItemsByDate } from '@/app/data/expenses';
 import ExpensesPage from '@/app/spa/pages/expense';
-import { fetchBudgetsDataByDate } from '../data/budgets';
+import { fetchBudgetsDataByDate } from '../../data/budgets';
 
 export default async function Page({
   searchParams: { date },

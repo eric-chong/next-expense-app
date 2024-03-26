@@ -1,7 +1,13 @@
 import Box from '@mui/material/Box';
 import SideNav from '@/app/ui/SideNav';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  hasSideNav = true,
+}: {
+  children: React.ReactNode;
+  hasSideNav?: boolean;
+}) {
   return (
     <Box
       sx={{
@@ -12,9 +18,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         justifyContent: 'space-between',
       }}
     >
-      <Box sx={{ flexBasis: { md: '13rem' } }}>
-        <SideNav />
-      </Box>
+      {hasSideNav && (
+        <Box sx={{ flexBasis: { md: '13rem' } }}>
+          <SideNav />
+        </Box>
+      )}
       <Box
         sx={{
           flexGrow: 1,

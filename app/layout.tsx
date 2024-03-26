@@ -1,5 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline';
-import { inter, roboto } from '@/app/ui/fonts';
+import { roboto } from '@/app/ui/fonts';
 import '@/app/ui/global.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -15,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <CssBaseline />
-      <body className={`${roboto.className} antialiased`}>
-        <Layout>{children}</Layout>
-      </body>
+      <body className={`${roboto.className} antialiased`}>{children}</body>
     </html>
   );
 }
