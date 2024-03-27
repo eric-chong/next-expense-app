@@ -4,9 +4,9 @@ import { Box, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '@/app/spa/App';
 import { BudgetItem, ExpenseItem } from '@/app/types';
+import ExpensesPageSkeleton from '@/app/ui/skeletons/expenses';
 import { ExpenseItemsTable, MonthNavigator } from './components';
 import ExpenseSummaryTable from './components/ExpenseSummaryTable';
-// import BudgetPageSkeleton from '@/app/ui/skeletons/budgets';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
@@ -18,9 +18,7 @@ export default function Page(props: IPage) {
   const rootRoute = '/expenses';
 
   return (
-    <App
-    // loading={<BudgetPageSkeleton />}
-    >
+    <App loading={<ExpensesPageSkeleton />}>
       <Router>
         <Routes>
           <Route path={`${rootRoute}/`} element={<ExpensesPage {...props} />} />
