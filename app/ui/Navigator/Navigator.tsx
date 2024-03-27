@@ -28,7 +28,7 @@ export default function Navigator({
           <ChevronLeft />
         </IconButton>
       </Box>
-      <Box lineHeight="2.25rem">{children}</Box>
+      <Box lineHeight="2.15rem">{children}</Box>
       <Box display="flex" flexGrow="1" justifyContent="flex-start">
         <IconButton
           aria-label="Next"

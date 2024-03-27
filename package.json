@@ -20,7 +20,7 @@
     "@heroicons/react": "^2.0.18",
     "@mui/icons-material": "^5.15.10",
     "@mui/lab": "5.0.0-alpha.167",
-    "@mui/material": "^5.15.10",
+    "@mui/material": "^5.15.14",
     "@mui/system": "^5.15.12",
     "@mui/x-date-pickers": "^6.19.7",
     "@prisma/client": "^5.10.2",

@@ -1,5 +1,17 @@
 import { z } from 'zod';
 
+export const budgetSchema = z.object({
+  id: z.string().cuid(),
+  startDate: z.date(),
+  endDate: z.date().optional(),
+  userId: z.string().uuid(),
+});
+
+export const newBudgetSchema = budgetSchema.omit({
+  id: true,
+  userId: true,
+});
+
 export const budgetItemSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1).max(20),

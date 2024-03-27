@@ -1,9 +1,9 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import useFormatDate from '@/app/hooks/useFormatDate';
 import Navigator from '@/app/ui/Navigator';
 import { getBudgetIndexById } from '@/app/utils/budgetHelpers';
 import { Budget } from '@/app/types';
+import BudgetRange from './BudgetRange';
 
 interface IBudgetNavigator {
   budgets: Array<Budget>;
@@ -19,11 +19,8 @@ export default function BudgetNavigator({
   const currentBudget =
     currentBudgetIndex > -1 ? budgets[currentBudgetIndex] : undefined;
 
-  const { formatDate } = useFormatDate();
-
   if (!currentBudget) return null;
 
-  const { startDate, endDate } = currentBudget;
   return (
     <Navigator
       hasPrev={currentBudgetIndex > 0}
@@ -34,6 +31,8 @@ export default function BudgetNavigator({
       onNext={() =>
         router.push(`/budgets/${budgets[currentBudgetIndex + 1].id}`)
       }
-    >{`${formatDate(startDate)} - ${formatDate(endDate)}`}</Navigator>
+    >
+      <BudgetRange currentBudget={currentBudget} />
+    </Navigator>
   );
 }
