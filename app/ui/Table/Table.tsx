@@ -4,6 +4,8 @@ import {
   Table as MuiTable,
   TableBody as MuiTableBody,
   TableContainer as MuiTableContainer,
+  TableRow as MuiTableRow,
+  TableCell as MuiTableCell,
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import EditableTableRow from './EditableTableRow';
@@ -17,6 +19,7 @@ interface ITable {
   footer?: Array<Footer>;
   isActionsDisabled?: boolean;
   minWidth?: number;
+  noItemsMessage?: string;
   newItemRow?: any;
   onCancel?: () => void;
   onDelete?: (row: any) => void;
@@ -36,6 +39,7 @@ export default function Table({
   footer,
   isActionsDisabled,
   minWidth,
+  noItemsMessage,
   newItemRow,
   onCancel,
   onDelete,
@@ -83,6 +87,13 @@ export default function Table({
               />
             );
           })}
+          {rows.length === 0 && noItemsMessage && (
+            <MuiTableRow>
+              <MuiTableCell colSpan={columns.length} align="center">
+                {noItemsMessage}
+              </MuiTableCell>
+            </MuiTableRow>
+          )}
         </MuiTableBody>
         {footer ? <TableFooter footer={footer} /> : null}
       </MuiTable>

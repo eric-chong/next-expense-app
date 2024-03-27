@@ -110,6 +110,7 @@ export default function ExpenseItemsTable({
       footer={footer}
       isActionsDisabled={isMutating}
       minWidth={600}
+      noItemsMessage="There is no expense items in this period."
       rows={expenseItems}
       rowDataValidator={rowDataValidator}
       newItemRow={

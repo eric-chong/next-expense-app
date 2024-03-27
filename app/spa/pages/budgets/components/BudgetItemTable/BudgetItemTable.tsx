@@ -92,6 +92,7 @@ export default function BudgetItemTable({
       footer={footer}
       isActionsDisabled={isMutating}
       minWidth={650}
+      noItemsMessage="There is no budget items in this period."
       rows={budgetItems}
       rowDataValidator={rowDataValidator}
       newItemRow={
