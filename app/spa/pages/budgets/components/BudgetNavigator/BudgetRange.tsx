@@ -7,33 +7,37 @@ import {
   Close as CancelIcon,
   Edit as EditIcon,
 } from '@mui/icons-material';
+import { insertBudget, updateBudget } from '@/app/actions/budgets';
 import useFormatDate from '@/app/hooks/useFormatDate';
-import { Budget } from '@/app/types';
+import { Budget, NewBudget } from '@/app/types';
 import BudgetDateRange from './BudgetDateRange';
 import BudgetRangePicker from './BudgetRangePicker';
-import { updateBudget } from '@/app/actions/budgets';
 
 interface IBudgetRange {
-  currentBudget: Budget;
+  currentBudget: Budget | NewBudget;
 }
 
 export default function BudgetRange({ currentBudget }: IBudgetRange) {
   const { startDate, endDate } = currentBudget;
-  const budgetToUpdate = useRef<Budget>(currentBudget);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const budgetToUpdate = useRef<Budget | NewBudget>(currentBudget);
+  const [isEditing, setIsEditing] = useState<boolean>(
+    isNewBudget(currentBudget),
+  );
   const [isMutating, setIsMutating] = useState<boolean>(false);
   const { formatDate } = useFormatDate();
 
+  function isNewBudget(budget: Budget | NewBudget) {
+    return !budget.hasOwnProperty('id');
+  }
   const handleSave = useCallback(async () => {
-    if (budgetToUpdate.current.id) {
-      setIsMutating(true);
-      await updateBudget(budgetToUpdate.current);
-      setIsMutating(false);
-      setIsEditing(false);
+    setIsMutating(true);
+    if (!isNewBudget(budgetToUpdate.current)) {
+      await updateBudget(budgetToUpdate.current as Budget);
     } else {
-      // insert
-      console.log('to insert', budgetToUpdate.current);
+      await insertBudget(budgetToUpdate.current as NewBudget);
     }
+    setIsMutating(false);
+    setIsEditing(false);
   }, [setIsMutating]);
   return (
     <Box display="flex" gap="0.15rem" alignItems="center">

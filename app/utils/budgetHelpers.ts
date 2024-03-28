@@ -1,5 +1,5 @@
 import { isAfter, isBefore, isSameDay } from 'date-fns';
-import { Budget } from '@/app/types';
+import { Budget, NewBudget } from '@/app/types';
 
 const budgetDateMatcherFn = (budget: Budget, date: Date | string) => {
   const isSameDayOrAfterStartDate =
@@ -22,16 +22,18 @@ export const getBudgetByDate = (
   return budgets.find((budget) => budgetDateMatcherFn(budget, date));
 };
 
-const budgetIdMatcherFn = (budget: Budget, budgetId: string) =>
-  budget.id === budgetId;
+const budgetIdMatcherFn = (
+  budget: Budget | NewBudget,
+  budgetId: string | undefined,
+) => (budget as Budget).id === budgetId;
 
 export const getBudgetById = (budgets: Array<Budget>, budgetId: string) => {
   return budgets.find((budget) => budgetIdMatcherFn(budget, budgetId));
 };
 
 export const getBudgetIndexById = (
-  budgets: Array<Budget>,
-  budgetId: string,
+  budgets: Array<Budget | NewBudget>,
+  budgetId: string | undefined,
 ) => {
   return budgets.findIndex((budget) => budgetIdMatcherFn(budget, budgetId));
 };

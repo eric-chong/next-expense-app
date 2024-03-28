@@ -2,12 +2,12 @@
 import { useRouter } from 'next/navigation';
 import Navigator from '@/app/ui/Navigator';
 import { getBudgetIndexById } from '@/app/utils/budgetHelpers';
-import { Budget } from '@/app/types';
+import { Budget, NewBudget } from '@/app/types';
 import BudgetRange from './BudgetRange';
 
 interface IBudgetNavigator {
-  budgets: Array<Budget>;
-  budgetId: string;
+  budgets: Array<Budget | NewBudget>;
+  budgetId: string | undefined;
 }
 
 export default function BudgetNavigator({
@@ -25,11 +25,15 @@ export default function BudgetNavigator({
     <Navigator
       hasPrev={currentBudgetIndex > 0}
       onPrev={() =>
-        router.push(`/budgets/${budgets[currentBudgetIndex - 1].id}`)
+        router.push(
+          `/budgets/${(budgets[currentBudgetIndex - 1] as Budget).id}`,
+        )
       }
       hasNext={currentBudgetIndex < budgets.length - 1}
       onNext={() =>
-        router.push(`/budgets/${budgets[currentBudgetIndex + 1].id}`)
+        router.push(
+          `/budgets/${(budgets[currentBudgetIndex + 1] as Budget).id}`,
+        )
       }
     >
       <BudgetRange currentBudget={currentBudget} />

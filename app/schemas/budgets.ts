@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const budgetSchema = z.object({
   id: z.string().cuid(),
   startDate: z.date(),
-  endDate: z.date().optional(),
+  endDate: z.date().optional().nullable(),
   userId: z.string().cuid(),
 });
 

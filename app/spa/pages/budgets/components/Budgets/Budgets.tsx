@@ -1,7 +1,8 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Budget, BudgetItem } from '@/app/types';
 import BudgetNavigator from '../BudgetNavigator';
 import BudgetItemTable from '../BudgetItemTable';
+import { fillBudgetsWithNewPeriod } from '../utilHelpers';
 
 interface IBudgets {
   budgetItems: Array<BudgetItem>;
@@ -17,17 +18,27 @@ export default function Budgets({
   return (
     <main>
       <Typography variant="h5">Budgets</Typography>
-      {currentBudgetId ? (
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
-          <BudgetNavigator budgets={budgets} budgetId={currentBudgetId} />
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
+        <BudgetNavigator
+          budgets={
+            currentBudgetId
+              ? budgets
+              : fillBudgetsWithNewPeriod(new Date(), budgets)
+          }
+          budgetId={currentBudgetId}
+        />
+        {currentBudgetId ? (
           <BudgetItemTable
             budgetItems={budgetItems}
             currentBudgetId={currentBudgetId}
           />
-        </div>
-      ) : (
-        <div>There is no budget setup for this date</div>
-      )}
+        ) : (
+          <Box textAlign="center">
+            There is no budget setup for this date, select the budget period and
+            save.
+          </Box>
+        )}
+      </div>
     </main>
   );
 }
