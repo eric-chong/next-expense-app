@@ -11,6 +11,7 @@ import useFormatDate from '@/app/hooks/useFormatDate';
 import { Budget } from '@/app/types';
 import BudgetDateRange from './BudgetDateRange';
 import BudgetRangePicker from './BudgetRangePicker';
+import { updateBudget } from '@/app/actions/budgets';
 
 interface IBudgetRange {
   currentBudget: Budget;
@@ -20,17 +21,20 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
   const { startDate, endDate } = currentBudget;
   const budgetToUpdate = useRef<Budget>(currentBudget);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isMutating, setIsMutating] = useState<boolean>(false);
   const { formatDate } = useFormatDate();
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (budgetToUpdate.current.id) {
-      // update
-      console.log('to update', budgetToUpdate.current);
+      setIsMutating(true);
+      await updateBudget(budgetToUpdate.current);
+      setIsMutating(false);
+      setIsEditing(false);
     } else {
       // insert
       console.log('to insert', budgetToUpdate.current);
     }
-  }, []);
+  }, [setIsMutating]);
   return (
     <Box display="flex" gap="0.15rem" alignItems="center">
       {isEditing ? (
@@ -44,6 +48,7 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
             }}
           />
           <IconButton
+            disabled={isMutating}
             size="small"
             sx={{ width: '1.75rem', height: '1.75rem' }}
             onClick={handleSave}
@@ -51,6 +56,7 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
             <SaveIcon color="success" fontSize="small" />
           </IconButton>
           <IconButton
+            disabled={isMutating}
             size="small"
             sx={{ width: '1.75rem', height: '1.75rem' }}
             onClick={() => setIsEditing(false)}

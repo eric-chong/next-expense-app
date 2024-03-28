@@ -1,10 +1,63 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { BudgetItem, NewBudgetItem } from '@/app/types';
-import { budgetItemSchema, newBudgetItemSchema } from '@/app/schemas/budgets';
+import { Budget, BudgetItem, NewBudget, NewBudgetItem } from '@/app/types';
+import {
+  budgetItemSchema,
+  budgetSchema,
+  newBudgetItemSchema,
+  newBudgetSchema,
+} from '@/app/schemas/budgets';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+
+export async function insertBudget(newBudget: NewBudget) {
+  const parsedNewBudget = newBudgetSchema.safeParse({ ...newBudget });
+
+  if (!parsedNewBudget.success) {
+    return {
+      errors: parsedNewBudget.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to insert budget.',
+    };
+  }
+
+  const userId = await user();
+  const { startDate, endDate } = parsedNewBudget.data;
+
+  try {
+    await prisma.budget.create({
+      data: { startDate, endDate, userId },
+    });
+  } catch (e) {
+    return { message: 'Database Error: Failed to Update budgets.' };
+  }
+
+  revalidatePath('/budgets/current');
+}
+
+export async function updateBudget(budget: Budget) {
+  const parsedBudget = budgetSchema.safeParse(budget);
+
+  if (!parsedBudget.success) {
+    return {
+      errors: parsedBudget.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to update budget.',
+    };
+  }
+
+  const { id, startDate, endDate, userId } = parsedBudget.data;
+
+  try {
+    await prisma.budget.update({
+      where: { id, userId },
+      data: { startDate, endDate },
+    });
+  } catch (e) {
+    return { message: 'Database Error: Failed to Update budget.' };
+  }
+
+  revalidatePath('/budgets/current');
+}
 
 export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
   const parseNewBudgetItem = newBudgetItemSchema.safeParse({
