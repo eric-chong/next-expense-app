@@ -39,7 +39,7 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
     } else {
       result = await insertBudget(budgetToUpdate.current as NewBudget);
     }
-    if ((result as ErrorResponse).errors.length > 0) handleError(result);
+    if ((result as ErrorResponse).errors?.length > 0) handleError(result);
 
     setIsMutating(false);
     setIsEditing(false);
@@ -80,7 +80,7 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
         </>
       ) : (
         <>
-          <div>{`${formatDate(startDate)} - ${formatDate(endDate)}`}</div>
+          <div>{`${formatDate(startDate)} - ${formatDate(endDate) || 'No end date'}`}</div>
           <IconButton
             size="small"
             sx={{ width: '1.75rem', height: '1.75rem' }}
