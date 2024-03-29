@@ -12,6 +12,7 @@ import useFormatDate from '@/app/hooks/useFormatDate';
 import { Budget, NewBudget } from '@/app/types';
 import BudgetDateRange from './BudgetDateRange';
 import BudgetRangePicker from './BudgetRangePicker';
+import { ErrorResponse } from '@/app/actions/types';
 
 interface IBudgetRange {
   currentBudget: Budget | NewBudget;
@@ -29,16 +30,25 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
   function isNewBudget(budget: Budget | NewBudget) {
     return !budget.hasOwnProperty('id');
   }
+
   const handleSave = useCallback(async () => {
     setIsMutating(true);
+    let result;
     if (!isNewBudget(budgetToUpdate.current)) {
-      await updateBudget(budgetToUpdate.current as Budget);
+      result = await updateBudget(budgetToUpdate.current as Budget);
     } else {
-      await insertBudget(budgetToUpdate.current as NewBudget);
+      result = await insertBudget(budgetToUpdate.current as NewBudget);
     }
+    if ((result as ErrorResponse).errors.length > 0) handleError(result);
+
     setIsMutating(false);
     setIsEditing(false);
   }, [setIsMutating]);
+
+  const handleError = (result: any) => {
+    console.log('error mutating', result);
+  };
+
   return (
     <Box display="flex" gap="0.15rem" alignItems="center">
       {isEditing ? (

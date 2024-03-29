@@ -10,6 +10,7 @@ import {
 } from '@/app/schemas/budgets';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+import { ActionResponse } from './types';
 
 export async function insertBudget(newBudget: NewBudget) {
   const parsedNewBudget = newBudgetSchema.safeParse({ ...newBudget });
@@ -35,12 +36,22 @@ export async function insertBudget(newBudget: NewBudget) {
   revalidatePath('/budgets/current');
 }
 
-export async function updateBudget(budget: Budget) {
+export async function updateBudget(budget: Budget): Promise<ActionResponse> {
   const parsedBudget = budgetSchema.safeParse(budget);
+  const hasOrphan = await hasOrphanExpenseItems(budget);
+  if (hasOrphan)
+    return {
+      success: false,
+      errors: ['orphan.expenses.items'],
+      message: 'New budget period has orphan expense items',
+    };
 
   if (!parsedBudget.success) {
     return {
-      errors: parsedBudget.error.flatten().fieldErrors,
+      success: false,
+      errors: parsedBudget.error.issues
+        .map((issue) => issue.path as string[])
+        .flat(),
       message: 'Missing Fields. Failed to update budget.',
     };
   }
@@ -48,15 +59,38 @@ export async function updateBudget(budget: Budget) {
   const { id, startDate, endDate, userId } = parsedBudget.data;
 
   try {
-    await prisma.budget.update({
+    const result = await prisma.budget.update({
       where: { id, userId },
       data: { startDate, endDate },
     });
+    revalidatePath('/budgets/current');
+    return {
+      success: true,
+      data: result,
+    };
   } catch (e) {
-    return { message: 'Database Error: Failed to Update budget.' };
+    return {
+      success: false,
+      errors: ['databse.error'],
+      message: 'Database Error: Failed to Update budget.',
+    };
   }
+}
 
-  revalidatePath('/budgets/current');
+async function hasOrphanExpenseItems(budget: Budget) {
+  const expenseItems = await prisma.expenseItem.findMany({
+    include: { budgetItem: { include: { budget: true } } },
+    where: {
+      budgetItem: {
+        budgetId: { equals: budget.id },
+      },
+      OR: [
+        { date: { lt: budget.startDate } },
+        budget.endDate ? { date: { gt: budget.endDate } } : {},
+      ],
+    },
+  });
+  return expenseItems.length > 0;
 }
 
 export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
