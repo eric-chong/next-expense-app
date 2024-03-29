@@ -4,9 +4,11 @@ import { Box, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '@/app/spa/App';
 import { BudgetItem, ExpenseItem } from '@/app/types';
+import GlobalAlertProvider from '@/app/spa/providers/GlobalAlertProvider';
 import ExpensesPageSkeleton from '@/app/ui/skeletons/expenses';
 import { ExpenseItemsTable, MonthNavigator } from './components';
 import ExpenseSummaryTable from './components/ExpenseSummaryTable';
+import GlobalAlert from '@/app/ui/GlobalAlert';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
@@ -39,29 +41,32 @@ export default function Page(props: IPage) {
 function ExpensesPage({ budgetItems, currentDate, expenseItems }: IPage) {
   return (
     <main>
-      <Box display="flex" flexDirection="column" gap="1rem">
-        <Typography variant="h5">Expenses</Typography>
-        <MonthNavigator date={currentDate} />
-        <Box
-          display="flex"
-          gap="1rem"
-          sx={{ flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}
-        >
-          <Box flexGrow="1">
-            <ExpenseItemsTable
-              currentDate={currentDate}
-              budgetItems={budgetItems}
-              expenseItems={expenseItems}
-            />
-          </Box>
-          <Box flexBasis="40%">
-            <ExpenseSummaryTable
-              budgetItems={budgetItems}
-              expenseItems={expenseItems}
-            />
+      <GlobalAlertProvider>
+        <GlobalAlert />
+        <Box display="flex" flexDirection="column" gap="1rem">
+          <Typography variant="h5">Expenses</Typography>
+          <MonthNavigator date={currentDate} />
+          <Box
+            display="flex"
+            gap="1rem"
+            sx={{ flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}
+          >
+            <Box flexGrow="1">
+              <ExpenseItemsTable
+                currentDate={currentDate}
+                budgetItems={budgetItems}
+                expenseItems={expenseItems}
+              />
+            </Box>
+            <Box flexBasis="40%">
+              <ExpenseSummaryTable
+                budgetItems={budgetItems}
+                expenseItems={expenseItems}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
+      </GlobalAlertProvider>
     </main>
   );
 }

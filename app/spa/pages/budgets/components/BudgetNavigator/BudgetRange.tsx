@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import {
   Check as SaveIcon,
@@ -10,6 +10,7 @@ import {
 import { insertBudget, updateBudget } from '@/app/actions/budgets';
 import useFormatDate from '@/app/hooks/useFormatDate';
 import { Budget, NewBudget } from '@/app/types';
+import { GlobalAlertContext } from '@/app/spa/providers/GlobalAlertProvider';
 import BudgetDateRange from './BudgetDateRange';
 import BudgetRangePicker from './BudgetRangePicker';
 import { ErrorResponse } from '@/app/actions/types';
@@ -27,9 +28,18 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
   const [isMutating, setIsMutating] = useState<boolean>(false);
   const { formatDate } = useFormatDate();
 
+  const { setError } = useContext(GlobalAlertContext);
+
   function isNewBudget(budget: Budget | NewBudget) {
     return !budget.hasOwnProperty('id');
   }
+
+  const handleError = useCallback(
+    (result: any) => {
+      setError(result.message);
+    },
+    [setError],
+  );
 
   const handleSave = useCallback(async () => {
     setIsMutating(true);
@@ -43,11 +53,7 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
 
     setIsMutating(false);
     setIsEditing(false);
-  }, [setIsMutating]);
-
-  const handleError = (result: any) => {
-    console.log('error mutating', result);
-  };
+  }, [handleError, setIsMutating]);
 
   return (
     <Box display="flex" gap="0.15rem" alignItems="center">
