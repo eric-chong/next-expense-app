@@ -19,14 +19,9 @@ export default function GlobalAlertProvider({
 }: {
   children: ReactNode;
 }) {
-  const [error, setError] = useState<string | null>(
-    'this is dummy messagethis is dummy messagethis is dummy messagethis is dummy messagethis is dummy messagethis is dummy messagethis is dummy message',
-  );
+  const [error, setError] = useState<string | null>(null);
 
-  const resetError = useCallback(() => {
-    console.log('resetError');
-    setError(null);
-  }, []);
+  const resetError = useCallback(() => setError(null), []);
 
   return (
     <GlobalAlertContext.Provider value={{ error, resetError, setError }}>
