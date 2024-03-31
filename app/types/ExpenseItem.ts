@@ -11,3 +11,15 @@ export type NewExpenseItem = Pick<
   ExpenseItem,
   'date' | 'amount' | 'description' | 'budgetItemId'
 >;
+
+export type SubtotalByMonthBudgetItem = {
+  month: string;
+  budgetItemId: string;
+  subtotal: number;
+};
+
+export type SubtotalByMonth = {
+  month: string;
+  budgetItemId: string;
+  subtotal: number;
+};

@@ -1,7 +1,7 @@
 'use client';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import App from '@/app/spa/App';
 import { Budget, BudgetItem } from '@/app/types';
 import BudgetItems from './components/BudgetItems';
@@ -10,6 +10,7 @@ import BudgetPageSkeleton from '@/app/ui/skeletons/budgets';
 import GlobalAlert from '@/app/ui/GlobalAlert';
 import BudgetNavigator from './components/BudgetNavigator';
 import { fillBudgetsWithNewPeriod } from './components/utilHelpers';
+import BudgetExpenseSummary from './components/BudgetExpenseSummary';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
@@ -48,8 +49,8 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
     <main>
       <GlobalAlertProvider>
         <GlobalAlert />
-        <Typography variant="h5">Budgets</Typography>
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-1">
+        <Box display="flex" flexDirection="column" gap="1rem">
+          <Typography variant="h5">Budgets</Typography>
           <BudgetNavigator
             budgets={
               currentBudgetId
@@ -58,11 +59,27 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
             }
             budgetId={currentBudgetId}
           />
-          <BudgetItems
-            budgetItems={budgetItems}
-            currentBudgetId={currentBudgetId}
-          />
-        </div>
+          <Box
+            display="flex"
+            gap="1rem"
+            sx={{ flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}
+          >
+            <Box flexGrow="1">
+              <BudgetItems
+                budgetItems={budgetItems}
+                currentBudgetId={currentBudgetId}
+              />
+            </Box>
+            <Box
+              maxWidth={{ xs: '100%', sm: '100%', md: '400px', lg: '500px' }}
+            >
+              <BudgetExpenseSummary
+                budget={budgets.find((budget) => budget.id === currentBudgetId)}
+                budgetItems={budgetItems}
+              />
+            </Box>
+          </Box>
+        </Box>
       </GlobalAlertProvider>
     </main>
   );

@@ -18,7 +18,7 @@ export default function TableFooter({ footer }: ITableFooter) {
           <MuiTableCell
             key={index}
             align={cell.align}
-            sx={{ fontSize: '1rem' }}
+            sx={{ fontSize: '0.875rem' }}
           >
             {cell.footerContent}
           </MuiTableCell>
