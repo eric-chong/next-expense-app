@@ -70,9 +70,7 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
                 currentBudgetId={currentBudgetId}
               />
             </Box>
-            <Box
-              maxWidth={{ xs: '100%', sm: '100%', md: '400px', lg: '500px' }}
-            >
+            <Box maxWidth={{ xs: '100%', sm: '100%', md: '400px' }}>
               <BudgetExpenseSummary
                 budget={budgets.find((budget) => budget.id === currentBudgetId)}
                 budgetItems={budgetItems}
