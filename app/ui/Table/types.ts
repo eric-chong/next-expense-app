@@ -3,7 +3,13 @@ import { ReactNode } from 'react';
 
 type Align = 'center' | 'right' | 'left' | 'inherit' | 'justify' | undefined;
 
-export type FormControl = 'text' | 'number' | 'date' | 'select' | undefined;
+export type FormControl =
+  | 'text'
+  | 'number'
+  | 'currency'
+  | 'date'
+  | 'select'
+  | undefined;
 
 export type Column = {
   autoFocus?: boolean;

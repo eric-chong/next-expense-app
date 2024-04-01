@@ -43,7 +43,7 @@ export default function BudgetItemTable({
       headerContent: 'Amount',
       name: 'amount',
       dataAlign: 'right',
-      formControl: 'number',
+      formControl: 'currency',
       valueFormatter: (value: number) => formatCurrency(value),
       sx: { width: 150 },
     },

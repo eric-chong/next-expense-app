@@ -61,6 +61,10 @@ const NumberField = ({
   );
 };
 
+const CurrencyField = (props: IBaseCellField) => {
+  return <NumberField {...props} value={props.value / 100} />;
+};
+
 export default function TableCellField({
   fieldType,
   ...otherProps
@@ -70,6 +74,8 @@ export default function TableCellField({
       return <TextField {...otherProps} />;
     case 'number':
       return <NumberField {...otherProps} />;
+    case 'currency':
+      return <CurrencyField {...otherProps} />;
     case 'date':
       return <DateField {...otherProps} />;
     case 'select':
