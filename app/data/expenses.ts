@@ -19,7 +19,7 @@ export async function fetchExpenseItemsByDate(
     return expenseItems.map((expenseItem: any) => {
       return {
         ...expenseItem,
-        amount: expenseItem.amount / 100,
+        amount: expenseItem.amount,
       } as ExpenseItem;
     });
   } catch (error) {
