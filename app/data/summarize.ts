@@ -49,7 +49,6 @@ export async function fetchSubtotalPerMonth(budgetId: string) {
           GROUP BY "month"
         `,
     )) as Array<SubtotalByMonth>;
-    console.log('expenseSubtotal', expenseSubtotal);
     return expenseSubtotal.map((row: SubtotalByMonth) => ({
       ...row,
       month: format(new UTCDate(row.month), 'yyyy-MM'),
