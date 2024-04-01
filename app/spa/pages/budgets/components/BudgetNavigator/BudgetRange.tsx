@@ -64,7 +64,6 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
             endDate={endDate}
             onChange={(dateRange: BudgetDateRange) => {
               budgetToUpdate.current = { ...currentBudget, ...dateRange };
-              console.log('budgetToUpdate', budgetToUpdate.current);
             }}
           />
           <IconButton

@@ -83,9 +83,6 @@ export default function BudgetExpenseSummary({
     }
   }, [budget, setColumns]);
 
-  console.log('budget', budget);
-  console.log('summarizeData', summarizeData);
-
   return (
     <TableContainer component={Paper}>
       <Table>
