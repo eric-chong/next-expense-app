@@ -12,12 +12,11 @@ import GlobalAlert from '@/app/ui/GlobalAlert';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
-  currentDate: Date;
   expenseItems: Array<ExpenseItem>;
 }
 
 export default function Page(props: IPage) {
-  const rootRoute = '/expenses';
+  const rootRoute = '/expenses/:year/:month';
 
   return (
     <App loading={<ExpensesPageSkeleton />}>
@@ -38,14 +37,14 @@ export default function Page(props: IPage) {
   );
 }
 
-function ExpensesPage({ budgetItems, currentDate, expenseItems }: IPage) {
+function ExpensesPage({ budgetItems, expenseItems }: IPage) {
   return (
     <main>
       <GlobalAlertProvider>
         <GlobalAlert />
         <Box display="flex" flexDirection="column" gap="1rem">
           <Typography variant="h5">Expenses</Typography>
-          <MonthNavigator date={currentDate} />
+          <MonthNavigator />
           <Box
             display="flex"
             gap="1rem"
@@ -53,7 +52,6 @@ function ExpensesPage({ budgetItems, currentDate, expenseItems }: IPage) {
           >
             <Box flexGrow="1">
               <ExpenseItemsTable
-                currentDate={currentDate}
                 budgetItems={budgetItems}
                 expenseItems={expenseItems}
               />

@@ -12,8 +12,8 @@ const nextConfig = {
       },
       { source: '/budgets/current/:path*', destination: '/budgets/current/' },
       {
-        source: '/expenses/:path*',
-        destination: '/expenses/',
+        source: '/expenses/:year/:month/:path*',
+        destination: '/expenses/:year/:month/',
       },
     ];
   },

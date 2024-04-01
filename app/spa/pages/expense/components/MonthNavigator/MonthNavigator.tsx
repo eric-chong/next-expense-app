@@ -1,28 +1,24 @@
 import { addMonths, format, subMonths } from 'date-fns';
 import { useRouter } from 'next/navigation';
+import { useParams } from 'react-router-dom';
 import Navigator from '@/app/ui/Navigator';
 import { UTCDate } from '@date-fns/utc';
 
-interface IMonthNavigator {
-  date: Date | string;
-}
-
-export default function MonthNavigator({ date }: IMonthNavigator) {
+export default function MonthNavigator() {
   const router = useRouter();
-  const prevMonth = subMonths(new UTCDate(date), 1);
-  const nextMonth = addMonths(new UTCDate(date), 1);
+  const { year, month } = useParams();
+  const currentDate = new UTCDate(`${year}-${month}-01`);
+  const prevMonth = subMonths(currentDate, 1);
+  const nextMonth = addMonths(currentDate, 1);
+
   return (
     <Navigator
       hasPrev
-      onPrev={() =>
-        router.push(`/expenses?date=${format(prevMonth, 'yyyy-MM-dd')}`)
-      }
+      onPrev={() => router.push(`/expenses/${format(prevMonth, 'yyyy/MM')}`)}
       hasNext
-      onNext={() =>
-        router.push(`/expenses?date=${format(nextMonth, 'yyyy-MM-dd')}`)
-      }
+      onNext={() => router.push(`/expenses/${format(nextMonth, 'yyyy/MM')}`)}
     >
-      {format(date, 'yyyy-MM')}
+      {`${year}-${month}`}
     </Navigator>
   );
 }

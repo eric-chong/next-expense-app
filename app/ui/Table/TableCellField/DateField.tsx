@@ -16,7 +16,7 @@ export default function DateField({ value, onChange }: IBaseCellField) {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         onChange={handleValueChange}
-        defaultValue={new UTCDate(value)}
+        defaultValue={value ? new UTCDate(value) : null}
         format="yyyy-MM-dd"
         slotProps={{ textField: { size: 'small' } }}
       />

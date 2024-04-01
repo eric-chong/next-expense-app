@@ -16,13 +16,11 @@ import { Column, Footer } from '@/app/ui/Table/types';
 
 interface IExpenseItemsTable {
   budgetItems: Array<BudgetItem>;
-  currentDate: Date;
   expenseItems: Array<ExpenseItem>;
 }
 
 export default function ExpenseItemsTable({
   budgetItems,
-  currentDate,
   expenseItems,
 }: IExpenseItemsTable) {
   const navigate = useNavigate();
@@ -30,13 +28,14 @@ export default function ExpenseItemsTable({
 
   const [isMutating, setIsMutating] = useState(false);
 
-  const newItemMatcher = useMatch('/expenses/items/new');
-  const { itemId } = useParams();
+  const newItemMatcher = useMatch('/expenses/:year/:month/items/new');
+  const { year, month, itemId } = useParams();
   const { formatDate } = useFormatDate();
 
   const isNewOrEditing = !!newItemMatcher || !!itemId;
   const columns: Array<Column> = [
     {
+      autoFocus: true,
       headerContent: 'Date',
       name: 'date',
       formControl: 'date',
@@ -44,7 +43,6 @@ export default function ExpenseItemsTable({
       sx: { maxWidth: 200, minWidth: isNewOrEditing ? 155 : 105 },
     },
     {
-      autoFocus: true,
       headerContent: 'Amount',
       name: 'amount',
       dataAlign: 'right',
@@ -73,7 +71,7 @@ export default function ExpenseItemsTable({
           variant="outlined"
           size="small"
           startIcon={<AddIcon />}
-          onClick={() => navigate(`/expenses/items/new${location.search}`)}
+          onClick={() => navigate(`/expenses/${year}/${month}/items/new`)}
         >
           New
         </Button>
@@ -116,7 +114,7 @@ export default function ExpenseItemsTable({
       newItemRow={
         newItemMatcher
           ? {
-              date: currentDate,
+              date: null,
               amount: 0,
               description: '',
               budgetItemId: '',
@@ -124,14 +122,14 @@ export default function ExpenseItemsTable({
           : undefined
       }
       onEdit={(id) => {
-        navigate(`/expenses/items/${id}/edit${location.search}`);
+        navigate(`/expenses/${year}/${month}/items/${id}/edit`);
       }}
       onSaveNew={async (newExpenseItem) => {
         if (newExpenseItem) {
           setIsMutating(true);
           await insertExpenseItem(newExpenseItem as NewExpenseItem);
           setIsMutating(false);
-          navigate(`/expenses${location.search}`);
+          navigate(`/expenses/${year}/${month}`);
         }
       }}
       onSave={async (expenseItemToUpdate) => {
@@ -139,7 +137,7 @@ export default function ExpenseItemsTable({
           setIsMutating(true);
           await updateExpenseItem(expenseItemToUpdate as ExpenseItem);
           setIsMutating(false);
-          navigate(`/expenses${location.search}`);
+          navigate(`/expenses/${year}/${month}/`);
         }
       }}
       onDelete={async (expenseItemToDelete) => {
@@ -149,7 +147,7 @@ export default function ExpenseItemsTable({
           setIsMutating(false);
         }
       }}
-      onCancel={() => navigate(`/expenses${location.search}`)}
+      onCancel={() => navigate(`/expenses/${year}/${month}`)}
     />
   );
 }
