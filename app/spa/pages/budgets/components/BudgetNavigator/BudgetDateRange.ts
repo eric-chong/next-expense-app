@@ -1,6 +1,6 @@
 type BudgetDateRange = {
   startDate: Date;
-  endDate: Date | null;
+  endDate: Date;
 };
 
 export default BudgetDateRange;

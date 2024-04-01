@@ -1,4 +1,4 @@
-import { addDays, isAfter, isBefore, subDays } from 'date-fns';
+import { addDays, addYears, isAfter, isBefore, subDays } from 'date-fns';
 import { Budget, NewBudget } from '@/app/types';
 
 export function fillBudgetsWithNewPeriod(
@@ -26,7 +26,7 @@ export function fillBudgetsWithNewPeriod(
       } else if (isLastItem && current.endDate && isAfterCurrentEndDate) {
         const newBudget: NewBudget = {
           startDate: addDays(current.endDate, 1),
-          endDate: null,
+          endDate: addYears(current.endDate, 1),
         };
         accumulator.push(current);
         accumulator.push(newBudget);

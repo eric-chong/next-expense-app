@@ -8,7 +8,7 @@ import BudgetDateRange from './BudgetDateRange';
 
 interface IBudgetRangePicker {
   startDate: Date;
-  endDate: Date | null;
+  endDate: Date;
   onChange: Function;
 }
 
@@ -18,6 +18,7 @@ export default function BudgetRangePicker({
   onChange,
 }: IBudgetRangePicker) {
   const [hasStartDateError, setHasStartDateError] = useState(false);
+  const [hasEndDateError, setHasEndDateError] = useState(false);
   const dateRange = useRef<BudgetDateRange>({ startDate, endDate });
 
   const handleStartValueChange = useCallback(
@@ -36,8 +37,11 @@ export default function BudgetRangePicker({
   const handleEndValueChange = useCallback(
     (value: UTCDate | null) => {
       if (value) {
+        setHasEndDateError(false);
         dateRange.current = { ...dateRange.current, endDate: value };
         onChange(dateRange.current);
+      } else {
+        setHasEndDateError(true);
       }
     },
     [onChange],
@@ -61,7 +65,7 @@ export default function BudgetRangePicker({
           onChange={handleEndValueChange}
           defaultValue={endDate ? new UTCDate(endDate) : null}
           format="yyyy-MM-dd"
-          slotProps={{ textField: { size: 'small' } }}
+          slotProps={{ textField: { size: 'small', error: hasEndDateError } }}
         />
       </Box>
     </LocalizationProvider>
