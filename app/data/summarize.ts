@@ -2,6 +2,7 @@
 
 import { Prisma } from '@prisma/client';
 import { format } from 'date-fns';
+import { UTCDate } from '@date-fns/utc';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
 import { SubtotalByMonth, SubtotalByMonthBudgetItem } from '../types';
@@ -24,7 +25,7 @@ export async function fetchSubtotalPerMonthBudgeItem(budgetId: string) {
     )) as Array<SubtotalByMonthBudgetItem>;
     return expenseSubtotal.map((row: SubtotalByMonthBudgetItem) => ({
       ...row,
-      month: format(row.month, 'yyyy-MM'),
+      month: format(new UTCDate(row.month), 'yyyy-MM'),
       subtotal: Number(row.subtotal),
     }));
   } catch (error) {
@@ -48,9 +49,10 @@ export async function fetchSubtotalPerMonth(budgetId: string) {
           GROUP BY "month"
         `,
     )) as Array<SubtotalByMonth>;
+    console.log('expenseSubtotal', expenseSubtotal);
     return expenseSubtotal.map((row: SubtotalByMonth) => ({
       ...row,
-      month: format(row.month, 'yyyy-MM'),
+      month: format(new UTCDate(row.month), 'yyyy-MM'),
       subtotal: Number(row.subtotal),
     }));
   } catch (error) {
