@@ -51,7 +51,7 @@ export async function fetchBudgetItems(budgetId: string) {
     return budgetItems.map((budgetItem: any) => {
       return {
         ...budgetItem,
-        amount: budgetItem.amount / 100,
+        amount: budgetItem.amount,
       } as BudgetItem;
     });
   } catch (error) {

@@ -11,6 +11,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { addMonths, differenceInMonths, format, isBefore } from 'date-fns';
+import { sum } from 'mathjs';
 import {
   fetchSubtotalPerMonth,
   fetchSubtotalPerMonthBudgeItem,
@@ -21,7 +22,8 @@ import {
   SubtotalByMonth,
   SubtotalByMonthBudgetItem,
 } from '@/app/types';
-import { formatCurrency } from '@/app/lib/utils';
+import useCurrency from '@/app/hooks/useCurrency';
+import { StyledBalanceText } from '@/app/ui/StyledBalanceText';
 
 interface IBudgetExpenseSummary {
   budgetItems: Array<BudgetItem>;
@@ -39,6 +41,7 @@ export default function BudgetExpenseSummary({
 }: IBudgetExpenseSummary) {
   const [summarizeData, setSummarizeData] = useState<SummaryData | null>(null);
   const [columns, setColumns] = useState<Array<{ month: string }>>([]);
+  const { formatCurrency } = useCurrency();
 
   useEffect(() => {
     async function fetchAndSetupData(budget: Budget) {
@@ -97,7 +100,7 @@ export default function BudgetExpenseSummary({
           </TableRow>
         </TableHead>
         <TableBody>
-          {budgetItems.map(({ id, name }) => {
+          {budgetItems.map(({ id, name, amount: budgetItemAmount }) => {
             return (
               <TableRow key={name}>
                 <TableCell>{name}</TableCell>
@@ -110,7 +113,13 @@ export default function BudgetExpenseSummary({
                     : null;
                   return (
                     <TableCell key={month} align="right">
-                      {formatCurrency(value?.subtotal || 0)}
+                      <StyledBalanceText
+                        alert={
+                          value ? value.subtotal > budgetItemAmount : false
+                        }
+                      >
+                        {formatCurrency(value?.subtotal || 0)}
+                      </StyledBalanceText>
                     </TableCell>
                   );
                 })}
@@ -127,13 +136,18 @@ export default function BudgetExpenseSummary({
               const value = summarizeData
                 ? summarizeData.byMonth.find((data) => data.month === month)
                 : null;
+              const budgetTotal = sum(budgetItems.map(({ amount }) => amount));
               return (
                 <TableCell
                   key={month}
                   align="right"
                   sx={{ fontSize: '0.875rem' }}
                 >
-                  {formatCurrency(value?.subtotal || 0)}
+                  <StyledBalanceText
+                    alert={value ? value.subtotal > budgetTotal : false}
+                  >
+                    {formatCurrency(value?.subtotal || 0)}
+                  </StyledBalanceText>
                 </TableCell>
               );
             })}
