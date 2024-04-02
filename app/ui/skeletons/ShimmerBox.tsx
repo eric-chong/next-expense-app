@@ -1,3 +1,5 @@
+'use client';
+
 import { Box } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 

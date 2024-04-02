@@ -1,3 +1,5 @@
+'use client';
+
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
