@@ -37,7 +37,7 @@ export default function BudgetItemTable({
       headerContent: 'Name',
       name: 'name',
       formControl: 'text',
-      sx: { width: 220 },
+      sx: { maxWidth: 220 },
     },
     {
       headerContent: 'Amount',
@@ -45,7 +45,7 @@ export default function BudgetItemTable({
       dataAlign: 'right',
       formControl: 'currency',
       valueFormatter: (value: number) => formatCurrency(value),
-      sx: { width: 150 },
+      sx: { maxWidth: 200 },
     },
     { headerContent: 'Description', name: 'description' },
     {
