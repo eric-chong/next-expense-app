@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { addMonths, differenceInMonths, format, isBefore } from 'date-fns';
 import { sum } from 'mathjs';
 import {
@@ -34,6 +35,13 @@ type SummaryData = {
   byMonth: Array<SubtotalByMonth>;
   byMonthAndBudgetItem: Array<SubtotalByMonthBudgetItem>;
 };
+
+const StickyTableCell = styled(TableCell)(({ theme }) => ({
+  position: 'sticky',
+  left: 0,
+  backgroundColor: theme.palette.background.default,
+  borderRight: `1px solid ${theme.palette.divider}`,
+}));
 
 export default function BudgetExpenseSummary({
   budget,
@@ -85,10 +93,10 @@ export default function BudgetExpenseSummary({
 
   return (
     <TableContainer component={Paper}>
-      <Table>
+      <Table sx={{ borderCollapse: 'separate', borderSpacing: 0 }}>
         <TableHead>
           <TableRow>
-            <TableCell>Budget Item</TableCell>
+            <StickyTableCell>Budget Item</StickyTableCell>
             {columns.map(({ month }) => (
               <TableCell key={month} sx={{ minWidth: '5.5rem' }}>
                 {month}
@@ -100,7 +108,7 @@ export default function BudgetExpenseSummary({
           {budgetItems.map(({ id, name, amount: budgetItemAmount }) => {
             return (
               <TableRow key={name}>
-                <TableCell>{name}</TableCell>
+                <StickyTableCell>{name}</StickyTableCell>
                 {columns.map(({ month }) => {
                   const value = summarizeData
                     ? summarizeData.byMonthAndBudgetItem.find(
@@ -126,9 +134,9 @@ export default function BudgetExpenseSummary({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell align="right" sx={{ fontSize: '0.875rem' }}>
+            <StickyTableCell align="right" sx={{ fontSize: '0.875rem' }}>
               Total:
-            </TableCell>
+            </StickyTableCell>
             {columns.map(({ month }) => {
               const value = summarizeData
                 ? summarizeData.byMonth.find((data) => data.month === month)
