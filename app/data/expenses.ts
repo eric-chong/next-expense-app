@@ -1,3 +1,5 @@
+'use server';
+
 import { endOfMonth, startOfMonth } from 'date-fns';
 import { unstable_noStore as noStore } from 'next/cache';
 import { ExpenseItem } from '@/app/types';
@@ -25,5 +27,23 @@ export async function fetchExpenseItemsByDate(
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch expense items data.');
+  }
+}
+
+export async function fetchExpenseItemDescriptions(budgetItemId: string) {
+  noStore();
+  const userId = await user();
+  try {
+    const descriptions = await prisma.expenseItem.groupBy({
+      by: ['description'],
+      where: { userId, budgetItemId },
+      _count: { description: true },
+      orderBy: { _count: { description: 'desc' } },
+      take: 30,
+    });
+    return descriptions;
+  } catch (error) {
+    console.error('Database Error:', error);
+    return [];
   }
 }

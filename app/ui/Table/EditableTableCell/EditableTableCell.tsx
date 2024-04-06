@@ -8,6 +8,7 @@ import { Column } from '../types';
 interface IEditableTableCell {
   autoFocus: boolean;
   column: Column;
+  editingRowData: any;
   hasError: boolean;
   isEditing: boolean;
   onChange: (value: string | number | UTCDate | undefined) => void;
@@ -17,6 +18,7 @@ interface IEditableTableCell {
 export default function EditableTableCell({
   autoFocus,
   column,
+  editingRowData,
   hasError,
   isEditing,
   onChange,
@@ -36,6 +38,7 @@ export default function EditableTableCell({
         <TableCellField
           autoFocus={autoFocus}
           column={column}
+          editingRowData={editingRowData}
           name={name}
           hasError={hasError}
           fieldType={formControl}

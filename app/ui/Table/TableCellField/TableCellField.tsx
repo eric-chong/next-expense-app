@@ -4,6 +4,7 @@ import { TextField as MuiTextField } from '@mui/material';
 import DateField from './DateField';
 import SelectField from './SelectField';
 import { Column, FormControl } from '../types';
+import AutocompleteField from './AutocompleteField';
 
 interface ITableCellField {
   fieldType: FormControl;
@@ -12,6 +13,7 @@ interface ITableCellField {
 export interface IBaseCellField {
   autoFocus: boolean;
   column: Column;
+  editingRowData: any;
   name?: string;
   hasError: boolean;
   value: any;
@@ -80,6 +82,8 @@ export default function TableCellField({
       return <DateField {...otherProps} />;
     case 'select':
       return <SelectField {...otherProps} />;
+    case 'autocomplete':
+      return <AutocompleteField {...otherProps} />;
     default:
       return <TextField {...otherProps} />;
   }

@@ -7,6 +7,7 @@ import {
   insertExpenseItem,
   updateExpenseItem,
 } from '@/app/actions/expenses';
+import { fetchExpenseItemDescriptions } from '@/app/data/expenses';
 import useCurrency from '@/app/hooks/useCurrency';
 import useFormatDate from '@/app/hooks/useFormatDate';
 import { newExpenseItemSchema } from '@/app/schemas/expenses';
@@ -63,7 +64,23 @@ export default function ExpenseItemsTable({
       },
       sx: { maxWidth: 250 },
     },
-    { headerContent: 'Description', name: 'description' },
+    {
+      headerContent: 'Description',
+      name: 'description',
+      formControl: 'autocomplete',
+      selectOptions: async (editingRowData: any) => {
+        if (editingRowData.budgetItemId) {
+          const items = await fetchExpenseItemDescriptions(
+            editingRowData.budgetItemId,
+          );
+          return items
+            .map((item) => item.description || '')
+            .filter((item) => item);
+        } else {
+          return [];
+        }
+      },
+    },
     {
       headerContent: (
         <Button

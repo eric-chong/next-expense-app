@@ -9,6 +9,7 @@ export type FormControl =
   | 'currency'
   | 'date'
   | 'select'
+  | 'autocomplete'
   | undefined;
 
 export type Column = {
@@ -19,7 +20,9 @@ export type Column = {
   formControl?: FormControl;
   valueFormatter?: (value: any) => string | ReactNode;
   align?: Align;
-  selectOptions?: Array<any>;
+  selectOptions?:
+    | Array<any>
+    | ((arg: any) => Array<string> | Promise<Array<string>>);
   sx?: SxProps;
 };
 

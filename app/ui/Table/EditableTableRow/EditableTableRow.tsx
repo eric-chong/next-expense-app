@@ -30,20 +30,20 @@ export default function EditableTableRow({
   row,
   rowDataValidator,
 }: IEditableTableRow) {
-  const editingData = useRef(row);
+  const [editingData, setEditingData] = useState(row);
   const [errorFields, setErrorFields] = useState<Array<string | number>>([]);
 
   const handleSave = useCallback(() => {
     if (rowDataValidator && onSave) {
-      const { success, errors } = rowDataValidator(editingData.current);
+      const { success, errors } = rowDataValidator(editingData);
       if (!success) {
         setErrorFields(errors);
         return;
       }
       setErrorFields([]);
-      onSave(editingData.current);
+      onSave(editingData);
     }
-  }, [onSave, rowDataValidator]);
+  }, [editingData, onSave, rowDataValidator]);
 
   const handleEdit = useCallback(() => {
     const { id } = row;
@@ -55,10 +55,10 @@ export default function EditableTableRow({
   }, [row, onDelete]);
 
   const handleValueChange = useCallback((name: any, value: any) => {
-    editingData.current = {
-      ...editingData.current,
+    setEditingData((current: any) => ({
+      ...current,
       [name]: value,
-    };
+    }));
   }, []);
 
   const autoFocusColumnIndex = columns.findIndex((column) => column.autoFocus);
@@ -70,6 +70,7 @@ export default function EditableTableRow({
         return name ? (
           <EditableTableCell
             autoFocus={autoFocusColumnIndex === index}
+            editingRowData={editingData}
             hasError={errorFields.includes(name)}
             isEditing={isEditing}
             key={name}

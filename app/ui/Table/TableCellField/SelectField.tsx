@@ -24,7 +24,7 @@ export default function SelectField({
       onChange={handleChange}
       size="small"
     >
-      {column.selectOptions?.map((option) => (
+      {(column.selectOptions as Array<any>)?.map((option: any) => (
         <MenuItem key={option.id} value={option.id}>
           {option.name}
         </MenuItem>
