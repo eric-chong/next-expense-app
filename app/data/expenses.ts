@@ -21,7 +21,7 @@ export async function fetchExpenseItemsByDate(
     return expenseItems.map((expenseItem: any) => {
       return {
         ...expenseItem,
-        amount: expenseItem.amount,
+        amount: expenseItem.amount / 100,
       } as ExpenseItem;
     });
   } catch (error) {

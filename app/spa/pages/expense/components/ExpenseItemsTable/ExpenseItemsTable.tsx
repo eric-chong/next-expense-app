@@ -47,7 +47,7 @@ export default function ExpenseItemsTable({
       headerContent: 'Amount',
       name: 'amount',
       dataAlign: 'right',
-      formControl: 'currency',
+      formControl: 'number',
       valueFormatter: (value: number) => formatCurrency(value),
       sx: { maxWidth: 200 },
     },

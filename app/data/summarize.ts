@@ -26,7 +26,7 @@ export async function fetchSubtotalPerMonthBudgeItem(budgetId: string) {
     return expenseSubtotal.map((row: SubtotalByMonthBudgetItem) => ({
       ...row,
       month: format(new UTCDate(row.month), 'yyyy-MM'),
-      subtotal: Number(row.subtotal),
+      subtotal: Number(row.subtotal) / 100,
     }));
   } catch (error) {
     console.error('Database Error:', error);
@@ -52,7 +52,7 @@ export async function fetchSubtotalPerMonth(budgetId: string) {
     return expenseSubtotal.map((row: SubtotalByMonth) => ({
       ...row,
       month: format(new UTCDate(row.month), 'yyyy-MM'),
-      subtotal: Number(row.subtotal),
+      subtotal: Number(row.subtotal) / 100,
     }));
   } catch (error) {
     console.error('Database Error:', error);

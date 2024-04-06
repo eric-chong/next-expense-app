@@ -6,7 +6,6 @@ type Align = 'center' | 'right' | 'left' | 'inherit' | 'justify' | undefined;
 export type FormControl =
   | 'text'
   | 'number'
-  | 'currency'
   | 'date'
   | 'select'
   | 'autocomplete'
