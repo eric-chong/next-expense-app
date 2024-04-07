@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '@/app/spa/App';
 import { BudgetItem, ExpenseItem } from '@/app/types';
 import GlobalAlertProvider from '@/app/spa/providers/GlobalAlertProvider';
+import SectionHeader from '@/app/ui/SectionHeader';
 import ExpensesPageSkeleton from '@/app/ui/skeletons/expenses';
 import { ExpenseItemsTable, MonthNavigator } from './components';
 import ExpenseSummaryTable from './components/ExpenseSummaryTable';
@@ -47,16 +48,20 @@ function ExpensesPage({ budgetItems, expenseItems }: IPage) {
           <MonthNavigator />
           <Box
             display="flex"
-            gap="1rem"
-            sx={{ flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}
+            sx={{
+              flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+              gap: { xs: '2rem', sm: '2rem', md: '1rem' },
+            }}
           >
             <Box flexGrow="1">
+              <SectionHeader>Expense items</SectionHeader>
               <ExpenseItemsTable
                 budgetItems={budgetItems}
                 expenseItems={expenseItems}
               />
             </Box>
             <Box flexBasis="40%">
+              <SectionHeader>Expense summary</SectionHeader>
               <ExpenseSummaryTable
                 budgetItems={budgetItems}
                 expenseItems={expenseItems}

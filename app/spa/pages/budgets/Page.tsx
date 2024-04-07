@@ -8,6 +8,7 @@ import BudgetItems from './components/BudgetItems';
 import GlobalAlertProvider from '@/app/spa/providers/GlobalAlertProvider';
 import BudgetPageSkeleton from '@/app/ui/skeletons/budgets';
 import GlobalAlert from '@/app/ui/GlobalAlert';
+import SectionHeader from '@/app/ui/SectionHeader';
 import BudgetNavigator from './components/BudgetNavigator';
 import { fillBudgetsWithNewPeriod } from './components/utilHelpers';
 import BudgetExpenseSummary from './components/BudgetExpenseSummary';
@@ -61,16 +62,20 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
           />
           <Box
             display="flex"
-            gap="1rem"
-            sx={{ flexDirection: { xs: 'column', sm: 'column', md: 'row' } }}
+            sx={{
+              flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+              gap: { xs: '2rem', sm: '2rem', md: '1rem' },
+            }}
           >
             <Box flexGrow="1">
+              <SectionHeader>Budget items</SectionHeader>
               <BudgetItems
                 budgetItems={budgetItems}
                 currentBudgetId={currentBudgetId}
               />
             </Box>
             <Box maxWidth={{ xs: '100%', sm: '100%', md: '400px' }}>
+              <SectionHeader>Budget summary</SectionHeader>
               <BudgetExpenseSummary
                 budget={budgets.find((budget) => budget.id === currentBudgetId)}
                 budgetItems={budgetItems}
