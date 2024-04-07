@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { UTCDate } from '@date-fns/utc';
 import BudgetDateRange from './BudgetDateRange';
+import { endOfMonth, startOfMonth } from 'date-fns';
 
 interface IBudgetRangePicker {
   startDate: Date;
@@ -25,7 +26,10 @@ export default function BudgetRangePicker({
     (value: UTCDate | null) => {
       if (value) {
         setHasStartDateError(false);
-        dateRange.current = { ...dateRange.current, startDate: value };
+        dateRange.current = {
+          ...dateRange.current,
+          startDate: startOfMonth(value),
+        };
         onChange(dateRange.current);
       } else {
         setHasStartDateError(true);
@@ -38,7 +42,10 @@ export default function BudgetRangePicker({
     (value: UTCDate | null) => {
       if (value) {
         setHasEndDateError(false);
-        dateRange.current = { ...dateRange.current, endDate: value };
+        dateRange.current = {
+          ...dateRange.current,
+          endDate: endOfMonth(value),
+        };
         onChange(dateRange.current);
       } else {
         setHasEndDateError(true);
@@ -49,23 +56,25 @@ export default function BudgetRangePicker({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box width="9rem">
+      <Box width="8rem">
         <DatePicker
           onChange={handleStartValueChange}
           defaultValue={new UTCDate(startDate)}
-          format="yyyy-MM-dd"
+          format="yyyy-MM"
           slotProps={{
             textField: { size: 'small', error: hasStartDateError },
           }}
+          views={['month']}
         />
       </Box>
       -
-      <Box width="9rem">
+      <Box width="8rem">
         <DatePicker
           onChange={handleEndValueChange}
           defaultValue={endDate ? new UTCDate(endDate) : null}
-          format="yyyy-MM-dd"
+          format="yyyy-MM"
           slotProps={{ textField: { size: 'small', error: hasEndDateError } }}
+          views={['month']}
         />
       </Box>
     </LocalizationProvider>

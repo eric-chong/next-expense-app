@@ -26,7 +26,7 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
     isNewBudget(currentBudget),
   );
   const [isMutating, setIsMutating] = useState<boolean>(false);
-  const { formatDate } = useFormatDate();
+  const { formatMonth } = useFormatDate();
 
   const { setError } = useContext(GlobalAlertContext);
 
@@ -85,7 +85,7 @@ export default function BudgetRange({ currentBudget }: IBudgetRange) {
         </>
       ) : (
         <>
-          <div>{`${formatDate(startDate)} - ${formatDate(endDate) || 'No end date'}`}</div>
+          <div>{`${formatMonth(startDate)} - ${formatMonth(endDate) || 'No end date'}`}</div>
           <IconButton
             size="small"
             sx={{ width: '1.75rem', height: '1.75rem' }}

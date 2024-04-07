@@ -7,5 +7,10 @@ export default function useFormatDate() {
     return format(new UTCDate(date), 'yyyy-MM-dd');
   };
 
-  return { formatDate };
+  const formatMonth = (date: Date | null) => {
+    if (!date) return;
+    return format(new UTCDate(date), 'yyyy-MM');
+  };
+
+  return { formatDate, formatMonth };
 }
