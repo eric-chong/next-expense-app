@@ -15,7 +15,7 @@ import ViewChartsButton from '@/app/ui/ViewChartsButton';
 import BudgetNavigator from './components/BudgetNavigator';
 import { fillBudgetsWithNewPeriod } from './components/utilHelpers';
 import BudgetExpenseSummary from './components/BudgetExpenseSummary';
-// import BudgetCharts from '@/app/ui/BudgetCharts';
+import BudgetCharts from '@/app/ui/BudgetCharts';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
@@ -56,8 +56,7 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
         <DrawerProvider>
           <GlobalAlert />
           <DrawerContainer title="Budget charts">
-            <>Placeholder</>
-            {/* <BudgetCharts budgetItems={budgetItems} /> */}
+            <BudgetCharts budgetItems={budgetItems} />
           </DrawerContainer>
           <Box display="flex" flexDirection="column" gap="1rem">
             <Typography variant="h5">Budgets</Typography>
