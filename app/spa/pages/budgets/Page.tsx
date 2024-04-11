@@ -5,13 +5,17 @@ import { Box, Typography } from '@mui/material';
 import App from '@/app/spa/App';
 import { Budget, BudgetItem } from '@/app/types';
 import BudgetItems from './components/BudgetItems';
+import DrawerProvider from '@/app/spa/providers/DrawerProvider';
 import GlobalAlertProvider from '@/app/spa/providers/GlobalAlertProvider';
 import BudgetPageSkeleton from '@/app/ui/skeletons/budgets';
+import DrawerContainer from '@/app/ui/DrawerContainer';
 import GlobalAlert from '@/app/ui/GlobalAlert';
 import SectionHeader from '@/app/ui/SectionHeader';
+import ViewChartsButton from '@/app/ui/ViewChartsButton';
 import BudgetNavigator from './components/BudgetNavigator';
 import { fillBudgetsWithNewPeriod } from './components/utilHelpers';
 import BudgetExpenseSummary from './components/BudgetExpenseSummary';
+import BudgetCharts from '@/app/ui/BudgetCharts';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
@@ -49,40 +53,53 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
   return (
     <main>
       <GlobalAlertProvider>
-        <GlobalAlert />
-        <Box display="flex" flexDirection="column" gap="1rem">
-          <Typography variant="h5">Budgets</Typography>
-          <BudgetNavigator
-            budgets={
-              currentBudgetId
-                ? budgets
-                : fillBudgetsWithNewPeriod(new Date(), budgets)
-            }
-            budgetId={currentBudgetId}
-          />
-          <Box
-            display="flex"
-            sx={{
-              flexDirection: { xs: 'column', sm: 'column', md: 'row' },
-              gap: { xs: '2rem', sm: '2rem', md: '1rem' },
-            }}
-          >
-            <Box flexGrow="1">
-              <SectionHeader>Budget items</SectionHeader>
-              <BudgetItems
-                budgetItems={budgetItems}
-                currentBudgetId={currentBudgetId}
-              />
+        <DrawerProvider>
+          <GlobalAlert />
+          <DrawerContainer title="Budget charts">
+            <>Placeholder</>
+            {/* <BudgetCharts budgetItems={budgetItems} /> */}
+          </DrawerContainer>
+          <Box display="flex" flexDirection="column" gap="1rem">
+            <Typography variant="h5">Budgets</Typography>
+            <Box display="flex" gap="1rem">
+              <Box flexGrow="1">
+                <BudgetNavigator
+                  budgets={
+                    currentBudgetId
+                      ? budgets
+                      : fillBudgetsWithNewPeriod(new Date(), budgets)
+                  }
+                  budgetId={currentBudgetId}
+                />
+              </Box>
+              <ViewChartsButton />
             </Box>
-            <Box maxWidth={{ xs: '100%', sm: '100%', md: '400px' }}>
-              <SectionHeader>Budget summary</SectionHeader>
-              <BudgetExpenseSummary
-                budget={budgets.find((budget) => budget.id === currentBudgetId)}
-                budgetItems={budgetItems}
-              />
+            <Box
+              display="flex"
+              sx={{
+                flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+                gap: { xs: '2rem', sm: '2rem', md: '1rem' },
+              }}
+            >
+              <Box flexGrow="1">
+                <SectionHeader>Budget items</SectionHeader>
+                <BudgetItems
+                  budgetItems={budgetItems}
+                  currentBudgetId={currentBudgetId}
+                />
+              </Box>
+              <Box maxWidth={{ xs: '100%', sm: '100%', md: '400px' }}>
+                <SectionHeader>Budget summary</SectionHeader>
+                <BudgetExpenseSummary
+                  budget={budgets.find(
+                    (budget) => budget.id === currentBudgetId,
+                  )}
+                  budgetItems={budgetItems}
+                />
+              </Box>
             </Box>
           </Box>
-        </Box>
+        </DrawerProvider>
       </GlobalAlertProvider>
     </main>
   );
