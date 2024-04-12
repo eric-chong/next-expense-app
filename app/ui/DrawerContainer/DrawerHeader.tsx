@@ -19,10 +19,13 @@ export default function DrawerHeader({
       borderBottom={`1px solid ${theme.palette.divider}`}
       alignItems="center"
     >
-      <Box flexGrow="1" padding="1rem">
+      <Box flexGrow="1" padding={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}>
         <Typography variant="h6">{title}</Typography>
       </Box>
-      <Box borderLeft={`1px solid ${theme.palette.divider}`} padding="1rem">
+      <Box
+        borderLeft={`1px solid ${theme.palette.divider}`}
+        padding={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
+      >
         <IconButton size="small" onClick={onClose}>
           <CloseIcon />
         </IconButton>

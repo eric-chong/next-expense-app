@@ -1,60 +1,66 @@
 import { BudgetItem } from '@/app/types';
 import { Box, Typography } from '@mui/material';
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
-import useChartColors from '../hooks/useChartColors';
-
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = (value: any) => {
-  const { cx, cy, midAngle, innerRadius, outerRadius, percent } = value;
-
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="white"
-      textAnchor="middle"
-      dominantBaseline="central"
-    >
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import { sum } from 'mathjs';
+import useCurrency from '@/app/hooks/useCurrency';
+import { useMemo } from 'react';
 
 interface IBudgetCharts {
   budgetItems: Array<BudgetItem>;
 }
 export default function BudgetCharts({ budgetItems }: IBudgetCharts) {
-  const { getColor } = useChartColors();
+  const { formatCurrency } = useCurrency();
+
+  const theme = useTheme();
+  const isMediumUp = useMediaQuery(theme.breakpoints.up('md'));
+
+  const data = useMemo(
+    () =>
+      budgetItems.map(({ id, amount: value, name: label }) => {
+        return { id, value, label };
+      }),
+    [budgetItems],
+  );
+  const total = useMemo(
+    () => sum(budgetItems.map(({ amount }) => amount)),
+    [budgetItems],
+  );
+
   return (
     <Box
       display="flex"
       flexDirection="column"
-      padding="1rem"
+      padding={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
       alignItems="center"
     >
       <Typography variant="subtitle1" sx={{ fontSize: '1.25rem' }}>
         Budget items allocation
       </Typography>
-      <PieChart width={500} height={450}>
-        <Pie
-          data={budgetItems}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          label={renderCustomizedLabel}
-          outerRadius={200}
-          dataKey="amount"
-        >
-          {budgetItems.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={getColor(index)} />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
+      <PieChart
+        series={[
+          {
+            data,
+            arcLabel: (item) =>
+              `${item.label} (${((item.value / total) * 100).toFixed(0)}%)`,
+            arcLabelMinAngle: 45,
+            valueFormatter: ({ value }) => formatCurrency(value),
+            cx: isMediumUp ? 250 : 200,
+            cy: isMediumUp ? 200 : 150,
+            highlightScope: { faded: 'global', highlighted: 'item' },
+            faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+          },
+        ]}
+        height={isMediumUp ? 400 : 300}
+        width={isMediumUp ? 500 : 400}
+        slotProps={{ legend: { hidden: true } }}
+        sx={{
+          [`& .${pieArcLabelClasses.root}`]: {
+            fill: 'white',
+          },
+        }}
+      />
     </Box>
   );
 }

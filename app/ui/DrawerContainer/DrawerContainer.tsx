@@ -16,12 +16,11 @@ export default function DrawerContainer({
 }) {
   const { isOpen, setIsOpen: setDrawerIsOpen } = useContext(DrawerContext);
   const theme = useTheme();
+  const isMediumUp = useMediaQuery(theme.breakpoints.up('md'));
 
   const handleClose = useCallback(() => {
     setDrawerIsOpen((isOpen: boolean) => !isOpen);
   }, [setDrawerIsOpen]);
-
-  const isMediumUp = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <Drawer
@@ -29,7 +28,7 @@ export default function DrawerContainer({
       open={isOpen}
       onClose={handleClose}
       {...drawerProps}
-      PaperProps={{ sx: { maxHeight: { xs: '50%', sm: '50%', md: '100%' } } }}
+      PaperProps={{ sx: { maxHeight: { xs: '60%', sm: '60%', md: '100%' } } }}
     >
       <Box minWidth="40rem">
         <DrawerHeader title={title} onClose={() => setDrawerIsOpen(false)} />
