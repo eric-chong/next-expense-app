@@ -15,6 +15,7 @@ export default function ViewChartsButton() {
       variant="outlined"
       startIcon={<InsightsIcon />}
       size="small"
+      fullWidth
       onClick={handleClick}
     >
       View charts

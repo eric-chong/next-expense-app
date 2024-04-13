@@ -58,9 +58,19 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
           <DrawerContainer title="Budget charts">
             <BudgetCharts budgetItems={budgetItems} />
           </DrawerContainer>
-          <Box display="flex" flexDirection="column" gap="1rem">
+          <Box
+            display="flex"
+            flexDirection="column"
+            gap={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
+          >
             <Typography variant="h5">Budgets</Typography>
-            <Box display="flex" gap="1rem">
+            <Box
+              display="flex"
+              gap={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
+              sx={{
+                flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+              }}
+            >
               <Box flexGrow="1">
                 <BudgetNavigator
                   budgets={
@@ -71,7 +81,9 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
                   budgetId={currentBudgetId}
                 />
               </Box>
-              <ViewChartsButton />
+              <Box padding={{ xs: '0 0.5rem', sm: '0 0.5rem', md: '0' }}>
+                <ViewChartsButton />
+              </Box>
             </Box>
             <Box
               display="flex"

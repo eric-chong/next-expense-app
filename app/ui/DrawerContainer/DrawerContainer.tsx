@@ -30,7 +30,7 @@ export default function DrawerContainer({
       {...drawerProps}
       PaperProps={{ sx: { maxHeight: { xs: '60%', sm: '60%', md: '100%' } } }}
     >
-      <Box minWidth="40rem">
+      <Box minWidth={{ xs: 'auto', sm: 'auto', md: '40rem' }}>
         <DrawerHeader title={title} onClose={() => setDrawerIsOpen(false)} />
         {children}
       </Box>
