@@ -23,3 +23,8 @@ export type SubtotalByMonth = {
   budgetItemId: string;
   subtotal: number;
 };
+
+export type SummaryData = {
+  byMonth: Array<SubtotalByMonth>;
+  byMonthAndBudgetItem: Array<SubtotalByMonthBudgetItem>;
+};

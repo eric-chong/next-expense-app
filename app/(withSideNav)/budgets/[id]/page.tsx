@@ -6,15 +6,23 @@ interface IParams {
 }
 
 export default async function Page({ params }: { params: IParams }) {
-  const { budgetItems, budgets, currentBudget } = await fetchBudgetsDataById(
-    params.id,
-  );
+  const {
+    budgetItems,
+    budgets,
+    currentBudget,
+    subtotalByMonth,
+    subtotalByMonthAndBudgetItem,
+  } = await fetchBudgetsDataById(params.id);
 
   return (
     <BudgetsPage
       budgetItems={budgetItems}
       budgets={budgets}
       currentBudgetId={currentBudget?.id}
+      summaryData={{
+        byMonth: subtotalByMonth,
+        byMonthAndBudgetItem: subtotalByMonthAndBudgetItem,
+      }}
     />
   );
 }

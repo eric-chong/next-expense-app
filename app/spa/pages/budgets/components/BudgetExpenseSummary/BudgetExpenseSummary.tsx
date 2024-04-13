@@ -13,28 +13,15 @@ import {
 import { styled } from '@mui/material/styles';
 import { addMonths, differenceInMonths, format, isBefore } from 'date-fns';
 import { sum } from 'mathjs';
-import {
-  fetchSubtotalPerMonth,
-  fetchSubtotalPerMonthBudgeItem,
-} from '@/app/data/summarize';
-import {
-  Budget,
-  BudgetItem,
-  SubtotalByMonth,
-  SubtotalByMonthBudgetItem,
-} from '@/app/types';
+import { Budget, BudgetItem, BudgetSummaryData } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
 import { StyledBalanceText } from '@/app/ui/StyledBalanceText';
 
 interface IBudgetExpenseSummary {
   budgetItems: Array<BudgetItem>;
   budget?: Budget;
+  summaryData: BudgetSummaryData;
 }
-
-type SummaryData = {
-  byMonth: Array<SubtotalByMonth>;
-  byMonthAndBudgetItem: Array<SubtotalByMonthBudgetItem>;
-};
 
 const StickyTableCell = styled(TableCell)(({ theme }) => ({
   position: 'sticky',
@@ -46,27 +33,10 @@ const StickyTableCell = styled(TableCell)(({ theme }) => ({
 export default function BudgetExpenseSummary({
   budget,
   budgetItems,
+  summaryData,
 }: IBudgetExpenseSummary) {
-  const [summarizeData, setSummarizeData] = useState<SummaryData | null>(null);
   const [columns, setColumns] = useState<Array<{ month: string }>>([]);
   const { formatCurrency } = useCurrency();
-
-  useEffect(() => {
-    async function fetchAndSetupData(budget: Budget) {
-      const [subtotalByMoonth, subtotalByMoonthAndBudgetItem] =
-        await Promise.all([
-          fetchSubtotalPerMonth(budget.id),
-          fetchSubtotalPerMonthBudgeItem(budget.id),
-        ]);
-      setSummarizeData({
-        byMonth: subtotalByMoonth,
-        byMonthAndBudgetItem: subtotalByMoonthAndBudgetItem,
-      });
-    }
-    if (budget) {
-      fetchAndSetupData(budget);
-    }
-  }, [budget, setSummarizeData]);
 
   useEffect(() => {
     function getSummaryColumns(budget: Budget) {
@@ -110,12 +80,9 @@ export default function BudgetExpenseSummary({
               <TableRow key={name}>
                 <StickyTableCell>{name}</StickyTableCell>
                 {columns.map(({ month }) => {
-                  const value = summarizeData
-                    ? summarizeData.byMonthAndBudgetItem.find(
-                        (data) =>
-                          data.month === month && data.budgetItemId === id,
-                      )
-                    : null;
+                  const value = summaryData.byMonthAndBudgetItem.find(
+                    (data) => data.month === month && data.budgetItemId === id,
+                  );
                   return (
                     <TableCell key={month} align="right">
                       <StyledBalanceText
@@ -138,9 +105,9 @@ export default function BudgetExpenseSummary({
               Total:
             </StickyTableCell>
             {columns.map(({ month }) => {
-              const value = summarizeData
-                ? summarizeData.byMonth.find((data) => data.month === month)
-                : null;
+              const value = summaryData.byMonth.find(
+                (data) => data.month === month,
+              );
               const budgetTotal = sum(budgetItems.map(({ amount }) => amount));
               return (
                 <TableCell

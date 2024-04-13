@@ -6,4 +6,5 @@ export type {
   NewExpenseItem,
   SubtotalByMonth,
   SubtotalByMonthBudgetItem,
+  SummaryData as BudgetSummaryData,
 } from './ExpenseItem';

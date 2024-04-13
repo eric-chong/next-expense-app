@@ -3,25 +3,52 @@ import { Budget, BudgetItem } from '@/app/types';
 import { getBudgetByDate, getBudgetById } from '@/app/utils/budgetHelpers';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+import {
+  fetchSubtotalPerMonth,
+  fetchSubtotalPerMonthBudgeItem,
+} from './summarize';
 
 export async function fetchBudgetsDataByDate(date: Date | string) {
   const budgets = await fetchBudgets();
   const currentBudget = getBudgetByDate(budgets, date);
 
-  const budgetItems = currentBudget
-    ? await fetchBudgetItems(currentBudget.id)
+  const [
+    budgetItems = [],
+    subtotalByMonth = [],
+    subtotalByMonthAndBudgetItem = [],
+  ] = currentBudget
+    ? await Promise.all([
+        fetchBudgetItems(currentBudget.id),
+        fetchSubtotalPerMonth(currentBudget.id),
+        fetchSubtotalPerMonthBudgeItem(currentBudget.id),
+      ])
     : [];
 
-  return { budgetItems, budgets, currentBudget };
+  return {
+    budgetItems,
+    budgets,
+    currentBudget,
+    subtotalByMonth,
+    subtotalByMonthAndBudgetItem,
+  };
 }
 
 export async function fetchBudgetsDataById(budgetId: string) {
-  const [budgets, budgetItems] = await Promise.all([
-    fetchBudgets(),
-    fetchBudgetItems(budgetId),
-  ]);
+  const [budgets, budgetItems, subtotalByMonth, subtotalByMonthAndBudgetItem] =
+    await Promise.all([
+      fetchBudgets(),
+      fetchBudgetItems(budgetId),
+      fetchSubtotalPerMonth(budgetId),
+      fetchSubtotalPerMonthBudgeItem(budgetId),
+    ]);
   const currentBudget = getBudgetById(budgets, budgetId);
-  return { budgetItems, budgets, currentBudget };
+  return {
+    budgetItems,
+    budgets,
+    currentBudget,
+    subtotalByMonth,
+    subtotalByMonthAndBudgetItem,
+  };
 }
 
 export async function fetchBudgets() {

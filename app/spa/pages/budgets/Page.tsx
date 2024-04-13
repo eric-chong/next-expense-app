@@ -3,7 +3,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import App from '@/app/spa/App';
-import { Budget, BudgetItem } from '@/app/types';
+import { Budget, BudgetItem, BudgetSummaryData } from '@/app/types';
 import BudgetItems from './components/BudgetItems';
 import DrawerProvider from '@/app/spa/providers/DrawerProvider';
 import GlobalAlertProvider from '@/app/spa/providers/GlobalAlertProvider';
@@ -21,6 +21,7 @@ interface IPage {
   budgetItems: Array<BudgetItem>;
   budgets: Array<Budget>;
   currentBudgetId?: string;
+  summaryData: BudgetSummaryData;
 }
 
 export default function Page(props: IPage) {
@@ -49,7 +50,12 @@ export default function Page(props: IPage) {
   );
 }
 
-function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
+function BudgetPage({
+  budgetItems,
+  budgets,
+  currentBudgetId,
+  summaryData,
+}: IPage) {
   return (
     <main>
       <GlobalAlertProvider>
@@ -102,6 +108,7 @@ function BudgetPage({ budgetItems, budgets, currentBudgetId }: IPage) {
               <Box maxWidth={{ xs: '100%', sm: '100%', md: '400px' }}>
                 <SectionHeader>Budget summary</SectionHeader>
                 <BudgetExpenseSummary
+                  summaryData={summaryData}
                   budget={budgets.find(
                     (budget) => budget.id === currentBudgetId,
                   )}
