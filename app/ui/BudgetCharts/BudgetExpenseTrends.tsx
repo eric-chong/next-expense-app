@@ -1,5 +1,7 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts/LineChart';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { BudgetItem, BudgetSummaryData } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
 import { useMemo } from 'react';
@@ -14,6 +16,9 @@ export default function BudgetExpenseTrends({
   summaryData,
 }: IBudgetExpenseTrends) {
   const { formatCurrency } = useCurrency();
+
+  const theme = useTheme();
+  const isMediumUp = useMediaQuery(theme.breakpoints.up('md'));
 
   const aggregatedSummary = useMemo(() => {
     return summaryData.byMonthAndBudgetItem.reduce((prev, curr) => {
@@ -47,7 +52,7 @@ export default function BudgetExpenseTrends({
         Monthly expense trends
       </Typography>
       <LineChart
-        height={400}
+        height={isMediumUp ? 400 : 300}
         xAxis={[
           {
             dataKey: 'id',
