@@ -62,7 +62,7 @@ function BudgetPage({
         <DrawerProvider>
           <GlobalAlert />
           <DrawerContainer title="Budget charts">
-            <BudgetCharts budgetItems={budgetItems} />
+            <BudgetCharts budgetItems={budgetItems} summaryData={summaryData} />
           </DrawerContainer>
           <Box
             display="flex"

@@ -1,65 +1,22 @@
-import { BudgetItem } from '@/app/types';
-import { Box, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-import { sum } from 'mathjs';
-import useCurrency from '@/app/hooks/useCurrency';
-import { useMemo } from 'react';
+import { BudgetItem, BudgetSummaryData } from '@/app/types';
+import { Box } from '@mui/material';
+import BudgetAllocationPieChart from './BudgetAllocationPieChart';
+import BudgetExpenseTrends from './BudgetExpenseTrends';
 
 interface IBudgetCharts {
   budgetItems: Array<BudgetItem>;
+  summaryData: BudgetSummaryData;
 }
-export default function BudgetCharts({ budgetItems }: IBudgetCharts) {
-  const { formatCurrency } = useCurrency();
-
-  const theme = useTheme();
-  const isMediumUp = useMediaQuery(theme.breakpoints.up('md'));
-
-  const data = useMemo(
-    () =>
-      budgetItems.map(({ id, amount: value, name: label }) => {
-        return { id, value, label };
-      }),
-    [budgetItems],
-  );
-  const total = useMemo(
-    () => sum(budgetItems.map(({ amount }) => amount)),
-    [budgetItems],
-  );
-
+export default function BudgetCharts({
+  budgetItems,
+  summaryData,
+}: IBudgetCharts) {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      padding={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
-      alignItems="center"
-    >
-      <Typography variant="subtitle1" sx={{ fontSize: '1.25rem' }}>
-        Budget items allocation
-      </Typography>
-      <PieChart
-        series={[
-          {
-            data,
-            arcLabel: (item) =>
-              `${item.label} (${((item.value / total) * 100).toFixed(0)}%)`,
-            arcLabelMinAngle: 45,
-            valueFormatter: ({ value }) => formatCurrency(value),
-            cx: isMediumUp ? 250 : 200,
-            cy: isMediumUp ? 200 : 150,
-            highlightScope: { faded: 'global', highlighted: 'item' },
-            faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-          },
-        ]}
-        height={isMediumUp ? 400 : 300}
-        width={isMediumUp ? 500 : 400}
-        slotProps={{ legend: { hidden: true } }}
-        sx={{
-          [`& .${pieArcLabelClasses.root}`]: {
-            fill: 'white',
-          },
-        }}
+    <Box display="flex" flexDirection="column">
+      <BudgetAllocationPieChart budgetItems={budgetItems} />
+      <BudgetExpenseTrends
+        budgetItems={budgetItems}
+        summaryData={summaryData}
       />
     </Box>
   );
