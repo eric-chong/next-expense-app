@@ -1,10 +1,11 @@
+import { useMemo, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { BudgetItem, BudgetSummaryData } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
-import { useMemo } from 'react';
+import BudgetExpenseTrendsView from './BudgetExpenseTrendsView';
 
 interface IBudgetExpenseTrends {
   budgetItems: Array<BudgetItem>;
@@ -15,6 +16,8 @@ export default function BudgetExpenseTrends({
   budgetItems,
   summaryData,
 }: IBudgetExpenseTrends) {
+  const [showSeries, setShowSeries] = useState<Array<BudgetItem>>(budgetItems);
+
   const { formatCurrency } = useCurrency();
 
   const theme = useTheme();
@@ -43,11 +46,16 @@ export default function BudgetExpenseTrends({
     <Box
       display="flex"
       flexDirection="column"
+      position="relative"
       padding={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
       margin={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
       alignItems="center"
       component={Paper}
     >
+      <BudgetExpenseTrendsView
+        budgetItems={budgetItems}
+        onShowSeriesChange={(items: Array<BudgetItem>) => setShowSeries(items)}
+      />
       <Typography variant="subtitle1" sx={{ fontSize: '1.25rem' }}>
         Monthly expense trends
       </Typography>
@@ -64,15 +72,19 @@ export default function BudgetExpenseTrends({
             tickInterval: aggregatedSummary.map((entry) => entry.id),
           },
         ]}
-        series={budgetItems.map((budgetItem) => {
-          return {
-            dataKey: budgetItem.id,
-            label: budgetItem.name,
-            showMark: true,
-            valueFormatter: (value) => formatCurrency(value as number),
-            curve: 'linear',
-          };
-        })}
+        series={budgetItems
+          .filter((budgetItem) =>
+            showSeries.map((series) => series.id).includes(budgetItem.id),
+          )
+          .map((budgetItem) => {
+            return {
+              dataKey: budgetItem.id,
+              label: budgetItem.name,
+              showMark: true,
+              valueFormatter: (value) => formatCurrency(value as number),
+              curve: 'linear',
+            };
+          })}
         dataset={aggregatedSummary}
         slotProps={{ legend: { hidden: true } }}
       />
