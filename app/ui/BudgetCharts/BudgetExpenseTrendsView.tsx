@@ -57,6 +57,7 @@ export default function BudgetExpenseTrendsView({
         }}
       >
         <MultiSelectMenuItems
+          dividerLabel="Lines"
           items={budgetItems}
           selectedItems={selectedBudgetItems}
           onChange={(items: Array<any>) => {
