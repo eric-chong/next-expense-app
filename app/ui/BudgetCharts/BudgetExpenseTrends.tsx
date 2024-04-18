@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
+import { ChartsReferenceLine } from '@mui/x-charts';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -17,6 +18,11 @@ export default function BudgetExpenseTrends({
   summaryData,
 }: IBudgetExpenseTrends) {
   const [showSeries, setShowSeries] = useState<Array<BudgetItem>>(budgetItems);
+  const [refBudgetItemId, setRefBudgetItemId] = useState<string | null>(null);
+
+  const refBudgetItem = budgetItems.find(
+    (budgetItem) => budgetItem.id === refBudgetItemId,
+  );
 
   const { formatCurrency } = useCurrency();
 
@@ -55,6 +61,9 @@ export default function BudgetExpenseTrends({
       <BudgetExpenseTrendsView
         budgetItems={budgetItems}
         onShowSeriesChange={(items: Array<BudgetItem>) => setShowSeries(items)}
+        onReferenceBudgetItemIdChange={(budgetItemId: string) =>
+          setRefBudgetItemId(budgetItemId)
+        }
       />
       <Typography variant="subtitle1" sx={{ fontSize: '1.25rem' }}>
         Monthly expense trends
@@ -87,7 +96,16 @@ export default function BudgetExpenseTrends({
           })}
         dataset={aggregatedSummary}
         slotProps={{ legend: { hidden: true } }}
-      />
+      >
+        {refBudgetItem && (
+          <ChartsReferenceLine
+            y={refBudgetItem.amount}
+            label={`${refBudgetItem.name}: ${formatCurrency(refBudgetItem.amount)}`}
+            lineStyle={{ stroke: 'red' }}
+            labelStyle={{ fontSize: '0.85rem' }}
+          />
+        )}
+      </LineChart>
     </Box>
   );
 }

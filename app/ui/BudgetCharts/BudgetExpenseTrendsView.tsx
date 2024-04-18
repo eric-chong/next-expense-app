@@ -3,15 +3,18 @@ import { Button, Menu } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { BudgetItem } from '@/app/types';
 import MultiSelectMenuItems from '@/app/ui/MultiSelectMenuItems';
+import SingleSelectMenuItems from '@/app/ui/SingleSelectMenuItems';
 
 interface IBudgetExpenseTrendsView {
   budgetItems: Array<BudgetItem>;
   onShowSeriesChange: (items: Array<BudgetItem>) => void;
+  onReferenceBudgetItemIdChange: (itemId: string) => void;
 }
 
 export default function BudgetExpenseTrendsView({
   budgetItems,
   onShowSeriesChange,
+  onReferenceBudgetItemIdChange,
 }: IBudgetExpenseTrendsView) {
   const [selectedBudgetItems, setSelectedBudgetItems] =
     useState<Array<BudgetItem>>(budgetItems);
@@ -63,6 +66,14 @@ export default function BudgetExpenseTrendsView({
           onChange={(items: Array<any>) => {
             setSelectedBudgetItems(items);
             onShowSeriesChange(items as Array<BudgetItem>);
+          }}
+        />
+        <SingleSelectMenuItems
+          dividerLabel="Budget item amount"
+          items={budgetItems}
+          selectedItem={null}
+          onChange={(id: string) => {
+            onReferenceBudgetItemIdChange(id);
           }}
         />
       </Menu>
