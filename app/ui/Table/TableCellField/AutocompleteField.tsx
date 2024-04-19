@@ -46,6 +46,7 @@ export default function AutocompleteField({
       options={options}
       onOpen={() => setIsOpen(true)}
       onClose={() => setIsOpen(false)}
+      onChange={(event: any, newValue: string) => onChange(newValue)}
       loading={loadingOptions}
       renderInput={(params) => (
         <TextField
