@@ -88,7 +88,7 @@ function BudgetPage({
                 />
               </Box>
               <Box padding={{ xs: '0 0.5rem', sm: '0 0.5rem', md: '0' }}>
-                <ViewChartsButton />
+                <ViewChartsButton disabled={!currentBudgetId} />
               </Box>
             </Box>
             <Box
@@ -105,16 +105,18 @@ function BudgetPage({
                   currentBudgetId={currentBudgetId}
                 />
               </Box>
-              <Box maxWidth={{ xs: '100%', sm: '100%', md: '400px' }}>
-                <SectionHeader>Budget summary</SectionHeader>
-                <BudgetExpenseSummary
-                  summaryData={summaryData}
-                  budget={budgets.find(
-                    (budget) => budget.id === currentBudgetId,
-                  )}
-                  budgetItems={budgetItems}
-                />
-              </Box>
+              {currentBudgetId && (
+                <Box maxWidth={{ xs: '100%', sm: '100%', md: '400px' }}>
+                  <SectionHeader>Budget summary</SectionHeader>
+                  <BudgetExpenseSummary
+                    summaryData={summaryData}
+                    budget={budgets.find(
+                      (budget) => budget.id === currentBudgetId,
+                    )}
+                    budgetItems={budgetItems}
+                  />
+                </Box>
+              )}
             </Box>
           </Box>
         </DrawerProvider>

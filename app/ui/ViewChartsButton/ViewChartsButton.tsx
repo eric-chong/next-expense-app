@@ -3,7 +3,10 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import { useCallback, useContext } from 'react';
 import { DrawerContext } from '@/app/spa/providers/DrawerProvider';
 
-export default function ViewChartsButton() {
+interface IViewChartsButton {
+  disabled: boolean;
+}
+export default function ViewChartsButton({ disabled }: IViewChartsButton) {
   const { setIsOpen: setDrawerOpen } = useContext(DrawerContext);
 
   const handleClick = useCallback(() => {
@@ -12,6 +15,7 @@ export default function ViewChartsButton() {
 
   return (
     <Button
+      disabled={disabled}
       variant="outlined"
       startIcon={<InsightsIcon />}
       size="small"
