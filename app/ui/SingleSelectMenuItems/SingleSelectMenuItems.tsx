@@ -34,11 +34,16 @@ export default function SingleSelectMenuItems({
         </Typography>
       </Divider>
       <RadioGroup
-        defaultValue={selectedItem ? selectedItem.id : ''}
+        value={selectedItem ? selectedItem.id : ''}
         onChange={(e) => onChange(e.target.value)}
       >
         <MenuItem>
-          <FormControlLabel value={''} control={<Radio />} label="None" />
+          <FormControlLabel
+            value={''}
+            control={<Radio />}
+            label="None"
+            sx={{ height: '1.25rem' }}
+          />
         </MenuItem>
 
         {items.map((item) => (

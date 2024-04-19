@@ -8,6 +8,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 
 interface IMultiSelectMenuItems {
+  disabled: boolean;
   dividerLabel?: string;
   items: Array<any>;
   selectedItems: Array<any>;
@@ -15,6 +16,7 @@ interface IMultiSelectMenuItems {
 }
 
 export default function MultiSelectMenuItems({
+  disabled,
   dividerLabel,
   items,
   selectedItems,
@@ -46,6 +48,7 @@ export default function MultiSelectMenuItems({
       {items.map((item) => (
         <MenuItem key={item.name} onClick={() => {}}>
           <FormControlLabel
+            disabled={disabled}
             control={
               <Checkbox
                 checked={selectedItems

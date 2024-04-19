@@ -83,7 +83,9 @@ export default function BudgetExpenseTrends({
         ]}
         series={budgetItems
           .filter((budgetItem) =>
-            showSeries.map((series) => series.id).includes(budgetItem.id),
+            refBudgetItemId
+              ? budgetItem.id === refBudgetItemId
+              : showSeries.map((series) => series.id).includes(budgetItem.id),
           )
           .map((budgetItem) => {
             return {
