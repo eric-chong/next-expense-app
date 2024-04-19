@@ -10,6 +10,7 @@ import {
 } from '@/app/schemas/budgets';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+import { dollarToCents } from '@/app/utils/numberHelpers';
 import { ActionResponse } from './types';
 
 export async function insertBudget(newBudget: NewBudget) {
@@ -107,7 +108,7 @@ export async function insertBudgetItem(newBudgetItem: NewBudgetItem) {
 
   const userId = await user();
   const { name, amount, description, budgetId } = parseNewBudgetItem.data;
-  const amountInCents = amount * 100;
+  const amountInCents = dollarToCents(amount);
 
   try {
     await prisma.budgetItem.create({
@@ -133,7 +134,7 @@ export async function updateBudgetItem(budgetItem: BudgetItem) {
 
   const { id, name, amount, description, budgetId, userId } =
     parsedBudgetItem.data;
-  const amountInCents = amount * 100;
+  const amountInCents = dollarToCents(amount);
 
   try {
     await prisma.budgetItem.update({

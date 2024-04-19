@@ -8,6 +8,7 @@ import {
 } from '@/app/schemas/expenses';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+import { dollarToCents } from '@/app/utils/numberHelpers';
 
 export async function insertExpenseItem(newExpenseItem: NewExpenseItem) {
   const parseNewExpenseItem = newExpenseItemSchema.safeParse({
@@ -23,7 +24,7 @@ export async function insertExpenseItem(newExpenseItem: NewExpenseItem) {
 
   const userId = await user();
   const { date, amount, description, budgetItemId } = parseNewExpenseItem.data;
-  const amountInCents = amount * 100;
+  const amountInCents = dollarToCents(amount);
 
   try {
     await prisma.expenseItem.create({
@@ -48,7 +49,7 @@ export async function updateExpenseItem(expenseItem: ExpenseItem) {
 
   const { id, date, amount, description, budgetItemId, userId } =
     parsedExpenseItem.data;
-  const amountInCents = amount * 100;
+  const amountInCents = dollarToCents(amount);
 
   try {
     await prisma.expenseItem.update({

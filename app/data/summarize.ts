@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { UTCDate } from '@date-fns/utc';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+import { centsToDollar } from '@/app/utils/numberHelpers';
 import { SubtotalByMonth, SubtotalByMonthBudgetItem } from '../types';
 
 export async function fetchSubtotalPerMonthBudgeItem(budgetId: string) {
@@ -26,7 +27,7 @@ export async function fetchSubtotalPerMonthBudgeItem(budgetId: string) {
     return expenseSubtotal.map((row: SubtotalByMonthBudgetItem) => ({
       ...row,
       month: format(new UTCDate(row.month), 'yyyy-MM'),
-      subtotal: Number(row.subtotal) / 100,
+      subtotal: centsToDollar(Number(row.subtotal)),
     }));
   } catch (error) {
     console.error('Database Error:', error);
@@ -52,7 +53,7 @@ export async function fetchSubtotalPerMonth(budgetId: string) {
     return expenseSubtotal.map((row: SubtotalByMonth) => ({
       ...row,
       month: format(new UTCDate(row.month), 'yyyy-MM'),
-      subtotal: Number(row.subtotal) / 100,
+      subtotal: centsToDollar(Number(row.subtotal)),
     }));
   } catch (error) {
     console.error('Database Error:', error);

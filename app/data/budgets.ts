@@ -3,6 +3,7 @@ import { Budget, BudgetItem } from '@/app/types';
 import { getBudgetByDate, getBudgetById } from '@/app/utils/budgetHelpers';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+import { centsToDollar } from '@/app/utils/numberHelpers';
 import {
   fetchSubtotalPerMonth,
   fetchSubtotalPerMonthBudgeItem,
@@ -78,7 +79,7 @@ export async function fetchBudgetItems(budgetId: string) {
     return budgetItems.map((budgetItem: any) => {
       return {
         ...budgetItem,
-        amount: budgetItem.amount / 100,
+        amount: centsToDollar(budgetItem.amount),
       } as BudgetItem;
     });
   } catch (error) {

@@ -5,6 +5,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { ExpenseItem } from '@/app/types';
 import { user } from '@/auth';
 import { prisma } from '@/prismaClient';
+import { centsToDollar } from '@/app//utils/numberHelpers';
 
 export async function fetchExpenseItemsByDate(
   date: Date | string,
@@ -21,7 +22,7 @@ export async function fetchExpenseItemsByDate(
     return expenseItems.map((expenseItem: any) => {
       return {
         ...expenseItem,
-        amount: expenseItem.amount / 100,
+        amount: centsToDollar(expenseItem.amount),
       } as ExpenseItem;
     });
   } catch (error) {
