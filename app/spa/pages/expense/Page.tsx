@@ -7,6 +7,7 @@ import { BudgetItem, ExpenseItem } from '@/app/types';
 import DrawerProvider from '@/app/spa/providers/DrawerProvider';
 import GlobalAlertProvider from '@/app/spa/providers/GlobalAlertProvider';
 import DrawerContainer from '@/app/ui/DrawerContainer';
+import ExpenseCharts from '@/app/ui/ExpenseCharts';
 import GlobalAlert from '@/app/ui/GlobalAlert';
 import SectionHeader from '@/app/ui/SectionHeader';
 import ViewChartsButton from '@/app/ui/ViewChartsButton';
@@ -48,8 +49,10 @@ function ExpensesPage({ budgetItems, expenseItems }: IPage) {
         <DrawerProvider>
           <GlobalAlert />
           <DrawerContainer title="Expense charts">
-            {/* <BudgetCharts budgetItems={budgetItems} summaryData={summaryData} /> */}
-            Test
+            <ExpenseCharts
+              budgetItems={budgetItems}
+              expenseItems={expenseItems}
+            />
           </DrawerContainer>
           <Box display="flex" flexDirection="column" gap="1rem">
             <Typography variant="h5">Expenses</Typography>

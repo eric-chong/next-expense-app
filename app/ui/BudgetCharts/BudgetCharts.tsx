@@ -1,19 +1,15 @@
 import { BudgetItem, BudgetSummaryData } from '@/app/types';
-import { Box, styled } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import DrawerSwiperContainer from '@/app/ui/DrawerSwiperContainer';
 import BudgetAllocationPieChart from './BudgetAllocationPieChart';
 import BudgetExpenseTrends from './BudgetExpenseTrends';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-
-const SwiperContainer = styled(Swiper)(({ theme }) => ({
-  width: '100%',
-  height: '400px',
-}));
 
 interface IBudgetCharts {
   budgetItems: Array<BudgetItem>;
@@ -38,7 +34,7 @@ export default function BudgetCharts({
           />
         </>
       ) : (
-        <SwiperContainer
+        <DrawerSwiperContainer
           pagination={{ clickable: true }}
           modules={[Pagination]}
         >
@@ -51,7 +47,7 @@ export default function BudgetCharts({
               summaryData={summaryData}
             />
           </SwiperSlide>
-        </SwiperContainer>
+        </DrawerSwiperContainer>
       )}
     </Box>
   );

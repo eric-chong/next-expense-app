@@ -1,3 +1,5 @@
+import type { BudgetItem } from './budgetItem';
+
 export type ExpenseItem = {
   id: string;
   date: string;
@@ -27,4 +29,9 @@ export type SubtotalByMonth = {
 export type SummaryData = {
   byMonth: Array<SubtotalByMonth>;
   byMonthAndBudgetItem: Array<SubtotalByMonthBudgetItem>;
+};
+
+export type ExpenseSummaryData = {
+  budgetItem: BudgetItem;
+  subtotal: number;
 };
