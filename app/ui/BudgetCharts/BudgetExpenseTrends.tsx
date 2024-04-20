@@ -92,7 +92,7 @@ export default function BudgetExpenseTrends({
                   valueFormatter: (value: number) => formatCurrency(value),
                 },
                 {
-                  data: [refBudgetItem.amount],
+                  data: aggregatedSummary.map(() => refBudgetItem.amount),
                   showMark: false,
                   color: theme.palette.error.main,
                   label: 'Budget amount',
