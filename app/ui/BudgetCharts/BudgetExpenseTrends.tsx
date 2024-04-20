@@ -81,21 +81,38 @@ export default function BudgetExpenseTrends({
             tickInterval: aggregatedSummary.map((entry) => entry.id),
           },
         ]}
-        series={budgetItems
-          .filter((budgetItem) =>
-            refBudgetItemId
-              ? budgetItem.id === refBudgetItemId
-              : showSeries.map((series) => series.id).includes(budgetItem.id),
-          )
-          .map((budgetItem) => {
-            return {
-              dataKey: budgetItem.id,
-              label: budgetItem.name,
-              showMark: true,
-              valueFormatter: (value) => formatCurrency(value as number),
-              curve: 'linear',
-            };
-          })}
+        series={
+          refBudgetItem
+            ? [
+                {
+                  connectNulls: true,
+                  dataKey: refBudgetItem.id,
+                  label: refBudgetItem.name,
+                  showMark: true,
+                  valueFormatter: (value: number) => formatCurrency(value),
+                },
+                {
+                  data: [refBudgetItem.amount],
+                  showMark: false,
+                  color: theme.palette.error.main,
+                  label: 'Budget amount',
+                  valueFormatter: (value: number) => formatCurrency(value),
+                },
+              ]
+            : (budgetItems
+                .filter((budgetItem) =>
+                  showSeries.map((series) => series.id).includes(budgetItem.id),
+                )
+                .map((budgetItem) => {
+                  return {
+                    connectNulls: true,
+                    dataKey: budgetItem.id,
+                    label: budgetItem.name,
+                    showMark: true,
+                    valueFormatter: (value: number) => formatCurrency(value),
+                  };
+                }) as Array<any>)
+        }
         dataset={aggregatedSummary}
         slotProps={{ legend: { hidden: true } }}
       >
@@ -103,7 +120,7 @@ export default function BudgetExpenseTrends({
           <ChartsReferenceLine
             y={refBudgetItem.amount}
             label={`${refBudgetItem.name}: ${formatCurrency(refBudgetItem.amount)}`}
-            lineStyle={{ stroke: 'red' }}
+            lineStyle={{ stroke: theme.palette.error.main }}
             labelStyle={{ fontSize: '0.85rem' }}
           />
         )}
