@@ -3,9 +3,13 @@
 import { Box, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from '@/app/spa/App';
-import { BudgetItem, ExpenseItem } from '@/app/types';
 import DrawerProvider from '@/app/spa/providers/DrawerProvider';
 import GlobalAlertProvider from '@/app/spa/providers/GlobalAlertProvider';
+import {
+  BudgetItem,
+  ExpenseItem,
+  SubtotalByMonthBudgetItem,
+} from '@/app/types';
 import DrawerContainer from '@/app/ui/DrawerContainer';
 import ExpenseCharts from '@/app/ui/ExpenseCharts';
 import GlobalAlert from '@/app/ui/GlobalAlert';
@@ -17,6 +21,7 @@ import ExpenseSummaryTable from './components/ExpenseSummaryTable';
 
 interface IPage {
   budgetItems: Array<BudgetItem>;
+  budgetItemSubtotals: Array<SubtotalByMonthBudgetItem>;
   expenseItems: Array<ExpenseItem>;
 }
 
@@ -42,7 +47,11 @@ export default function Page(props: IPage) {
   );
 }
 
-function ExpensesPage({ budgetItems, expenseItems }: IPage) {
+function ExpensesPage({
+  budgetItems,
+  budgetItemSubtotals,
+  expenseItems,
+}: IPage) {
   return (
     <main>
       <GlobalAlertProvider>
@@ -51,6 +60,7 @@ function ExpensesPage({ budgetItems, expenseItems }: IPage) {
           <DrawerContainer title="Expense charts">
             <ExpenseCharts
               budgetItems={budgetItems}
+              budgetItemSubtotals={budgetItemSubtotals}
               expenseItems={expenseItems}
             />
           </DrawerContainer>

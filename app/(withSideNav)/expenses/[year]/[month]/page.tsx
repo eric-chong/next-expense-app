@@ -12,10 +12,19 @@ export default async function Page({ params }: { params: IParams }) {
   const { year, month } = params;
   const date = new UTCDate(`${year}-${month}-01`);
 
-  const [expenseItems, { budgetItems }] = await Promise.all([
+  const [
+    expenseItems,
+    { budgetItems, subtotalByMonthAndBudgetItem: budgetItemSubtotals },
+  ] = await Promise.all([
     fetchExpenseItemsByDate(date),
     fetchBudgetsDataByDate(date),
   ]);
 
-  return <ExpensesPage budgetItems={budgetItems} expenseItems={expenseItems} />;
+  return (
+    <ExpensesPage
+      budgetItems={budgetItems}
+      expenseItems={expenseItems}
+      budgetItemSubtotals={budgetItemSubtotals}
+    />
+  );
 }

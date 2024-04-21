@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { sum } from 'mathjs';
-import { BudgetItem, ExpenseItem, ExpenseSummaryData } from '@/app/types';
+import {
+  BudgetItem,
+  ExpenseItem,
+  ExpenseSummaryData,
+  SubtotalByMonthBudgetItem,
+} from '@/app/types';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,16 +13,19 @@ import { SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import DrawerSwiperContainer from '@/app/ui/DrawerSwiperContainer';
 import ExpenseAllocationPieChart from './ExpenseAllocationPieChart';
+import ExpenseComparisonBarChart from './ExpenseComparisonBarChart';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 interface IExpenseCharts {
   budgetItems: Array<BudgetItem>;
+  budgetItemSubtotals: Array<SubtotalByMonthBudgetItem>;
   expenseItems: Array<ExpenseItem>;
 }
 export default function ExpenseCharts({
   budgetItems,
+  budgetItemSubtotals,
   expenseItems,
 }: IExpenseCharts) {
   const theme = useTheme();
@@ -36,14 +44,17 @@ export default function ExpenseCharts({
       };
     });
   }, [budgetItems, expenseItems]);
-  console.log('expenseSummaryData', expenseSummaryData);
 
   return (
     <Box display="flex" flexDirection="column">
       {isMediumUp ? (
         <>
           <ExpenseAllocationPieChart expenseSummaryData={expenseSummaryData} />
-          {/* Bar: Expense vs avg vs budget amount */}
+          <ExpenseComparisonBarChart
+            budgetItems={budgetItems}
+            budgetItemSubtotals={budgetItemSubtotals}
+            expenseSummaryData={expenseSummaryData}
+          />
         </>
       ) : (
         <DrawerSwiperContainer
@@ -55,9 +66,13 @@ export default function ExpenseCharts({
               expenseSummaryData={expenseSummaryData}
             />
           </SwiperSlide>
-          {/* <SwiperSlide>
-            Bar: Expense vs avg vs budget amount
-          </SwiperSlide>  */}
+          <SwiperSlide>
+            <ExpenseComparisonBarChart
+              budgetItems={budgetItems}
+              budgetItemSubtotals={budgetItemSubtotals}
+              expenseSummaryData={expenseSummaryData}
+            />
+          </SwiperSlide>
         </DrawerSwiperContainer>
       )}
     </Box>
