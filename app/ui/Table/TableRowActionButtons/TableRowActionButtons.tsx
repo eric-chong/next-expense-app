@@ -2,10 +2,10 @@ import React from 'react';
 import {
   Check as SaveIcon,
   Close as CancelIcon,
-  Delete as DeleteIcon,
   Edit as EditIcon,
 } from '@mui/icons-material';
 import { IconButton, TableCell as MuiTableCell } from '@mui/material';
+import DeleteButton from '@/app/ui/DeleteButton';
 
 interface ITableRowActionButtons {
   isActionsDisabled?: boolean;
@@ -56,14 +56,7 @@ export default function TableRowActionButtons({
           >
             <EditIcon />
           </IconButton>
-          <IconButton
-            aria-label="Delete"
-            disabled={isActionsDisabled}
-            size="small"
-            onClick={onDelete}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <DeleteButton disabled={!!isActionsDisabled} onDelete={onDelete} />
         </>
       )}
     </MuiTableCell>
