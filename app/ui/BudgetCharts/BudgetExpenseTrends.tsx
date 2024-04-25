@@ -4,9 +4,9 @@ import { ChartsReferenceLine } from '@mui/x-charts';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { BudgetItem, BudgetSummaryData } from '@/app/types';
 import useCurrency from '@/app/hooks/useCurrency';
-import BudgetExpenseTrendsView from './BudgetExpenseTrendsView';
+import { BudgetItem, BudgetSummaryData } from '@/app/types';
+import BudgetItemsSelectDropdown from '@/app/ui/BudgetItemsSelectDropdown';
 
 interface IBudgetExpenseTrends {
   budgetItems: Array<BudgetItem>;
@@ -58,12 +58,14 @@ export default function BudgetExpenseTrends({
       alignItems="center"
       component={Paper}
     >
-      <BudgetExpenseTrendsView
+      <BudgetItemsSelectDropdown
+        allowSingle
         budgetItems={budgetItems}
-        onShowSeriesChange={(items: Array<BudgetItem>) => setShowSeries(items)}
-        onReferenceBudgetItemIdChange={(budgetItemId: string) =>
+        onMultiChange={(items: Array<BudgetItem>) => setShowSeries(items)}
+        onSingleChange={(budgetItemId: string) =>
           setRefBudgetItemId(budgetItemId)
         }
+        triggerButtonLabel="View"
       />
       <Typography variant="subtitle1" sx={{ fontSize: '1.25rem' }}>
         Monthly expense trends

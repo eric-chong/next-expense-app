@@ -5,17 +5,21 @@ import { BudgetItem } from '@/app/types';
 import MultiSelectMenuItems from '@/app/ui/MultiSelectMenuItems';
 import SingleSelectMenuItems from '@/app/ui/SingleSelectMenuItems';
 
-interface IBudgetExpenseTrendsView {
+interface IBudgetItemsSelectDropdown {
+  allowSingle?: boolean;
   budgetItems: Array<BudgetItem>;
-  onShowSeriesChange: (items: Array<BudgetItem>) => void;
-  onReferenceBudgetItemIdChange: (itemId: string) => void;
+  onMultiChange: (items: Array<BudgetItem>) => void;
+  onSingleChange?: (itemId: string) => void;
+  triggerButtonLabel: string;
 }
 
-export default function BudgetExpenseTrendsView({
+export default function BudgetItemsSelectDropdown({
+  allowSingle = false,
   budgetItems,
-  onShowSeriesChange,
-  onReferenceBudgetItemIdChange,
-}: IBudgetExpenseTrendsView) {
+  onMultiChange,
+  onSingleChange,
+  triggerButtonLabel,
+}: IBudgetItemsSelectDropdown) {
   const [selectedBudgetItems, setSelectedBudgetItems] =
     useState<Array<BudgetItem>>(budgetItems);
   const [refBudgetItemId, setRefBudgetItemId] = useState<string>('');
@@ -37,7 +41,7 @@ export default function BudgetExpenseTrendsView({
           right: { xs: '0.5rem', sm: '0.5rem', md: '1rem' },
         }}
       >
-        View
+        {triggerButtonLabel}
       </Button>
       <Menu
         id="basic-menu"
@@ -69,23 +73,27 @@ export default function BudgetExpenseTrendsView({
               selectedItems={selectedBudgetItems}
               onChange={(items: Array<any>) => {
                 setSelectedBudgetItems(items);
-                onShowSeriesChange(items as Array<BudgetItem>);
+                onMultiChange(items as Array<BudgetItem>);
               }}
             />
           </Box>
-          <Box>
-            <SingleSelectMenuItems
-              dividerLabel="Budget item amount"
-              items={budgetItems}
-              selectedItem={budgetItems.find(
-                (budgetItem) => budgetItem.id === refBudgetItemId,
-              )}
-              onChange={(id: string) => {
-                setRefBudgetItemId(id);
-                onReferenceBudgetItemIdChange(id);
-              }}
-            />
-          </Box>
+          {allowSingle && (
+            <Box>
+              <SingleSelectMenuItems
+                dividerLabel="Budget item amount"
+                items={budgetItems}
+                selectedItem={budgetItems.find(
+                  (budgetItem) => budgetItem.id === refBudgetItemId,
+                )}
+                onChange={(id: string) => {
+                  if (onSingleChange) {
+                    setRefBudgetItemId(id);
+                    onSingleChange(id);
+                  }
+                }}
+              />
+            </Box>
+          )}
         </Box>
       </Menu>
     </>

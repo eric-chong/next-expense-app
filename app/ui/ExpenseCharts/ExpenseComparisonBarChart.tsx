@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -10,6 +10,7 @@ import {
   ExpenseSummaryData,
   SubtotalByMonthBudgetItem,
 } from '@/app/types';
+import BudgetItemsSelectDropdown from '@/app/ui/BudgetItemsSelectDropdown';
 
 interface IPropTypes {
   budgetItems: Array<BudgetItem>;
@@ -22,6 +23,8 @@ export default function ExpenseComparisonBarChart({
   budgetItemSubtotals,
   expenseSummaryData,
 }: IPropTypes) {
+  const [showBudgetItems, setShowBudgetItems] =
+    useState<Array<BudgetItem>>(budgetItems);
   const { formatCurrency } = useCurrency();
 
   const theme = useTheme();
@@ -37,24 +40,30 @@ export default function ExpenseComparisonBarChart({
   const valueFormatter = (value: number | null) => formatCurrency(value || 0);
 
   const dataset = useMemo(() => {
-    return budgetItems.map((budgetItem: BudgetItem) => {
-      const expenseSubtotal = expenseSummaryData.find(
-        (summary) => summary.budgetItem.id === budgetItem.id,
-      );
-      const subtotals = budgetItemSubtotals
-        .filter(
-          (budgetItemSubtotal) =>
-            budgetItemSubtotal.budgetItemId === budgetItem.id,
-        )
-        .map((budgetItemSubtotal) => budgetItemSubtotal.subtotal);
-      return {
-        budgetItemName: budgetItem.name,
-        subtotal: expenseSubtotal ? expenseSubtotal.subtotal : 0,
-        average: subtotals.length ? mean(subtotals) : 0,
-        budgetItemAmount: budgetItem.amount,
-      };
-    });
-  }, [budgetItems, budgetItemSubtotals, expenseSummaryData]);
+    return budgetItems
+      .filter((budgetItem: BudgetItem) =>
+        showBudgetItems
+          .map((showItems) => showItems.id)
+          .includes(budgetItem.id),
+      )
+      .map((budgetItem: BudgetItem) => {
+        const expenseSubtotal = expenseSummaryData.find(
+          (summary) => summary.budgetItem.id === budgetItem.id,
+        );
+        const subtotals = budgetItemSubtotals
+          .filter(
+            (budgetItemSubtotal) =>
+              budgetItemSubtotal.budgetItemId === budgetItem.id,
+          )
+          .map((budgetItemSubtotal) => budgetItemSubtotal.subtotal);
+        return {
+          budgetItemName: budgetItem.name,
+          subtotal: expenseSubtotal ? expenseSubtotal.subtotal : 0,
+          average: subtotals.length ? mean(subtotals) : 0,
+          budgetItemAmount: budgetItem.amount,
+        };
+      });
+  }, [budgetItems, budgetItemSubtotals, expenseSummaryData, showBudgetItems]);
 
   const series = [
     { dataKey: 'subtotal', label: 'Current month subtotal', valueFormatter },
@@ -65,6 +74,7 @@ export default function ExpenseComparisonBarChart({
   return (
     <Box
       display="flex"
+      position="relative"
       flexDirection="column"
       padding={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
       margin={{ xs: '0.5rem', sm: '0.5rem', md: '1rem' }}
@@ -74,6 +84,12 @@ export default function ExpenseComparisonBarChart({
       <Typography variant="subtitle1" sx={{ fontSize: '1.25rem' }}>
         Expense comparison by item
       </Typography>
+      <BudgetItemsSelectDropdown
+        allowSingle={false}
+        budgetItems={budgetItems}
+        onMultiChange={(items) => setShowBudgetItems(items)}
+        triggerButtonLabel="View"
+      />
       <BarChart
         dataset={dataset}
         xAxis={[{ scaleType: 'band', dataKey: 'budgetItemName' }]}
