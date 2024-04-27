@@ -17,7 +17,7 @@ export async function fetchExpenseItemsByDate(
     const end = endOfMonth(date);
     const expenseItems = await prisma.expenseItem.findMany({
       where: { userId, date: { gte: start, lte: end } },
-      orderBy: [{ date: 'asc' }, { createdAt: 'asc' }],
+      orderBy: [{ date: 'desc' }, { createdAt: 'desc' }],
     });
     return expenseItems.map((expenseItem: any) => {
       return {
