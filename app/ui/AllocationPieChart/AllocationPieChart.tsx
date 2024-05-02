@@ -1,5 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { mangoFusionPalette } from '@mui/x-charts/colorPalettes';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import useCurrency from '@/app/hooks/useCurrency';
 
@@ -18,6 +19,7 @@ export default function AllocationPieChart({
 
   return (
     <PieChart
+      colors={mangoFusionPalette}
       series={[
         {
           data,

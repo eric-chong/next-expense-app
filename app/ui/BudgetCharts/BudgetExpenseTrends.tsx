@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { ChartsReferenceLine } from '@mui/x-charts';
+import { mangoFusionPalette } from '@mui/x-charts/colorPalettes';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -71,6 +72,7 @@ export default function BudgetExpenseTrends({
         Monthly expense trends
       </Typography>
       <LineChart
+        colors={mangoFusionPalette}
         height={isMediumUp ? 400 : 300}
         xAxis={[
           {

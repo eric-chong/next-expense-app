@@ -3,6 +3,7 @@ import { Box, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { mangoFusionPalette } from '@mui/x-charts/colorPalettes';
 import { mean } from 'mathjs';
 import useCurrency from '@/app/hooks/useCurrency';
 import {
@@ -91,6 +92,7 @@ export default function ExpenseComparisonBarChart({
         triggerButtonLabel="View"
       />
       <BarChart
+        colors={mangoFusionPalette}
         dataset={dataset}
         xAxis={[{ scaleType: 'band', dataKey: 'budgetItemName' }]}
         series={series}
